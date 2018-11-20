@@ -1,0 +1,25 @@
+source https://api.nuget.org/v3/index.json
+framework: netstandard2.0
+storage: none
+
+nuget FSharp.Core redirects:force
+nuget Fable.Core
+nuget Fable.Elmish
+nuget Fable.Elmish.React
+nuget Fable.Elmish.Debugger
+nuget Fable.Elmish.HMR
+nuget Fable.Import.Electron
+nuget Fable.Import.Node
+nuget Fable.PowerPack
+nuget Fable.React
+
+group FakeBuild
+  source https://api.nuget.org/v3/index.json
+  framework: netstandard2.0
+  storage: none
+
+  clitool dotnet-fake
+  clitool dotnet-fable
+  nuget Fake.Core.Target
+  nuget Fake.DotNet.Cli
+  nuget Fake.JavaScript.Yarn

@@ -1,0 +1,41 @@
+{
+  "name": "fable-elmish-electron-demo",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "dist": "yarn compile && electron-builder",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
+  },
+  "electronWebpack": {
+    "title": true,
+    "main": {
+      "sourceDirectory": "src/Main",
+      "webpackConfig": "webpack.additions.main.js"
+    },
+    "renderer": {
+      "sourceDirectory": "src/Renderer",
+      "webpackConfig": "webpack.additions.renderer.js"
+    }
+  },
+  "dependencies": {
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "source-map-support": "^0.5.9"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "devtron": "^1.4.0",
+    "electron": "^3.0.9",
+    "electron-builder": "^20.36.2",
+    "electron-devtools-installer": "^2.2.4",
+    "electron-webpack": "2.3.1",
+    "electron-window-state": "^5.0.2",
+    "fable-loader": "^2.0.0",
+    "node-sass": "^4.10.0",
+    "remotedev": "^0.2.7",
+    "sass-loader": "^7.1.0",
+    "webpack": "^4.26.0"
+  }
+}

@@ -1,0 +1,14 @@
+image: Visual Studio 2017
+
+build:
+  verbosity: detailed
+
+cache:
+  - '%LOCALAPPDATA%\\Yarn -> yarn.lock'
+  - '%USERPROFILE%\.nuget\packages -> paket.lock'
+
+install:
+  - ps: Install-Product node 8 x64
+
+build_script:
+  - cmd: fake.cmd build -t Dist

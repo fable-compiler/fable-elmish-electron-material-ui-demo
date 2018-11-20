@@ -1,0 +1,16 @@
+{
+    "files.exclude": {
+        ".git": true,
+        "**/bin": true,
+        "**/obj": true,
+        ".fake": true,
+        ".fable": true,
+        ".paket": true,
+        "dist": true,
+        "packages": true,
+        "node_modules": true,
+        "paket-files": true
+    },
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true
+}

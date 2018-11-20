@@ -1,4 +1,4 @@
-# Fable-Elmish-Electron demo
+# Fable-Elmish-Electron demo [![Build status](https://ci.appveyor.com/api/projects/status/e6ai8cy2i3yupjy8/branch/master?svg=true)](https://ci.appveyor.com/project/cmeeren/fable-elmish-electron-demo/branch/master)
 
 This is an example of an F# Electron app centered around Fable 2 and Elmish. The actual app contents are taken from the TodoMVC sample on the [online Fable REPL](https://fable.io/repl/).
 

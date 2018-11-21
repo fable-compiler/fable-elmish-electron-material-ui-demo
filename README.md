@@ -56,7 +56,7 @@ Place static files in the root `/static` folder as required by electron-webpack.
 
 ## Disclaimer 🤯
 
-I am very new to Fable, Electron and the modern JS/Node stack. This example/boilerplate is the result of my banging my head against a wall for two weeks trying to understand the byzantine packaging and build systems of modern JS for the first time, and getting them to play nicely with Electron and Fable 2.
+I am very new to Fable, Electron and the modern JS/Node stack. This example/boilerplate is the result of me banging my head against a wall for two weeks trying to understand the byzantine packaging and build systems of modern JS for the first time, and getting them to play nicely with Electron and Fable 2.
 
 Other Fable/Electron examples I have come across have either been outdated or missed some essential parts of the stack used in this repo. It feels like I have been given a mostly functional 20 year old petrol car, blueprints for a general-purpose electric engine, and asked to create a modern electric car.
 

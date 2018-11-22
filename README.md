@@ -7,7 +7,7 @@ Simply clone the repo and start hackin' on the `Renderer` project to get started
 Features/stack:
 * Hot module reloading for both code and styles
 * Time-travel debugging (using Redux DevTools, RemoteDev, and Fable.Elmish.Debugger)
-* Single-command development and packacking with FAKE
+* Single-command development and packaging with FAKE
 * [electron-webpack](https://webpack.electron.build/) takes care of most of the webpack config
 * [electron-builder](https://www.electron.build/) packages the app (see their documentation for how to customize)
 * [electron-window-state](https://github.com/mawie81/electron-window-state/) for remembering window state between launches

@@ -10,15 +10,6 @@ open Fake.IO.Globbing.Operators
 open Fake.IO.FileSystemOperators
 open Fake.JavaScript
 
-let runFable args =
-    let result =
-        DotNet.exec
-            (DotNet.Options.withWorkingDirectory __SOURCE_DIRECTORY__)
-            "fable" args
-    if not result.OK then
-        failwithf "dotnet fable failed with code %i" result.ExitCode
-
-
 Target.create "Clean" (fun _ ->
     !! "src/**/bin"
     ++ "src/**/obj"
@@ -50,19 +41,19 @@ Target.create "YarnInstall" (fun _ ->
 )
 
 Target.create "Build" (fun _ ->
-    runFable "yarn-run compile"
+    Yarn.exec "compile" id
 )
 
 Target.create "Dev" (fun _ ->
-    runFable "yarn-run dev"
+    Yarn.exec "dev" id
 )
 
 Target.create "Dist" (fun _ ->
-    runFable "yarn-run dist"
+    Yarn.exec "dist" id
 )
 
 Target.create "DistDir" (fun _ ->
-    runFable "yarn-run dist:dir"
+    Yarn.exec "dist:dir" id
 )
 
 // Build order

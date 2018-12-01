@@ -49,11 +49,6 @@ Place static files in the root `/static` folder as required by electron-webpack.
 `./fake.cmd build -t Dist`
 
 
-## Notes
-
-* electron-webpack is currently locked to version 2.3.1 due to [this issue](https://github.com/electron-userland/electron-webpack/issues/230)
-
-
 ## Disclaimer 🤯
 
 I am very new to Fable, Electron and the modern JS/Node stack. This example/boilerplate is the result of my banging my head against a wall for two weeks trying to understand the byzantine packaging and build systems of modern JS for the first time, and getting them to play nicely with Electron and Fable 2.

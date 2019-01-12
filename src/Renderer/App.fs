@@ -1,276 +1,195 @@
 module App
 
-(**
- TodoMVC app ported from Elm.
- You can find more info about Emish architecture and samples at https://elmish.github.io/
- NOTE: The API in Fable's REPL may differ from Fable.Elmish & Fable.React nuget libraries.
-       The generated JS code won't be as optimized as when using dotnet-fable.
-*)
-
-open Fable.Import
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open System
 open Elmish
 open Elmish.React
+open Fable.Core
+open Fable.Core.JsInterop
+open Fable.Import.React
+open Fable.Helpers.React
+open Fable.Helpers.React.Props
+open Fable.MaterialUI
+open Fable.MaterialUI.Core
+open Fable.MaterialUI.Props
+open Fable.MaterialUI.MaterialDesignIcons
+open Fable.MaterialUI.Icons
 
-let [<Literal>] ESC_KEY = 27.
-let [<Literal>] ENTER_KEY = 13.
-let [<Literal>] ALL_TODOS = "all"
-let [<Literal>] ACTIVE_TODOS = "active"
-let [<Literal>] COMPLETED_TODOS = "completed"
 
-// MODEL
-type Entry =
-    { description : string
-      completed : bool
-      editing : bool
-      id : int }
+type Page =
+  | Home
+  | AutoComplete
+  | Badges
+  | Dialogs
+  | Selects
+  | Snackbars
+  | StaticAssets
+  | TextFields
+  static member All =
+    [ Home; AutoComplete; Badges; Dialogs; Selects;
+      Snackbars; StaticAssets; TextFields ]
 
-// The full application state of our todo app.
-type Model =
-    { entries : Entry list
-      field : string
-      uid : int
-      visibility : string }
+let pageTitle = function
+  | Home -> "Home"
+  | AutoComplete -> "Autocomplete"
+  | Badges -> "Badges"
+  | Dialogs -> "Dialogs"
+  | Selects -> "Selects"
+  | StaticAssets -> "Static assets"
+  | Snackbars -> "Snackbars"
+  | TextFields -> "Text fields"
 
-let emptyModel () =
-    { entries = []
-      visibility = ALL_TODOS
-      field = ""
-      uid = 0 }
-
-let newEntry desc id =
-  { description = desc
-    completed = false
-    editing = false
-    id = id }
-
-// UPDATE
-
-(** Users of our app can trigger messages by clicking and typing. These
-messages are fed into the `update` function as they occur, letting us react
-to them.
-*)
 type Msg =
-    | Failure of string
-    | UpdateField of string
-    | EditingEntry of int*bool
-    | UpdateEntry of int*string
-    | Add
-    | Delete of int
-    | DeleteComplete
-    | Check of int*bool
-    | CheckAll of bool
-    | ChangeVisibility of string
+  | Navigate of Page
+  | AutoCompleteMsg of AutoComplete.Msg
+  | BadgesMsg of Badges.Msg
+  | DialogsMsg of Dialogs.Msg
+  | SelectsMsg of Selects.Msg
+  | SnackbarsMsg of Snackbars.Msg
+  | TextFieldsMsg of TextFields.Msg
 
-// How we update our Model on a given Msg?
-let update (msg:Msg) (model:Model) =
-    match msg with
-    | Failure err ->
-        Fable.Import.Browser.console.error(err)
-        model
+type Model =
+  { Page: Page
+    AutoCompleteDownshift: AutoComplete.Model
+    Badges: Badges.Model
+    Dialogs: Dialogs.Model
+    Selects: Selects.Model
+    Snackbars: Snackbars.Model
+    TextFields: TextFields.Model }
 
-    | Add ->
-        let xs = if System.String.IsNullOrEmpty model.field then
-                    model.entries
-                 else
-                    model.entries @ [newEntry model.field model.uid]
-        { model with
-            uid = model.uid + 1
-            field = ""
-            entries = xs }
+let init () =
+  let m =
+    { Page = Home
+      AutoCompleteDownshift = AutoComplete.init ()
+      Badges = Badges.init ()
+      Dialogs = Dialogs.init ()
+      Selects = Selects.init ()
+      Snackbars = Snackbars.init ()
+      TextFields = TextFields.init () }
+  m, Cmd.none
 
-    | UpdateField str ->
-      { model with field = str }
+let update msg m =
+  match msg with
+  | Navigate p ->
+      { m with Page = p }, Cmd.none
+  | AutoCompleteMsg msg' ->
+    { m with AutoCompleteDownshift = AutoComplete.update msg' m.AutoCompleteDownshift }, Cmd.none
+  | BadgesMsg msg' ->
+      { m with Badges = Badges.update msg' m.Badges }, Cmd.none
+  | DialogsMsg msg' ->
+      { m with Dialogs = Dialogs.update msg' m.Dialogs }, Cmd.none
+  | SelectsMsg msg' ->
+      { m with Selects = Selects.update msg' m.Selects }, Cmd.none
+  | SnackbarsMsg msg' ->
+      let m', cmd = Snackbars.update msg' m.Snackbars
+      { m with Snackbars = m' }, Cmd.map SnackbarsMsg cmd
+  | TextFieldsMsg msg' ->
+      { m with TextFields = TextFields.update msg' m.TextFields }, Cmd.none
 
-    | EditingEntry (id,isEditing) ->
-        let updateEntry t =
-          if t.id = id then { t with editing = isEditing } else t
-        { model with entries = List.map updateEntry model.entries }
 
-    | UpdateEntry (id,task) ->
-        let updateEntry t =
-          if t.id = id then { t with description = task } else t
-        { model with entries = List.map updateEntry model.entries }
+// Domain/Elmish above, view below
 
-    | Delete id ->
-        { model with entries = List.filter (fun t -> t.id <> id) model.entries }
 
-    | DeleteComplete ->
-        { model with entries = List.filter (fun t -> not t.completed) model.entries }
-
-    | Check (id,isCompleted) ->
-        let updateEntry t =
-          if t.id = id then { t with completed = isCompleted } else t
-        { model with entries = List.map updateEntry model.entries }
-
-    | CheckAll isCompleted ->
-        let updateEntry t = { t with completed = isCompleted }
-        { model with entries = List.map updateEntry model.entries }
-
-    | ChangeVisibility visibility ->
-        { model with visibility = visibility }
-
-let onEnter msg dispatch =
-    OnKeyDown (fun ev ->
-        let ev = ev :?> Browser.KeyboardEvent
-        if ev.keyCode = ENTER_KEY then
-            dispatch msg)
-
-let targetValue (ev: React.SyntheticEvent) =
-    (ev.target :?> Browser.HTMLInputElement).value
-
-let viewInput (model:string) dispatch =
-    header [ Class "header" ] [
-        h1 [] [
-            img [
-                Src "todo.png"
-                Style [ Height "0.52em" ]
-            ]
-            str "todos"
-        ]
-        input [
-            Class "new-todo"
-            Placeholder "What needs to be done?"
-            Value model
-            onEnter Add dispatch
-            OnChange (fun ev ->
-                targetValue ev |> UpdateField |> dispatch)
-            AutoFocus true
-        ]
+let private styles (theme: ITheme) : IStyles list =
+  let drawerWidth = "240px"
+  [
+    Styles.Root [
+      Display "flex"
     ]
+    Styles.Custom ("appBar", [
+      CSSProp.ZIndex (theme.zIndex.drawer + 1)
+    ])
+    Styles.Custom ("drawer", [
+      Width drawerWidth
+      FlexShrink 0
+    ])
+    Styles.Custom ("drawerPaper", [
+      Width drawerWidth
+    ])
+    Styles.Custom ("content", [
+      FlexGrow 1
+      CSSProp.Padding (theme.spacing.unit * 3)
+    ])
+    Styles.Custom' ("toolbar", theme.mixins.toolbar)
+  ]
 
-let classList classes =
-    classes
-    |> List.fold (fun complete -> function | (name,true) -> complete + " " + name | _ -> complete) ""
-    |> Class
 
-let viewEntry todo dispatch =
-  li
-    [ classList [ ("completed", todo.completed); ("editing", todo.editing) ]]
-    [ div
-        [ Class "view" ]
-        [ input
-            [ Class "toggle"
-              Type "checkbox"
-              Checked todo.completed
-              OnChange (fun _ -> Check (todo.id,(not todo.completed)) |> dispatch) ]
-          label
-            [ OnDoubleClick (fun _ -> EditingEntry (todo.id,true) |> dispatch) ]
-            [ str todo.description ]
-          button
-            [ Class "destroy"
-              OnClick (fun _-> Delete todo.id |> dispatch) ]
-            []
-        ]
-      input
-        [ Class "edit"
-          Value todo.description
-          Name "title"
-          Id ("todo-" + (string todo.id))
-          OnInput (fun ev -> UpdateEntry (todo.id, targetValue ev) |> dispatch)
-          OnBlur (fun _ -> EditingEntry (todo.id,false) |> dispatch)
-          onEnter (EditingEntry (todo.id,false)) dispatch ]
+let private pageListItem model dispatch page =
+  listItem [
+    ListItemProp.Button true
+    ListItemProp.Divider (page = Home)
+    HTMLAttr.Selected (model.Page = page)
+    Key (pageTitle page)
+    DOMAttr.OnClick (fun _ -> Navigate page |> dispatch)
+  ] [
+    listItemText [ ] [ page |> pageTitle |> str ]
+  ]
+
+let private pageView model dispatch =
+  match model.Page with
+  | Home -> typography [] [ str "This app contains simple demos showing how certain Material-UI components can be used with Elmish." ]
+  | AutoComplete -> lazyView2 AutoComplete.view model.AutoCompleteDownshift (AutoCompleteMsg >> dispatch)
+  | Badges -> lazyView2 Badges.view model.Badges (BadgesMsg >> dispatch)
+  | Dialogs -> lazyView2 Dialogs.view model.Dialogs (DialogsMsg >> dispatch)
+  | Selects -> lazyView2 Selects.view model.Selects (SelectsMsg >> dispatch)
+  | Snackbars -> lazyView2 Snackbars.view model.Snackbars (SnackbarsMsg >> dispatch)
+  | StaticAssets ->
+      div [] [
+        typography [ Paragraph true ] [ str "This demo shows how to use static assets such as images." ]
+        avatar [ Src (stat "avatar.jpg") ] []
+      ]
+  | TextFields -> lazyView2 TextFields.view model.TextFields (TextFieldsMsg >> dispatch)
+
+
+let private view' (classes: IClasses) model dispatch =
+  div [
+    Class classes?root
+  ] [
+    cssBaseline []
+    appBar [
+      Class classes?appBar
+      AppBarProp.Position AppBarPosition.Fixed
+    ] [
+      toolbar [] [
+        typography [
+          TypographyProp.Variant TypographyVariant.H6
+          MaterialProp.Color ComponentColor.Inherit
+        ] [ model.Page |> pageTitle |> str ]
+      ]
     ]
-
-let viewEntries visibility entries dispatch =
-    let isVisible todo =
-        match visibility with
-        | COMPLETED_TODOS -> todo.completed
-        | ACTIVE_TODOS -> not todo.completed
-        | _ -> true
-
-    let allCompleted =
-        List.forall (fun t -> t.completed) entries
-
-    let cssVisibility =
-        if List.isEmpty entries then "hidden" else "visible"
-
-    section
-      [ Class "main"
-        Style [ Visibility cssVisibility ]]
-      [ input
-          [ Class "toggle-all"
-            Type "checkbox"
-            Name "toggle"
-            Checked allCompleted
-            OnChange (fun _ -> CheckAll (not allCompleted) |> dispatch)]
-        label
-          [ HtmlFor "toggle-all" ]
-          [ str "Mark all as complete" ]
-        ul
-          [ Class "todo-list" ]
-          (entries
-           |> List.filter isVisible
-           |> List.map (fun i -> viewEntry i dispatch)) ]
-
-// VIEW CONTROLS AND FOOTER
-let visibilitySwap uri visibility actualVisibility dispatch =
-  li
-    [ OnClick (fun _ -> ChangeVisibility visibility |> dispatch) ]
-    [ a [ Href uri
-          classList ["selected", visibility = actualVisibility] ]
-          [ str visibility ] ]
-
-let viewControlsFilters visibility dispatch =
-  ul
-    [ Class "filters" ]
-    [ visibilitySwap "#/" ALL_TODOS visibility dispatch
-      str " "
-      visibilitySwap "#/active" ACTIVE_TODOS visibility dispatch
-      str " "
-      visibilitySwap "#/completed" COMPLETED_TODOS visibility dispatch ]
-
-let viewControlsCount entriesLeft =
-  let item =
-      if entriesLeft = 1 then " item" else " items"
-
-  span
-      [ Class "todo-count" ]
-      [ strong [] [ str (string entriesLeft) ]
-        str (item + " left") ]
-
-let viewControlsClear entriesCompleted dispatch =
-  button
-    [ Class "clear-completed"
-      Hidden (entriesCompleted = 0)
-      OnClick (fun _ -> DeleteComplete |> dispatch)]
-    [ str ("Clear completed (" + (string entriesCompleted) + ")") ]
-
-let viewControls visibility entries dispatch =
-  let entriesCompleted =
-      entries
-      |> List.filter (fun t -> t.completed)
-      |> List.length
-
-  let entriesLeft =
-      List.length entries - entriesCompleted
-
-  footer
-      [ Class "footer"
-        Hidden (List.isEmpty entries) ]
-      [ viewControlsCount entriesLeft
-        viewControlsFilters visibility dispatch
-        viewControlsClear entriesCompleted dispatch ]
-
-let infoFooter =
-  footer [ Class "info" ]
-    [ p []
-        [ str "Double-click to edit a todo" ]
-      p []
-        [ str "Ported from Elm by "
-          a [ Href "https://github.com/et1975" ] [ str "Eugene Tolmachev" ]]
-      p []
-        [ str "Part of "
-          a [ Href "http://todomvc.com" ] [ str "TodoMVC" ]]
+    drawer [
+      Class classes?drawer
+      DrawerProp.Variant DrawerVariant.Permanent
+      Classes [ ClassNames.Paper classes?drawerPaper ]
+    ] [
+      div [ Class classes?toolbar ] []
+      list [ Component !^"nav" ] [
+        Page.All |> List.map (pageListItem model dispatch) |> ofList
+      ]
     ]
+    main [ Class classes?content ] [
+      div [ Class classes?toolbar ] []
+      pageView model dispatch
+    ]
+  ]
 
-let view model dispatch =
-  div
-    [ Class "todomvc-wrapper"]
-    [ section
-        [ Class "todoapp" ]
-        [ viewInput model.field dispatch
-          viewEntries model.visibility model.entries dispatch
-          viewControls model.visibility model.entries dispatch ]
-      infoFooter ]
+
+// Workaround for using JSS with Elmish
+// https://github.com/mvsmal/fable-material-ui/issues/4#issuecomment-423477900
+type private IProps =
+  abstract member model: Model with get, set
+  abstract member dispatch: (Msg -> unit) with get, set
+  inherit IClassesProps
+
+type private Component(p) =
+  inherit PureStatelessComponent<IProps>(p)
+  let viewFun (p: IProps) = view' p.classes p.model p.dispatch
+  let inputWithStyles = withStyles (StyleType.Func styles) [] viewFun
+  override this.render() =
+    from inputWithStyles this.props []
+
+
+let view (model: Model) (dispatch: Msg -> unit) : ReactElement =
+  let props = jsOptions<IProps>(fun p ->
+    p.model <- model
+    p.dispatch <- dispatch)
+  ofType<Component,_,_> props []

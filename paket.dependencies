@@ -8,8 +8,14 @@ nuget Fable.Elmish
 nuget Fable.Elmish.React
 nuget Fable.Elmish.Debugger
 nuget Fable.Elmish.HMR
+nuget Fable.Import.AutosuggestHighlight
+nuget Fable.Import.Downshift
 nuget Fable.Import.Electron
+nuget Fable.Import.MatchSorter
 nuget Fable.Import.Node
+nuget Fable.MaterialUI
+nuget Fable.MaterialUI.Icons
+nuget Fable.MaterialUI.MaterialDesignIcons
 nuget Fable.PowerPack
 nuget Fable.React
 

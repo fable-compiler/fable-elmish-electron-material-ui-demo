@@ -1,8 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="scss/main.scss" />
+    <Compile Include="Utils.fs" />
+    <Compile Include="SnackbarLib.fs" />
+    <Compile Include="AutoComplete.fs" />
+    <Compile Include="Badges.fs" />
+    <Compile Include="Dialogs.fs" />
+    <Compile Include="Selects.fs" />
+    <Compile Include="Snackbars.fs" />
+    <Compile Include="TextFields.fs" />
     <Compile Include="App.fs" />
     <Compile Include="Entry.fs" />
   </ItemGroup>

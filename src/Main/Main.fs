@@ -79,16 +79,16 @@ module DevTools =
 
 
 let createMainWindow () =
-  let winStateOpts = createEmpty<WindowState.Options>
-  winStateOpts.defaultHeight <- Some 600
-  winStateOpts.defaultWidth <- Some 800
+  let winStateOpts = jsOptions<WindowState.Options>(fun o ->
+    o.defaultHeight <- Some 600
+    o.defaultWidth <- Some 800)
   let mainWinState = WindowState.getState winStateOpts
 
-  let options = createEmpty<BrowserWindowOptions>
-  options.width <- Some (float mainWinState.width)
-  options.height <- Some (float mainWinState.height)
-  options.autoHideMenuBar <- Some true
-  options.show <- Some true
+  let options = jsOptions<BrowserWindowOptions>(fun o ->
+    o.width <- Some (float mainWinState.width)
+    o.height <- Some (float mainWinState.height)
+    o.autoHideMenuBar <- Some true
+    o.show <- Some true)
   let win = electron.BrowserWindow.Create(options)
 
   mainWinState.manage win

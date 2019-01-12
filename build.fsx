@@ -14,6 +14,7 @@ Target.create "Clean" (fun _ ->
     !! "src/**/bin"
     ++ "src/**/obj"
     ++ "dist"
+    ++ "fable"
     |> Shell.cleanDirs
 )
 

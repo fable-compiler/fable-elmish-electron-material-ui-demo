@@ -5,8 +5,8 @@ open Elmish.React
 open Elmish.Debug
 open Elmish.HMR
 
-Program.mkSimple App.emptyModel App.update App.view
-|> Program.withReact "app"
+Program.mkProgram App.init App.update App.view
+|> Program.withReactUnoptimized "app"
 #if DEBUG
 |> Program.withDebugger
 #endif

@@ -3,11 +3,11 @@ framework: netstandard2.0
 storage: none
 
 nuget FSharp.Core redirects:force
-nuget Fable.Core
-nuget Fable.Elmish
-nuget Fable.Elmish.React
-nuget Fable.Elmish.Debugger
-nuget Fable.Elmish.HMR
+nuget Fable.Core prerelease
+nuget Fable.Elmish prerelease
+nuget Fable.Elmish.React prerelease
+nuget Fable.Elmish.Debugger prerelease
+nuget Fable.Elmish.HMR prerelease
 nuget Fable.Import.AutosuggestHighlight
 nuget Fable.Import.Downshift
 nuget Fable.Import.Electron
@@ -17,7 +17,7 @@ nuget Fable.MaterialUI
 nuget Fable.MaterialUI.Icons
 nuget Fable.MaterialUI.MaterialDesignIcons
 nuget Fable.PowerPack
-nuget Fable.React
+nuget Fable.React prerelease
 
 group FakeBuild
   source https://api.nuget.org/v3/index.json

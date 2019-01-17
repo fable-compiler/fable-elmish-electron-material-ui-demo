@@ -1,8 +1,8 @@
-# Fable-Elmish-Electron demo [![Build status](https://ci.appveyor.com/api/projects/status/e6ai8cy2i3yupjy8/branch/master?svg=true)](https://ci.appveyor.com/project/cmeeren/fable-elmish-electron-demo/branch/master)
+# Fable-Elmish-Electron-Material-UI demo [![Build status](https://ci.appveyor.com/api/projects/status/e6ai8cy2i3yupjy8/branch/master?svg=true)](https://ci.appveyor.com/project/cmeeren/fable-elmish-electron-demo/branch/master)
 
-This is an example of an F# Electron app centered around Fable 2 and Elmish. The actual app contents are taken from the TodoMVC sample on the [online Fable REPL](https://fable.io/repl/).
+This is an example of an F# Electron app centered around Fable 2 and Elmish. The actual app contents (which you can easily replace to build your own Electron app) are intended to show how to use Material-UI (including JSS/style-as-code) as well as serve as examples of how to implement some (not always trivial) UX patterns in Elmish.
 
-Simply clone the repo and start hackin' on the `Renderer` project to get started on your own app (details below).
+To use the demo for scaffolding your own Fable/Elmish/Electron apps, simply clone the repo and start hackin' on the `Renderer` project to get started (details below).
 
 Features/stack:
 * Hot module reloading for both code and styles
@@ -12,6 +12,16 @@ Features/stack:
 * [electron-builder](https://www.electron.build/) packages the app (see their documentation for how to customize)
 * [electron-window-state](https://github.com/mawie81/electron-window-state/) for remembering window state between launches
 * [Devtron](https://electronjs.org/devtron) for Electron-specific debugging/linting
+
+Stuff demoed:
+
+* Autocomplete
+* Badges
+* Dialogs
+* Selects (dropdowns)
+* Snackbars
+* Static assets (images etc.)
+* Text fields / input validation
 
 There are a lot of files in this repo that do not pertain to the actual app source code. These are mostly well commented in order to explain why they are needed. If you see something but don't understand why it's there, feel free to open an issue.
 
@@ -36,7 +46,7 @@ There are a lot of files in this repo that do not pertain to the actual app sour
 
 After the app starts, edit the renderer project in `/src/Renderer` and see the changes appear in real-time thanks to hot module reloading.
 
-Place static files in the root `/static` folder as required by electron-webpack. An image has already been placed there and used in the app's heading to show how it works (in short: exactly as you'd expect).
+Place static files in the root `/static` folder as required by electron-webpack. See the code for the “Static assets” page (and the helpers in `Utils.fs`) to see how to use them.
 
 
 ## Release build to unpacked directory

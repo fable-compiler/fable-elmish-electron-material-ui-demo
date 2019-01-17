@@ -1,7 +1,6 @@
-﻿/// Fairly reusable snackbar Elmish component/library.
+﻿/// Fairly reusable snackbar Elmish component/library. See Snackbars.fs for example usage.
 /// Simple, conforms to Material UI, e.g. no stacking of multiple snackbars.
 /// Also no color override, but that should be easy to implement if desired.
-/// See Snackbars.fs for example usage.
 
 module Snack
 

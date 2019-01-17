@@ -84,15 +84,14 @@ let private view' (classes: IClasses) model dispatch =
           InputValue model.MyText
           ItemToString (function Some e -> e.Name | None -> "")
           // OnChange, SelectedItem, and StateReducer used like below will enable
-          // dispatching actions from selections, but otherwise keep normal input
-          // behavior (default Downshift behavior is to revert the input value to
-          // empty or the selected item on blur.) SelectedItem is mostly for cosmetics
-          // we could also just not style the selected item).
-          DownshiftProps.OnChange (fun item o -> Select item.Id |> dispatch)
+          // dispatching actions when an item is selected, but otherwise keep normal
+          // input behavior (the default Downshift behavior is to revert the
+          // input value to empty or the selected item on blur.)
+          DownshiftProps.OnChange (fun item _ -> Select item.Id |> dispatch)
           SelectedItem None
           StateReducer (fun s c ->
             match c.``type`` with
-            // Listing below might not be exhaustive
+            // This list of change types might not be exhaustive
             | StateChangeTypes.BlurInput
             | StateChangeTypes.MouseUp
             | StateChangeTypes.KeyDownEscape ->

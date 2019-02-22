@@ -5,7 +5,6 @@ open Fable.Core.JsInterop
 open Fable.Import
 open Fable.Import.Electron
 open Fable.Import.Node.Exports
-open Fable.PowerPack
 
 // A global reference to the window object is required in order to prevent garbage collection
 let mutable mainWindow: BrowserWindow option = Option.None

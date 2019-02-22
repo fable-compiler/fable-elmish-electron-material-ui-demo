@@ -3,12 +3,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="paket.references" />
     <None Include="scss/main.scss" />
     <Compile Include="Utils.fs" />
     <Compile Include="SnackbarLib.fs" />
     <Compile Include="AutoComplete.fs" />
     <Compile Include="Badges.fs" />
     <Compile Include="Dialogs.fs" />
+    <Compile Include="SaveLoad.fs" />
     <Compile Include="Selects.fs" />
     <Compile Include="Snackbars.fs" />
     <Compile Include="TextFields.fs" />

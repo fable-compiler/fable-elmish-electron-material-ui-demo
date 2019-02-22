@@ -167,7 +167,7 @@ type private Component<'msg>(p) =
   inherit PureStatelessComponent<IProps<'msg>>(p)
   let viewFun (p: IProps<'msg>) = view' p.classes p.model p.dispatch
   let (viewWithStyles: ComponentClass<IProps<'msg>>) = withStyles (StyleType.Func styles) [] viewFun
-  override this.render () = ReactElementType.create !!viewWithStyles this.props []
+  override this.render () = from viewWithStyles this.props []
 
 
 let view (model: Model<'msg>) (dispatch: Msg<'msg> -> unit) : ReactElement =

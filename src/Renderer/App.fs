@@ -20,12 +20,13 @@ type Page =
   | AutoComplete
   | Badges
   | Dialogs
+  | SaveLoad
   | Selects
   | Snackbars
   | StaticAssets
   | TextFields
   static member All =
-    [ Home; AutoComplete; Badges; Dialogs; Selects;
+    [ Home; AutoComplete; Badges; Dialogs; SaveLoad; Selects;
       Snackbars; StaticAssets; TextFields ]
 
 let pageTitle = function
@@ -33,6 +34,7 @@ let pageTitle = function
   | AutoComplete -> "Autocomplete"
   | Badges -> "Badges"
   | Dialogs -> "Dialogs"
+  | SaveLoad -> "Save/load"
   | Selects -> "Selects"
   | StaticAssets -> "Static assets"
   | Snackbars -> "Snackbars"
@@ -43,6 +45,7 @@ type Msg =
   | AutoCompleteMsg of AutoComplete.Msg
   | BadgesMsg of Badges.Msg
   | DialogsMsg of Dialogs.Msg
+  | SaveLoadMsg of SaveLoad.Msg
   | SelectsMsg of Selects.Msg
   | SnackbarsMsg of Snackbars.Msg
   | TextFieldsMsg of TextFields.Msg
@@ -52,6 +55,7 @@ type Model =
     AutoCompleteDownshift: AutoComplete.Model
     Badges: Badges.Model
     Dialogs: Dialogs.Model
+    SaveLoad: SaveLoad.Model
     Selects: Selects.Model
     Snackbars: Snackbars.Model
     TextFields: TextFields.Model }
@@ -62,6 +66,7 @@ let init () =
       AutoCompleteDownshift = AutoComplete.init ()
       Badges = Badges.init ()
       Dialogs = Dialogs.init ()
+      SaveLoad = SaveLoad.init ()
       Selects = Selects.init ()
       Snackbars = Snackbars.init ()
       TextFields = TextFields.init () }
@@ -72,11 +77,14 @@ let update msg m =
   | Navigate p ->
       { m with Page = p }, Cmd.none
   | AutoCompleteMsg msg' ->
-    { m with AutoCompleteDownshift = AutoComplete.update msg' m.AutoCompleteDownshift }, Cmd.none
+      { m with AutoCompleteDownshift = AutoComplete.update msg' m.AutoCompleteDownshift }, Cmd.none
   | BadgesMsg msg' ->
       { m with Badges = Badges.update msg' m.Badges }, Cmd.none
   | DialogsMsg msg' ->
       { m with Dialogs = Dialogs.update msg' m.Dialogs }, Cmd.none
+  | SaveLoadMsg msg' ->
+      let m', cmd = SaveLoad.update msg' m.SaveLoad
+      { m with SaveLoad = m' }, Cmd.map SaveLoadMsg cmd
   | SelectsMsg msg' ->
       { m with Selects = Selects.update msg' m.Selects }, Cmd.none
   | SnackbarsMsg msg' ->
@@ -130,6 +138,7 @@ let private pageView model dispatch =
   | AutoComplete -> lazyView2 AutoComplete.view model.AutoCompleteDownshift (AutoCompleteMsg >> dispatch)
   | Badges -> lazyView2 Badges.view model.Badges (BadgesMsg >> dispatch)
   | Dialogs -> lazyView2 Dialogs.view model.Dialogs (DialogsMsg >> dispatch)
+  | SaveLoad -> lazyView2 SaveLoad.view model.SaveLoad (SaveLoadMsg >> dispatch)
   | Selects -> lazyView2 Selects.view model.Selects (SelectsMsg >> dispatch)
   | Snackbars -> lazyView2 Snackbars.view model.Snackbars (SnackbarsMsg >> dispatch)
   | StaticAssets ->
@@ -184,7 +193,7 @@ type private Component(p) =
   inherit PureStatelessComponent<IProps>(p)
   let viewFun (p: IProps) = view' p.classes p.model p.dispatch
   let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = ReactElementType.create !!viewWithStyles this.props []
+  override this.render() = from viewWithStyles this.props []
 
 
 let view (model: Model) (dispatch: Msg -> unit) : ReactElement =

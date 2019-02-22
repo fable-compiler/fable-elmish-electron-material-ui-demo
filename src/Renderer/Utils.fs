@@ -30,6 +30,12 @@ let intNode (i: int) =
   i |> ofInt |> elNode
 
 
+
+/// Undefined JS literal for type-safe comparison. Will be part of Fable at some point.
+[<Emit("undefined")>]
+let undefined<'a> : 'a = jsNative
+
+
 [<AutoOpen>]
 module Extensions =
 
@@ -43,3 +49,17 @@ module Extensions =
 
     member this.ErrorOr value =
       match this with Ok _ -> value | Error err -> err
+
+
+
+module String =
+
+  let ensureEndsWith suffix (str: string) =
+    if str.EndsWith suffix then str else str + suffix
+
+
+
+module Option =
+
+  let ofUndefined x =
+    if x = undefined then None else Some x

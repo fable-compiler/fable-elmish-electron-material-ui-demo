@@ -1,4 +1,4 @@
-# Fable-Elmish-Electron-Material-UI demo [![Build status](https://ci.appveyor.com/api/projects/status/e6ai8cy2i3yupjy8/branch/master?svg=true)](https://ci.appveyor.com/project/cmeeren/fable-elmish-electron-demo/branch/master)
+# Fable-Elmish-Electron-Material-UI demo [![Build status](https://ci.appveyor.com/api/projects/status/hm2w65e3enahp55g/branch/master?svg=true)](https://ci.appveyor.com/project/cmeeren/fable-elmish-electron-material-ui-demo/branch/master)
 
 This is an example of an F# Electron app centered around Fable 2 and Elmish. The actual app contents (which you can easily replace to build your own Electron app) are intended to show how to use Material-UI (including JSS/style-as-code) as well as serve as examples of how to implement some (not always trivial) UX patterns in Elmish.
 

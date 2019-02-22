@@ -18,6 +18,7 @@ Stuff demoed:
 * Autocomplete
 * Badges
 * Dialogs
+* Saving/loading files
 * Selects (dropdowns)
 * Snackbars
 * Static assets (images etc.)

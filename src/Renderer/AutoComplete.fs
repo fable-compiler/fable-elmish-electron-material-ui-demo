@@ -106,8 +106,8 @@ let private view' (classes: IClasses) model dispatch =
               Label ("Country name" |> strNode)
               Id textFieldId
               HelperText (strNode "Start with 'a'")
-            ] |> Seq.toList) []
-            div (ds.getMenuProps [] |> Seq.toList) [
+            ]) []
+            div (ds.getMenuProps []) [
               popper [
                 Class classes?menu
                 MaterialProp.Open ds.isOpen
@@ -126,7 +126,7 @@ let private view' (classes: IClasses) model dispatch =
                             Index i
                             ListItemProp.Button true
                             HTMLAttr.Selected (ds.highlightedIndex = Some i)
-                          ] |> Seq.toList) [
+                          ]) [
                             listItemText [
                               Classes [
                                 if ds.selectedItem |> Option.map (fun e -> e.Id) = Some e.Id then

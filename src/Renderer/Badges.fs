@@ -52,7 +52,6 @@ let private view' (classes: IClasses) model dispatch =
     div [] [
       iconButton [ Class classes?margin ] [
         badge [
-          BadgeProp.Invisible (model.Count = 0)
           BadgeProp.Color BadgeColor.Secondary
           BadgeContent (intNode model.Count)
         ] [ notificationsIcon [] ]

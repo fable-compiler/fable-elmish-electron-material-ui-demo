@@ -35,7 +35,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "devtron": "^1.4",
-    "electron": "^4.0",
+    "electron": "^5.0.3",
     "electron-builder": "^20.39.0",
     "electron-devtools-installer": "^2.2",
     "electron-webpack": "^2.6",

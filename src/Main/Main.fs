@@ -87,6 +87,10 @@ let createMainWindow () =
     o.width <- Some (float mainWinState.width)
     o.height <- Some (float mainWinState.height)
     o.autoHideMenuBar <- Some true
+    o.webPreferences <- Some <| jsOptions<WebPreferences>(fun w ->
+      w.contextIsolation <- Some false
+      w.nodeIntegration <- Some true
+    )
     o.show <- Some true)
   let win = electron.BrowserWindow.Create(options)
 

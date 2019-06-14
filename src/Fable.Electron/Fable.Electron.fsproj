@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="paket.references" />
+    <Compile Include="NewBindings.fs" />
     <Compile Include="Electron.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

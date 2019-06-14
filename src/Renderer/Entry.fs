@@ -6,7 +6,7 @@ open Elmish.Debug
 open Elmish.HMR
 
 Program.mkProgram App.init App.update App.view
-|> Program.withReactUnoptimized "app"
+|> Program.withReactSynchronous "app"
 #if DEBUG
 |> Program.withDebugger
 #endif

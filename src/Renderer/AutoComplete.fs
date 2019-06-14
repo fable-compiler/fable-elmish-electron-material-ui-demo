@@ -1,13 +1,13 @@
 ﻿module AutoComplete
 
 open System
+open Browser.Types
 open Fable.Core.JsInterop
 open Fable.Import
 open Fable.Import.MatchSorter
 open Fable.Import.Downshift
-open Fable.Import.React
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.React
+open Fable.React.Props
 open Fable.MaterialUI
 open Fable.MaterialUI.Core
 open Fable.MaterialUI.Props
@@ -70,8 +70,7 @@ let private styles (theme: ITheme) : IStyles list =
     ])
   ]
 
-let private textFieldId = Guid.NewGuid () |> string
-
+let mutable private textFieldRef = null
 
 let private view' (classes: IClasses) model dispatch =
   div [] [
@@ -103,17 +102,17 @@ let private view' (classes: IClasses) model dispatch =
           let filteredCountries = model.Countries |> matchSortCountries ds.inputValue
           div [] [
             textField (ds.getInputProps [
-              Label ("Country name" |> strNode)
-              Id textFieldId
-              HelperText (strNode "Start with 'a'")
+              Label (str "Country name")
+              HelperText (str "Start with 'a'")
+              OnFocus(fun ev -> textFieldRef <- ev.target)
             ]) []
             div (ds.getMenuProps []) [
               popper [
                 Class classes?menu
                 MaterialProp.Open ds.isOpen
                 Placement PlacementType.TopStart
-                AnchorEl !^(Browser.document.getElementById textFieldId)
-              ] [
+                AnchorEl !^textFieldRef
+              ] !^[
                 paper [ ] [
                   list [] (
                     if not ds.isOpen then []
@@ -137,9 +136,8 @@ let private view' (classes: IClasses) model dispatch =
                                 |> AutosuggestHighlight.getParts ds.inputValue
                                 |> List.map (fun (s, hl) -> span [ if hl then yield Class classes?highlight ] [ str s ] )
                                 |> fragment []
-                                |> elNode
                               )
-                              ListItemTextProp.Secondary (e.Description |> strNode)
+                              ListItemTextProp.Secondary (str e.Description)
                             ] [ ]
                           ]
                       )
@@ -169,7 +167,7 @@ type private Component(p) =
   inherit PureStatelessComponent<IProps>(p)
   let viewFun (p: IProps) = view' p.classes p.model p.dispatch
   let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = from viewWithStyles this.props []
+  override this.render() = ReactElementType.create viewWithStyles this.props []
 
 
 let view (model: Model) (dispatch: Msg -> unit) : ReactElement =

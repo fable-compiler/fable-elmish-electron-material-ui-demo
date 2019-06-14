@@ -5,9 +5,8 @@ open Elmish
 open Elmish.React
 open Fable.Core
 open Fable.Core.JsInterop
-open Fable.Import.React
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.React
+open Fable.React.Props
 open Fable.MaterialUI
 open Fable.MaterialUI.Core
 open Fable.MaterialUI.Props
@@ -101,7 +100,7 @@ let private styles (theme: ITheme) : IStyles list =
   let drawerWidth = "240px"
   [
     Styles.Root [
-      Display "flex"
+      Display DisplayOptions.Flex
     ]
     Styles.Custom ("appBar", [
       CSSProp.ZIndex (theme.zIndex.drawer + 1)
@@ -171,7 +170,7 @@ let private view' (classes: IClasses) model dispatch =
       Classes [ ClassNames.Paper classes?drawerPaper ]
     ] [
       div [ Class classes?toolbar ] []
-      list [ Component !^"nav" ] [
+      list [ Component (ReactElementType.ofHtmlElement "nav") ] [
         Page.All |> List.map (pageListItem model dispatch) |> ofList
       ]
     ]
@@ -193,7 +192,7 @@ type private Component(p) =
   inherit PureStatelessComponent<IProps>(p)
   let viewFun (p: IProps) = view' p.classes p.model p.dispatch
   let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = from viewWithStyles this.props []
+  override this.render() = ReactElementType.create viewWithStyles this.props []
 
 
 let view (model: Model) (dispatch: Msg -> unit) : ReactElement =

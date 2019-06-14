@@ -7,9 +7,8 @@ module Snack
 open Elmish
 open Fable.Core
 open Fable.Core.JsInterop
-open Fable.Import.React
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.React
+open Fable.React.Props
 open Fable.MaterialUI
 open Fable.MaterialUI.Core
 open Fable.MaterialUI.Props
@@ -86,7 +85,7 @@ let private delayedMsg delayMs msg =
       do! Async.Sleep delayMs
       return msg
     }
-  Cmd.ofAsync (fun () -> asyncMsg) () id raise
+  Cmd.OfAsync.result asyncMsg
 
 
 let update msg m =
@@ -166,8 +165,8 @@ type private IProps<'msg> =
 type private Component<'msg>(p) =
   inherit PureStatelessComponent<IProps<'msg>>(p)
   let viewFun (p: IProps<'msg>) = view' p.classes p.model p.dispatch
-  let (viewWithStyles: ComponentClass<IProps<'msg>>) = withStyles (StyleType.Func styles) [] viewFun
-  override this.render () = from viewWithStyles this.props []
+  let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
+  override this.render () = ReactElementType.create viewWithStyles this.props []
 
 
 let view (model: Model<'msg>) (dispatch: Msg<'msg> -> unit) : ReactElement =

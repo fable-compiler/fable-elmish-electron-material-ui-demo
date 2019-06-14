@@ -5,9 +5,8 @@ open Elmish
 open Elmish.React
 open Fable.Core
 open Fable.Core.JsInterop
-open Fable.Import.React
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.React
+open Fable.React.Props
 open Fable.MaterialUI
 open Fable.MaterialUI.Core
 open Fable.MaterialUI.Props
@@ -45,7 +44,7 @@ let update msg m =
           do! Async.Sleep 1000
           return CustomActionEnd
         }
-      let cmd = Cmd.ofAsync (fun () -> asyncWork) () id raise
+      let cmd = Cmd.OfAsync.result asyncWork
       { m with CustomActionOngoing = true }, cmd
   | CustomActionEnd -> { m with CustomActionOngoing = false }, Cmd.none
   | SnackMsg msg' ->
@@ -80,7 +79,7 @@ type private Component(p) =
   inherit PureStatelessComponent<IProps>(p)
   let viewFun (p: IProps) = view' p.classes p.model p.dispatch
   let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = from viewWithStyles this.props []
+  override this.render() = ReactElementType.create viewWithStyles this.props []
 
 
 let view (model: Model) (dispatch: Msg -> unit) : ReactElement =

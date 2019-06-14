@@ -3,8 +3,8 @@ module Main
 open Fable.Core
 open Fable.Core.JsInterop
 open Fable.Import
-open Fable.Import.Electron
-open Fable.Import.Node.Exports
+open Electron.Types
+open Node.Api
 
 // A global reference to the window object is required in order to prevent garbage collection
 let mutable mainWindow: BrowserWindow option = Option.None
@@ -102,7 +102,7 @@ let createMainWindow () =
 
   // Load correct URL
   #if DEBUG
-  let port = Node.Globals.``process``.env?ELECTRON_WEBPACK_WDS_PORT
+  let port = ``process``.env?ELECTRON_WEBPACK_WDS_PORT
   win.loadURL(sprintf "http://localhost:%s" port)
   #else
   let opts = createEmpty<Node.Url.Url<obj>>
@@ -115,26 +115,26 @@ let createMainWindow () =
   // Dereference the window object when closed. If your app supports
   // multiple windows, you can store them in an array and delete the
   // corresponding element here.
-  win.on("closed", fun () -> mainWindow <- Option.None) |> ignore
+  win.on("closed", fun ev -> mainWindow <- Option.None) |> ignore
 
-  win.webContents.on("devtools-opened", fun () -> webContentsFocus win) |> ignore
+  win.webContents.on("devtools-opened", fun ev -> webContentsFocus win) |> ignore
 
   mainWindow <- Some win
 
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
-electron.app.on("ready", createMainWindow) |> ignore
+electron.app.on("ready", fun ev -> createMainWindow ()) |> ignore
 
 // Quit when all windows are closed.
-electron.app.on("window-all-closed", fun () ->
+electron.app.on("window-all-closed", fun ev ->
   // On OS X it's common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if Node.Globals.``process``.platform <> Node.Base.NodeJS.Darwin then
+  if ``process``.platform <> Node.Base.Platform.Darwin then
     electron.app.quit()
 ) |> ignore
 
-electron.app.on("activate", fun () ->
+electron.app.on("activate", fun ev ->
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if mainWindow.IsNone then createMainWindow ()

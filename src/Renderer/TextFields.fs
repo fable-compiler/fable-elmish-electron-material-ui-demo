@@ -3,10 +3,9 @@
 open System
 open Elmish.React
 open Fable.Core.JsInterop
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.React
+open Fable.React.Props
 open Fable.MaterialUI.Core
-open Fable.Import.React
 open Fable.MaterialUI
 open FSharp.Core  // To avoid shadowing Result<_,_>
 
@@ -92,7 +91,7 @@ let private view' (classes: IClasses) model dispatch =
       HTMLAttr.Label "Simple input"
       HTMLAttr.Value model.SimpleText
       DOMAttr.OnChange (fun ev -> ev.Value |> SetSimpleText |> dispatch)
-      TextFieldProp.HelperText (sprintf "Current value: %s" model.SimpleText |> strNode)
+      TextFieldProp.HelperText (sprintf "Current value: %s" model.SimpleText |> str)
     ] []
     textField [
       Class classes?textField
@@ -101,7 +100,7 @@ let private view' (classes: IClasses) model dispatch =
       HTMLAttr.Value model.ValidatedTextRaw
       MaterialProp.Error model.ValidatedTextResult.IsError
       DOMAttr.OnChange (fun ev -> ev.Value |> SetValidatedText |> dispatch)
-      TextFieldProp.HelperText (model.ValidatedTextResult.ErrorOr "Value OK" |> strNode)
+      TextFieldProp.HelperText (model.ValidatedTextResult.ErrorOr "Value OK" |> str)
     ] []
   ]
 
@@ -117,7 +116,7 @@ type private Component(p) =
   inherit PureStatelessComponent<IProps>(p)
   let viewFun (p: IProps) = view' p.classes p.model p.dispatch
   let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = from viewWithStyles this.props []
+  override this.render() = ReactElementType.create viewWithStyles this.props []
 
 
 let view (model: Model) (dispatch: Msg -> unit) : ReactElement =

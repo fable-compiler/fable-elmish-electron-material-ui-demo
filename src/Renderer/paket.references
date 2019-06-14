@@ -1,3 +1,4 @@
+FSharp.Core
 Fable.Core
 Fable.Elmish
 Fable.Elmish.React
@@ -5,10 +6,10 @@ Fable.Elmish.Debugger
 Fable.Elmish.HMR
 Fable.Import.AutosuggestHighlight
 Fable.Import.Downshift
-Fable.Import.Electron
 Fable.Import.MatchSorter
 Fable.MaterialUI
 Fable.MaterialUI.Icons
 Fable.MaterialUI.MaterialDesignIcons
+Fable.Node
 Fable.Promise
 Fable.React

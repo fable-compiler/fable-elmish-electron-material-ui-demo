@@ -17,5 +17,8 @@
     <Compile Include="App.fs" />
     <Compile Include="Entry.fs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fable.Electron\Fable.Electron.fsproj" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

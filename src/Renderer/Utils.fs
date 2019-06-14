@@ -2,8 +2,7 @@
 module Utils
 
 open Fable.Core
-open Fable.Helpers.React
-open Fable.Import.React
+open Fable.Core.JS
 
 [<Emit("__static + \"/\" + $0")>]
 let private stat' (s: string) : string = jsNative
@@ -15,25 +14,6 @@ let stat (s: string) =
   #else
   stat' s
   #endif
-
-
-/// Casts a ReactElement to a ReactNode (erased at runtime)
-let elNode (el: ReactElement ) =
-  el |> ReactChild.Case1 |> ReactNode.Case1
-
-/// Casts a string to a ReactNode (erased at runtime).
-let strNode (s: string) =
-  s |> str |> elNode
-
-/// Casts an integer to a ReactNode (erased at runtime).
-let intNode (i: int) =
-  i |> ofInt |> elNode
-
-
-
-/// Undefined JS literal for type-safe comparison. Will be part of Fable at some point.
-[<Emit("undefined")>]
-let undefined<'a> : 'a = jsNative
 
 
 [<AutoOpen>]

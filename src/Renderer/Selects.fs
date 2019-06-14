@@ -2,10 +2,9 @@
 
 open System
 open Fable.Core.JsInterop
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.React
+open Fable.React.Props
 open Fable.MaterialUI.Core
-open Fable.Import.React
 open Fable.MaterialUI
 
 
@@ -95,7 +94,7 @@ type private Component(p) =
   inherit PureStatelessComponent<IProps>(p)
   let viewFun (p: IProps) = view' p.classes p.model p.dispatch
   let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = from viewWithStyles this.props []
+  override this.render() = ReactElementType.create viewWithStyles this.props []
 
 
 let view (model: Model) (dispatch: Msg -> unit) : ReactElement =

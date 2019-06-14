@@ -4,9 +4,8 @@ open System
 open Elmish.React
 open Fable.Core
 open Fable.Core.JsInterop
-open Fable.Import.React
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.React
+open Fable.React.Props
 open Fable.MaterialUI
 open Fable.MaterialUI.Core
 open Fable.MaterialUI.Props
@@ -53,7 +52,7 @@ let private view' (classes: IClasses) model dispatch =
       iconButton [ Class classes?margin ] [
         badge [
           BadgeProp.Color BadgeColor.Secondary
-          BadgeContent (intNode model.Count)
+          BadgeContent (ofInt model.Count)
         ] [ notificationsIcon [] ]
       ]
       iconButton [
@@ -78,7 +77,7 @@ type private Component(p) =
   inherit PureStatelessComponent<IProps>(p)
   let viewFun (p: IProps) = view' p.classes p.model p.dispatch
   let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = from viewWithStyles this.props []
+  override this.render() = ReactElementType.create viewWithStyles this.props []
 
 let view (model: Model) (dispatch: Msg -> unit) : ReactElement =
   let props = jsOptions<IProps>(fun p ->

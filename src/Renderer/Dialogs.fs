@@ -4,9 +4,8 @@ open System
 open Elmish.React
 open Fable.Core
 open Fable.Core.JsInterop
-open Fable.Import.React
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.React
+open Fable.React.Props
 open Fable.MaterialUI
 open Fable.MaterialUI.Core
 open Fable.MaterialUI.Props
@@ -117,7 +116,7 @@ let private formDialog model dispatch =
       textField [
         AutoFocus true
         MaterialProp.Margin FormControlMargin.Dense
-        Label (strNode "Your reponse")
+        Label (str "Your reponse")
         FullWidth true
         DOMAttr.OnChange (fun ev -> ev.Value |> FormTextEntered |> dispatch)
       ] []
@@ -174,7 +173,7 @@ type private Component(p) =
   inherit PureStatelessComponent<IProps>(p)
   let viewFun (p: IProps) = view' p.classes p.model p.dispatch
   let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = from viewWithStyles this.props []
+  override this.render() = ReactElementType.create viewWithStyles this.props []
 
 
 let view (model: Model) (dispatch: Msg -> unit) : ReactElement =

@@ -3,12 +3,11 @@
 open System
 open Elmish
 open Fable.Core.JsInterop
-open Fable.Import
-open Fable.Import.Electron
-open Fable.Import.React
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
-open Fable.Import.Node  // Below Fable.Helpers.React to avoid shadowing path
+open Electron.Types
+open Fable.React
+open Fable.React.Props
+open Node.Api
+open Node.Base
 open Fable.MaterialUI
 open Fable.MaterialUI.Core
 open FSharp.Core  // To prevent shadowing None
@@ -83,8 +82,8 @@ type Msg =
   | LoadSuccess of string
   | SaveCanceled
   | LoadCanceled
-  | SaveFailed of Base.NodeJS.ErrnoException
-  | LoadFailed of Base.NodeJS.ErrnoException
+  | SaveFailed of ErrnoException
+  | LoadFailed of ErrnoException
 
 let init () =
   { Text = ""
@@ -99,10 +98,9 @@ let save text =
       o.title <- Some "Title of save dialog"
       o.defaultPath <- Some <| electron.remote.app.getPath AppPathName.Desktop
       o.filters <-
-        [
+        [|
           createObj [ "name" ==> "Text files"; "extensions" ==> [|"txt"|] ]
-        ]
-        |> ResizeArray
+        |]
         |> Some
     )
     match! showSaveDialogAsync opts with
@@ -123,10 +121,9 @@ let load () =
       o.title <- Some "Title of load dialog"
       o.defaultPath <- Some <| electron.remote.app.getPath AppPathName.Desktop
       o.filters <-
-        [
+        [|
           createObj [ "name" ==> "Text files"; "extensions" ==> [|"txt"|] ]
-        ]
-        |> ResizeArray
+        |]
         |> Some
     )
     match! showOpenDialogAsync opts with
@@ -146,14 +143,14 @@ let update msg m =
         | Ok SaveResult.Saved -> SaveSuccess m.Text
         | Ok SaveResult.Canceled -> SaveCanceled
         | Error err -> SaveFailed err
-      m, Cmd.ofPromise save m.Text handleSaved raise
+      m, Cmd.OfPromise.perform save m.Text handleSaved
 
   | RequestLoad ->
       let handleLoaded = function
         | Ok (LoadResult.Loaded contents) -> LoadSuccess contents
         | Ok LoadResult.Canceled -> LoadCanceled
         | Error err -> LoadFailed err
-      m, Cmd.ofPromise load () handleLoaded raise
+      m, Cmd.OfPromise.perform load () handleLoaded
 
   | SaveSuccess s ->
       { m with LastSaved = Some (s, DateTimeOffset.Now); ErrMsg = None },
@@ -214,7 +211,7 @@ type private Component(p) =
   inherit PureStatelessComponent<IProps>(p)
   let viewFun (p: IProps) = view' p.classes p.model p.dispatch
   let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = from viewWithStyles this.props []
+  override this.render() = ReactElementType.create viewWithStyles this.props []
 
 
 let view (model: Model) (dispatch: Msg -> unit) : ReactElement =

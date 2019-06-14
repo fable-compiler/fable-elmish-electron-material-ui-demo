@@ -1,23 +1,27 @@
+version 5.208.0
+
 source https://api.nuget.org/v3/index.json
 framework: netstandard2.0
 storage: none
 
 nuget FSharp.Core redirects:force
-nuget Fable.Core ~> 2.0.0
-nuget Fable.Elmish ~> 3 beta
-nuget Fable.Elmish.React ~> 3 beta
-nuget Fable.Elmish.Debugger ~> 3 beta
-nuget Fable.Elmish.HMR ~> 4 beta
-nuget Fable.Import.AutosuggestHighlight ~> 1
-nuget Fable.Import.Downshift ~> 1
-nuget Fable.Import.Electron ~> 0
-nuget Fable.Import.MatchSorter ~> 1
-nuget Fable.Import.Node ~> 0
-nuget Fable.MaterialUI ~> 3
-nuget Fable.MaterialUI.Icons ~> 1
-nuget Fable.MaterialUI.MaterialDesignIcons ~> 1
-nuget Fable.Promise ~> 1
-nuget Fable.React ~> 4
+nuget Fable.Browser.Dom ~> 1.0
+nuget Fable.Core ~> 3.0
+nuget Fable.Elmish ~> 3.0
+nuget Fable.Elmish.React ~> 3.0
+nuget Fable.Elmish.Debugger ~> 3.0
+nuget Fable.Elmish.HMR ~> 4.0
+nuget Fable.Import.AutosuggestHighlight ~> 1.1
+nuget Fable.Import.Downshift ~> 1.1
+nuget Fable.Import.Electron ~> 0.1.0
+nuget Fable.Import.MatchSorter ~> 1.1
+nuget Fable.Import.Node ~> 0.4.0
+nuget Fable.MaterialUI ~> 4.0
+nuget Fable.MaterialUI.Icons ~> 1.1
+nuget Fable.MaterialUI.MaterialDesignIcons ~> 1.2
+nuget Fable.Node ~> 1.0
+nuget Fable.Promise ~> 2.0
+nuget Fable.React ~> 5.2
 
 group FakeBuild
   source https://api.nuget.org/v3/index.json

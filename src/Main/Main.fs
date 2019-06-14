@@ -105,11 +105,9 @@ let createMainWindow () =
   let port = ``process``.env?ELECTRON_WEBPACK_WDS_PORT
   win.loadURL(sprintf "http://localhost:%s" port)
   #else
-  let opts = createEmpty<Node.Url.Url<obj>>
-  opts.pathname <- Some <| path.join(Node.Globals.__dirname, "index.html")
-  opts.protocol <- Some "file"
-  opts.slashes <- Some true
-  win.loadURL<| url.format opts
+  path.join(__dirname, "index.html")
+  |> sprintf "file:///%s"
+  |> win.loadURL
   #endif
 
   // Dereference the window object when closed. If your app supports

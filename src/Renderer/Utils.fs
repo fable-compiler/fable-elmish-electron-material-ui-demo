@@ -36,10 +36,3 @@ module String =
 
   let ensureEndsWith suffix (str: string) =
     if str.EndsWith suffix then str else str + suffix
-
-
-
-module Option =
-
-  let ofUndefined x =
-    if x = undefined then None else Some x

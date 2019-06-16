@@ -3,7 +3,7 @@ module Main
 open Fable.Core
 open Fable.Core.JsInterop
 open Fable.Import
-open Electron.Types
+open Electron
 open Node.Api
 
 // A global reference to the window object is required in order to prevent garbage collection
@@ -69,8 +69,8 @@ module DevTools =
     win.webContents.executeJavaScript("require('devtron').install()")
 
   let uninstallAllDevTools (win: BrowserWindow) =
-    electron.BrowserWindow.removeDevToolsExtension("React Developer Tools")
-    electron.BrowserWindow.removeDevToolsExtension("Redux DevTools")
+    main.BrowserWindow.removeDevToolsExtension("React Developer Tools")
+    main.BrowserWindow.removeDevToolsExtension("Redux DevTools")
     win.webContents.executeJavaScript("require('devtron').uninstall()")
 
   let connectRemoteDevViaExtension: unit -> unit = import "connectViaExtension" "remotedev"
@@ -84,21 +84,21 @@ let createMainWindow () =
   let mainWinState = WindowState.getState winStateOpts
 
   let options = jsOptions<BrowserWindowOptions>(fun o ->
-    o.width <- Some (float mainWinState.width)
-    o.height <- Some (float mainWinState.height)
-    o.autoHideMenuBar <- Some true
-    o.webPreferences <- Some <| jsOptions<WebPreferences>(fun w ->
-      w.contextIsolation <- Some false
-      w.nodeIntegration <- Some true
+    o.width <- mainWinState.width
+    o.height <- mainWinState.height
+    o.autoHideMenuBar <- true
+    o.webPreferences <- jsOptions<WebPreferences>(fun w ->
+      w.contextIsolation <- false
+      w.nodeIntegration <- true
     )
-    o.show <- Some true)
-  let win = electron.BrowserWindow.Create(options)
+    o.show <- true)
+  let win = main.BrowserWindow.Create(options)
 
   mainWinState.manage win
 
   #if DEBUG
   // Set up dev tools
-  DevTools.installAllDevTools win
+  DevTools.installAllDevTools win |> ignore
   DevTools.connectRemoteDevViaExtension ()
   // Open dev tools on startup
   win.webContents.openDevTools()
@@ -107,11 +107,12 @@ let createMainWindow () =
   // Load correct URL
   #if DEBUG
   let port = ``process``.env?ELECTRON_WEBPACK_WDS_PORT
-  win.loadURL(sprintf "http://localhost:%s" port)
+  win.loadURL(sprintf "http://localhost:%s" port) |> ignore
   #else
   path.join(__dirname, "index.html")
   |> sprintf "file:///%s"
   |> win.loadURL
+  |> ignore
   #endif
 
   // Dereference the window object when closed. If your app supports
@@ -126,17 +127,17 @@ let createMainWindow () =
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
-electron.app.on("ready", fun ev -> createMainWindow ()) |> ignore
+main.app.onReady(fun _ -> createMainWindow ()) |> ignore
 
 // Quit when all windows are closed.
-electron.app.on("window-all-closed", fun ev ->
+main.app.onWindowAllClosed(fun ev ->
   // On OS X it's common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if ``process``.platform <> Node.Base.Platform.Darwin then
-    electron.app.quit()
+    main.app.quit()
 ) |> ignore
 
-electron.app.on("activate", fun ev ->
+main.app.onActivate(fun ev _ ->
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if mainWindow.IsNone then createMainWindow ()

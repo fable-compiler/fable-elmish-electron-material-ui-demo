@@ -3,7 +3,7 @@
 open System
 open Elmish
 open Fable.Core.JsInterop
-open Electron.Types
+open Electron
 open Fable.React
 open Fable.React.Props
 open Node.Api
@@ -40,21 +40,20 @@ let readUtf8Async pathAndFilename =
 
 let showSaveDialogAsync opts =
   Promise.create (fun resolve reject ->
-    electron.remote.dialog.showSaveDialog(
+    renderer.remote.dialog.showSaveDialog(
       opts,
-      System.Func<_,_>(fun path -> path |> Option.ofUndefined |> resolve))
+      fun path _ -> resolve path)
     |> ignore
   )
 
 
 let showOpenDialogAsync opts =
   Promise.create (fun resolve reject ->
-    electron.remote.dialog.showOpenDialog(
+    renderer.remote.dialog.showOpenDialog(
       opts,
-      System.Func<_,_>(fun paths ->
-        paths |> Option.ofUndefined |> Option.map Seq.toList |> resolve)
+      (fun paths _ ->
+        paths |> Option.map Seq.toList |> resolve)
     )
-    |> ignore
   )
 
 
@@ -95,13 +94,15 @@ let save text =
   promise {
     let opts = jsOptions<SaveDialogOptions>(fun o ->
       // See https://github.com/electron/electron/blob/master/docs/api/dialog.md
-      o.title <- Some "Title of save dialog"
-      o.defaultPath <- Some <| electron.remote.app.getPath AppPathName.Desktop
+      o.title <- "Title of save dialog"
+      o.defaultPath <- renderer.remote.app.getPath AppPathName.Desktop
       o.filters <-
         [|
-          createObj [ "name" ==> "Text files"; "extensions" ==> [|"txt"|] ]
+          jsOptions<FileDialogFilter>(fun f ->
+            f.name <- "Text files"
+            f.extensions <- [|"txt"|]
+          )
         |]
-        |> Some
     )
     match! showSaveDialogAsync opts with
     | None -> return Ok SaveResult.Canceled
@@ -118,13 +119,15 @@ let load () =
   promise {
     let opts = jsOptions<OpenDialogOptions>(fun o ->
       // See https://github.com/electron/electron/blob/master/docs/api/dialog.md
-      o.title <- Some "Title of load dialog"
-      o.defaultPath <- Some <| electron.remote.app.getPath AppPathName.Desktop
+      o.title <- "Title of load dialog"
+      o.defaultPath <- renderer.remote.app.getPath AppPathName.Desktop
       o.filters <-
         [|
-          createObj [ "name" ==> "Text files"; "extensions" ==> [|"txt"|] ]
+          jsOptions<FileDialogFilter>(fun f ->
+            f.name <- "Text files"
+            f.extensions <- [|"txt"|]
+          )
         |]
-        |> Some
     )
     match! showOpenDialogAsync opts with
     | None -> return Ok LoadResult.Canceled

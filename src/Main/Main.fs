@@ -7,40 +7,7 @@ open Electron
 open Node.Api
 
 // A global reference to the window object is required in order to prevent garbage collection
-let mutable mainWindow: BrowserWindow option = Option.None
-
-[<Emit("$0.webContents.focus()")>]
-let webContentsFocus (win: BrowserWindow) : unit = jsNative
-
-module WindowState =
-
-  type State =
-    abstract x: int with get
-    abstract y: int with get
-    abstract width: int with get
-    abstract height: int with get
-    abstract isMaximized: bool with get
-    abstract isFullScreen: bool with get
-    abstract manage : BrowserWindow -> unit
-    abstract unmanage : unit -> unit
-    abstract saveState : BrowserWindow -> unit
-
-  [<AllowNullLiteral>]
-  type Options =
-    /// The height that should be returned if no file exists yet. Defaults to `600`.
-    abstract defaultHeight: int option with get, set
-    /// The width that should be returned if no file exists yet. Defaults to `800`.
-    abstract defaultWidth: int option with get, set
-    abstract fullScreen: bool option with get, set
-    /// The path where the state file should be written to. Defaults to `app.getPath('userData')`.
-    abstract path: string option with get, set
-    /// The name of file. Defaults to `window-state.json`.
-    abstract file: string option with get, set
-    /// Should we automatically maximize the window, if it was last closed maximized. Defaults to `true`.
-    abstract maximize: bool option with get, set
-
-  let getState : Options -> State =
-    importDefault "electron-window-state"
+let mutable mainWindow: BrowserWindow option = None
 
 
 #if DEBUG
@@ -78,36 +45,41 @@ module DevTools =
 
 
 let createMainWindow () =
-  let winStateOpts = jsOptions<WindowState.Options>(fun o ->
-    o.defaultHeight <- Some 600
-    o.defaultWidth <- Some 800)
-  let mainWinState = WindowState.getState winStateOpts
+  let mainWinState =
+    WindowState.getState(jsOptions<WindowState.Options>(fun o ->
+      o.defaultHeight <- 600
+      o.defaultWidth <- 800
+    ))
 
-  let options = jsOptions<BrowserWindowOptions>(fun o ->
-    o.width <- mainWinState.width
-    o.height <- mainWinState.height
-    o.autoHideMenuBar <- true
-    o.webPreferences <- jsOptions<WebPreferences>(fun w ->
-      w.contextIsolation <- false
-      w.nodeIntegration <- true
-    )
-    o.show <- true)
-  let win = main.BrowserWindow.Create(options)
+  let win =
+    main.BrowserWindow.Create(jsOptions<BrowserWindowOptions>(fun o ->
+      o.width <- mainWinState.width
+      o.height <- mainWinState.height
+      o.autoHideMenuBar <- true
+      o.webPreferences <- jsOptions<WebPreferences>(fun w ->
+        w.contextIsolation <- false
+        w.nodeIntegration <- true
+      )
+      o.show <- false
+    ))
 
-  mainWinState.manage win
+  win.onceReadyToShow(fun _ ->
+    win.show()
+    mainWinState.manage win
+  ) |> ignore
 
   #if DEBUG
   // Set up dev tools
   DevTools.installAllDevTools win |> ignore
   DevTools.connectRemoteDevViaExtension ()
   // Open dev tools on startup
+  win.webContents.onceDevtoolsOpened(fun _ -> win.focusOnWebView()) |> ignore  // TODO: Doesn't seem to do anything
   win.webContents.openDevTools()
   #endif
 
   // Load correct URL
   #if DEBUG
-  let port = ``process``.env?ELECTRON_WEBPACK_WDS_PORT
-  win.loadURL(sprintf "http://localhost:%s" port) |> ignore
+  win.loadURL(sprintf "http://localhost:%s" ``process``.env?ELECTRON_WEBPACK_WDS_PORT) |> ignore
   #else
   path.join(__dirname, "index.html")
   |> sprintf "file:///%s"
@@ -118,26 +90,25 @@ let createMainWindow () =
   // Dereference the window object when closed. If your app supports
   // multiple windows, you can store them in an array and delete the
   // corresponding element here.
-  win.on("closed", fun ev -> mainWindow <- Option.None) |> ignore
-
-  win.webContents.on("devtools-opened", fun ev -> webContentsFocus win) |> ignore
+  win.onClosed(fun _ -> mainWindow <- None) |> ignore
 
   mainWindow <- Some win
 
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
-main.app.onReady(fun _ -> createMainWindow ()) |> ignore
+main.app.onReady(fun _ _ -> createMainWindow ()) |> ignore
+
 
 // Quit when all windows are closed.
-main.app.onWindowAllClosed(fun ev ->
+main.app.onWindowAllClosed(fun _ ->
   // On OS X it's common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if ``process``.platform <> Node.Base.Platform.Darwin then
     main.app.quit()
 ) |> ignore
 
-main.app.onActivate(fun ev _ ->
+main.app.onActivate(fun _ _ ->
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if mainWindow.IsNone then createMainWindow ()

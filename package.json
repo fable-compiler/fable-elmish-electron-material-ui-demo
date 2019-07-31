@@ -24,7 +24,7 @@
     "@material-ui/icons": "^3.0",
     "autosuggest-highlight": "^3.1",
     "downshift": "^3.2.10",
-    "match-sorter": "^3.0.0",
+    "match-sorter": "^4.0.0",
     "mdi-material-ui": "^5.11.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -34,9 +34,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
+    "bufferutil": "^4.0.1",
     "devtron": "^1.4",
-    "electron": "^5.0.3",
-    "electron-builder": "^20.39.0",
+    "electron": "6.0.0-beta.13",
+    "electron-builder": "^21.1.5",
     "electron-devtools-installer": "^2.2",
     "electron-webpack": "^2.6",
     "electron-window-state": "^5.0",
@@ -45,6 +46,7 @@
     "node-sass": "^4.12.0",
     "remotedev": "^0.2",
     "sass-loader": "^7.1",
+    "utf-8-validate": "^5.0.2",
     "webpack": "^4.30.0"
   }
 }

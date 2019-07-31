@@ -1,4 +1,4 @@
-FSharp.Core
 Fable.Core
-Fable.Node
+Fable.Electron
 Fable.Promise
+FSharp.Core

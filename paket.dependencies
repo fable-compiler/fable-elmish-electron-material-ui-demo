@@ -19,7 +19,7 @@ nuget Fable.MaterialUI.Icons ~> 1.1
 nuget Fable.MaterialUI.MaterialDesignIcons ~> 1.2
 nuget Fable.Promise ~> 2.0
 nuget Fable.React ~> 5.2
-nuget FSharp.Core redirects:force
+nuget FSharp.Core ~> 4 redirects:force
 
 group FakeBuild
   source https://api.nuget.org/v3/index.json
@@ -31,3 +31,4 @@ group FakeBuild
   nuget Fake.Core.Target
   nuget Fake.DotNet.Cli
   nuget Fake.JavaScript.Yarn
+  nuget FSharp.Core 4.6.2 redirects:force

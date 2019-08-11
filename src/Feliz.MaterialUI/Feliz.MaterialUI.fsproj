@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="paket.references" />
+    <Compile Include="Classes.fs" />
+    <Compile Include="Styles.fs" />
+    <Compile Include="GeneralProps.fs" />
+    <Compile Include="MuiProps.fs" />
+    <Compile Include="ThemeOverrides.fs" />
+    <Compile Include="Mui.fs" />
+    <Compile Include="MaterialUiExtensions.fs" />
+  </ItemGroup>
+
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+
+</Project>

@@ -19,6 +19,7 @@ nuget Fable.MaterialUI.Icons ~> 1.1
 nuget Fable.MaterialUI.MaterialDesignIcons ~> 1.2
 nuget Fable.Promise ~> 2.0
 nuget Fable.React ~> 5.2
+nuget Feliz
 nuget FSharp.Core ~> 4 redirects:force
 
 group FakeBuild

@@ -11,8 +11,6 @@ open Fable.MaterialUI.Core
 open Fable.MaterialUI.Props
 open Fable.MaterialUI.MaterialDesignIcons
 open Fable.MaterialUI.Icons
-open Feliz
-open Feliz.MaterialUI
 
 
 type Model =
@@ -52,12 +50,11 @@ let private view' (classes: IClasses) model dispatch =
     ]
     div [] [
       iconButton [ Class classes?margin ] [
-        Mui.badge [
-          prop.badge.color.secondary
-          prop.badge.badgeContent model.Count
-          prop.children [
-            notificationsIcon []
-          ]
+        badge [
+          BadgeProp.Color BadgeColor.Secondary
+          BadgeContent (ofInt model.Count)
+        ] [
+          notificationsIcon []
         ]
       ]
       iconButton [

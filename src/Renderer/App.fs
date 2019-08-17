@@ -108,7 +108,7 @@ let private useStyles = Styles.makeStyles(fun theme ->
       style.display.flex
     ]
     appBar = asClassName [
-      style.zIndex (theme?zIndex?drawer + 1)
+      style.zIndex (theme.zIndex.drawer + 1)
     ]
     drawer = asClassName [
       style.width (length.px drawerWidth)
@@ -119,29 +119,33 @@ let private useStyles = Styles.makeStyles(fun theme ->
     ]
     content = asClassName [
       style.flexGrow 1
-      style.padding (theme?spacing?unit * 3)
+      style.padding (theme.spacing.unit * 3)
     ]
     toolbar = asClassName [
-      yield! style.spread theme?mixins?toolbar
+      yield! style.spread theme.mixins.toolbar
     ]
   |}
 )
 
 
 let private pageListItem model dispatch page =
-  listItem [
-    ListItemProp.Button true
-    ListItemProp.Divider (page = Home)
-    HTMLAttr.Selected (model.Page = page)
-    Key (pageTitle page)
-    DOMAttr.OnClick (fun _ -> Navigate page |> dispatch)
-  ] [
-    listItemText [ ] [ page |> pageTitle |> str ]
+  Mui.listItem [
+    listItem.button true
+    listItem.divider ((page = Home))  // TODO: double parentheses required, can this be solved in a better way?
+    listItem.selected (model.Page = page)
+    prop.key (pageTitle page)
+    prop.onClick (fun _ -> Navigate page |> dispatch)
+    listItem.children [
+      Mui.listItemText [  // TODO: add overload taking only string, and/or children
+        listItemText.primary(page |> pageTitle |> str)    // TODO: add overload taking only string
+      ]
+    ]
   ]
 
 let private pageView model dispatch =
   match model.Page with
-  | Home -> typography [] [ str "This app contains simple demos showing how certain Material-UI components can be used with Elmish." ]
+  // TODO: add typography overload taking only string?
+  | Home -> Mui.typography [ typography.children (str "This app contains simple demos showing how certain Material-UI components can be used with Elmish.") ]
   | AutoComplete -> lazyView2 AutoComplete.view model.AutoCompleteDownshift (AutoCompleteMsg >> dispatch)
   | Badges -> lazyView2 Badges.view model.Badges (BadgesMsg >> dispatch)
   | Dialogs -> lazyView2 Dialogs.view model.Dialogs (DialogsMsg >> dispatch)
@@ -149,9 +153,16 @@ let private pageView model dispatch =
   | Selects -> lazyView2 Selects.view model.Selects (SelectsMsg >> dispatch)
   | Snackbars -> lazyView2 Snackbars.view model.Snackbars (SnackbarsMsg >> dispatch)
   | StaticAssets ->
-      div [] [
-        typography [ Paragraph true ] [ str "This demo shows how to use static assets such as images." ]
-        avatar [ Src (stat "avatar.jpg") ] []
+      Html.div [
+        prop.children [
+          Mui.typography [
+            typography.paragraph true
+            typography.children (str "This demo shows how to use static assets such as images.")
+          ]
+          Mui.avatar [
+            avatar.src (stat "avatar.jpg")
+          ]
+        ]
       ]
   | TextFields -> lazyView2 TextFields.view model.TextFields (TextFieldsMsg >> dispatch)
 
@@ -164,13 +175,13 @@ let RootView = FunctionComponent.Of((fun(model, dispatch) ->
       Mui.cssBaseline []
       Mui.appBar [
         prop.className c.appBar
-        prop.appBar.position.fixed'
-        prop.children [
+        appBar.position.fixed'
+        appBar.children [
           Mui.toolbar [
-            prop.children [
+            toolbar.children [
               Mui.typography [
-                prop.typography.variant.h6
-                prop.typography.color.inherit'
+                typography.variant.h6
+                typography.color.inherit'
                 prop.text (pageTitle model.Page)
               ]
             ]
@@ -179,15 +190,15 @@ let RootView = FunctionComponent.Of((fun(model, dispatch) ->
       ]
       Mui.drawer [
         prop.className c.drawer
-        prop.drawer.variant.permanent
-        prop.drawer.classes [
+        drawer.variant.permanent
+        drawer.classes [
           classes.drawer.paper c.drawerPaper
         ]
-        prop.children [
+        drawer.children [
           Html.div [ prop.className c.toolbar ]
           Mui.list [
-            prop.list.component' "nav"
-            prop.children (Page.All |> List.map (pageListItem model dispatch) |> ofList)
+            list.component' "nav"
+            list.children (Page.All |> List.map (pageListItem model dispatch) |> ofList)
           ]
         ]
       ]

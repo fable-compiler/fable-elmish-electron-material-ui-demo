@@ -2,8 +2,8 @@
 module Common
 
 open System.IO
-open System.Text.RegularExpressions
 open FSharp.Data
+open ReverseMarkdown
 
 type TextWriter with
   member this.printf fmt = fprintf this fmt
@@ -14,7 +14,7 @@ type ComponentApiPage = HtmlProvider<"Html/Api/app-bar.html">
 let baseUrl = "https://material-ui.com"
 let apiPageUrls =
   ComponentApiPage.GetSample().Html.CssSelect("nav ul li").[2].CssSelect("ul li")
-  |> List.map (fun x -> 
+  |> List.map (fun x ->
     let relUrl = x.CssSelect("a").[0].AttributeValue("href")
     baseUrl + relUrl
   )
@@ -40,25 +40,30 @@ let kebabCaseToCamelCase (s: string) =
     pieces |> String.concat ""
   else s
 
-let stripLinks s =
-  Regex.Replace(s, "\<a href=\".+?\"\>\s*(.+?)\s*\<\/a\>", "$1")
 
-let newlinesToSpace (s: string) =
-  s.Replace("\r", "").Replace("\n", " ")
+let private markdownConverter =
+  Converter(
+    Config(
+      GithubFlavored=true,
+      RemoveComments=true,
+      SmartHrefHandling=true,
+      UnknownTags=Config.UnknownTagsOption.PassThrough
+    )
+  )
 
-let codeToMarkdown (s: string) =
-  s.Replace("<code>", "`").Replace("</code>", "`")
-
-let docElementsToDocStringParagraphs (nodes: HtmlNode list) =
+let docElementsToMarkdown (nodes: HtmlNode list) =
   (nodes
-  |> Seq.map (fun x -> x.ToString())
+  |> Seq.map (fun x -> x.ToString().Replace("\r\n", "<br><br>"))
   |> String.concat ""
-  |> codeToMarkdown
-  |> newlinesToSpace
-  |> stripLinks)
-    .Split("<br>")
+  |> fun s -> s.Replace("href=\"/", "href=\"https://material-ui.com/")
+  |> markdownConverter.Convert)
+   .Replace("<br>", "\r\n")
+  |> fun s -> System.Text.RegularExpressions.Regex.Replace(s, "\r\n\r\n(\r\n)+", "\r\n\r\n")
 
-let getDocString indentSpaces (paragraphs: string []) =
-  paragraphs
-  |> Array.map (fun s -> String.replicate indentSpaces " " + "/// " + s)
-  |> String.concat ("\r\n" + String.replicate indentSpaces " " + "/// ")
+
+let getDocString indentSpaces (markdown: string) =
+  if markdown = "" then ""
+  else
+    (markdown.Trim('\r', '\n').Split("\r\n")
+    |> Array.map (fun s -> String.replicate indentSpaces " " + "/// " + s)
+    |> String.concat ("\r\n"))

@@ -1,6 +1,7 @@
 ﻿module HtmlCache
 
 open System
+open System.IO
 
 let apiFolder = @"..\..\..\Html\Api"
 
@@ -13,8 +14,9 @@ let refreshApiCache () =
       url.Split("/", StringSplitOptions.RemoveEmptyEntries)
       |> Array.last
     let filename = sprintf @"%s\%s.html" apiFolder name
-    System.IO.File.WriteAllText(filename, html, Text.Encoding.UTF8)
+    File.WriteAllText(filename, html, Text.Encoding.UTF8)
   )
 
 let getCachedPages () =
-  System.IO.Directory.GetFiles(apiFolder, "*.html")
+  Directory.GetFiles(apiFolder, "*.html")
+  |> Array.sortBy (fun s -> s.Substring(0, s.LastIndexOf "."))

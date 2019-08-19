@@ -29,9 +29,9 @@ let generatePage (url: String) =
     w.printfn "  type %s =" componentNameCamelCase
 
     for i, row in Seq.indexed table.Rows do
-      let docStrings =
+      let markdownDoc =
         table.Html.CssSelect("tbody > tr").[i].CssSelect("td").[2].Elements()
-        |> docElementsToDocStringParagraphs
+        |> docElementsToMarkdown
 
       let ruleName = row.``Rule name``
 
@@ -40,7 +40,7 @@ let generatePage (url: String) =
         |> kebabCaseToCamelCase
         |> appendApostropheToReservedKeywords
 
-      let docString = getDocString 4 docStrings 
+      let docString = getDocString 4 markdownDoc 
       if docString <> "" then
         w.WriteLine docString
 
@@ -65,7 +65,7 @@ type IClassName = interface end
 /// Override or extend the styles applied to components.
 module classes ="""
 
-  HtmlCache.getCachedPages () |> Array.Parallel.mapi (fun i path -> 
+  HtmlCache.getCachedPages () |> Array.mapi (fun i path -> 
     Console.WriteLine(sprintf "Processing #%i: %s" i path)
     generatePage path
   )

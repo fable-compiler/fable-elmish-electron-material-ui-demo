@@ -223,6 +223,16 @@ type bottomNavigation =
   ///
   /// *value:* We default to the index of the child
   static member inline onChange(handler: Event -> 'bottomNavigationActionValue -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the value changes.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: any) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* We default to the index of the child
+  static member inline onChange(handler: 'bottomNavigationActionValue -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
   /// If `true`, all `BottomNavigationAction`s will show their labels. By default, only the selected `BottomNavigationAction` will show its label.
   static member inline showLabels(value: bool) = Interop.mkAttr "showLabels" value
   /// The value of the currently selected `BottomNavigationAction`.
@@ -616,6 +626,16 @@ type checkbox =
   ///
   /// *checked:* The `checked` value of the switch
   static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the state is changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, checked: boolean) => void`
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.checked`.
+  ///
+  /// *checked:* The `checked` value of the switch
+  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun e b -> handler b)
   /// If `true`, the `input` element will be required.
   static member inline required(value: bool) = Interop.mkAttr "required" value
   /// The input component prop `type`.
@@ -1078,6 +1098,16 @@ type expansionPanel =
   ///
   /// *expanded:* The `expanded` state of the panel
   static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the expand/collapse state is changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, expanded: boolean) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *expanded:* The `expanded` state of the panel
+  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun e b -> handler b)
   /// The component used for the collapse effect.
   static member inline TransitionComponent(value: ReactElementType) = Interop.mkAttr "TransitionComponent" value
   /// Props applied to the `Transition` element.
@@ -1344,6 +1374,16 @@ type formControlLabel =
   ///
   /// *checked:* The `checked` value of the switch
   static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the state is changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, checked: boolean) => void`
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.checked`.
+  ///
+  /// *checked:* The `checked` value of the switch
+  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun e b -> handler b)
   /// The value of the component.
   static member inline value(value: 'a) = Interop.mkAttr "value" value
 
@@ -3006,6 +3046,16 @@ type radio =
   ///
   /// *checked:* The `checked` value of the switch
   static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the state is changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, checked: boolean) => void`
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
+  ///
+  /// *checked:* The `checked` value of the switch
+  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun e b -> handler b)
   /// If `true`, the `input` element will be required.
   static member inline required(value: bool) = Interop.mkAttr "required" value
   /// The input component prop `type`.
@@ -3049,6 +3099,16 @@ type radioGroup =
   ///
   /// *value:* The `value` of the selected radio button
   static member inline onChange(handler: Event -> string -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when a radio button is selected.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: string) => void`
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
+  ///
+  /// *value:* The `value` of the selected radio button
+  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun e s -> handler s)
   /// Value of the selected radio button.
   static member inline value(value: string) = Interop.mkAttr "value" value
 
@@ -3104,6 +3164,26 @@ type rating =
   ///
   /// *value:* The new value
   static member inline onChange(handler: Event -> float -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the value changes.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: number) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* The new value
+  static member inline onChange(handler: int -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
+  /// Callback fired when the value changes.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: number) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* The new value
+  static member inline onChange(handler: float -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
   /// Callback function that is fired when the hover state changes.
   ///
   /// **Signature:**
@@ -3124,6 +3204,26 @@ type rating =
   ///
   /// *value:* The new value
   static member inline onChangeActive(handler: Event -> float -> unit) = Interop.mkAttr "onChangeActive" handler
+  /// Callback function that is fired when the hover state changes.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: any) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* The new value
+  static member inline onChangeActive(handler: int -> unit) = Interop.mkAttr "onChangeActive" (fun e v -> handler v)
+  /// Callback function that is fired when the hover state changes.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: any) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* The new value
+  static member inline onChangeActive(handler: float -> unit) = Interop.mkAttr "onChangeActive" (fun e v -> handler v)
   /// The minimum increment value change allowed.
   static member inline precision(value: int) = Interop.mkAttr "precision" value
   /// Removes all hover effects and pointer events.
@@ -3372,6 +3472,26 @@ type slider =
   ///
   /// *value:* The new value
   static member inline onChange(handler: Event -> float -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback function that is fired when the slider's value changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: any) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* The new value
+  static member inline onChange(handler: int -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
+  /// Callback function that is fired when the slider's value changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: any) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* The new value
+  static member inline onChange(handler: float -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
   /// Callback function that is fired when the `mouseup` is triggered.
   ///
   /// **Signature:**
@@ -3392,6 +3512,26 @@ type slider =
   ///
   /// *value:* The new value
   static member inline onChangeCommitted(handler: Event -> float -> unit) = Interop.mkAttr "onChangeCommitted" handler
+  /// Callback function that is fired when the `mouseup` is triggered.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: any) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* The new value
+  static member inline onChangeCommitted(handler: int -> unit) = Interop.mkAttr "onChangeCommitted" (fun e v -> handler v)
+  /// Callback function that is fired when the `mouseup` is triggered.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: any) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* The new value
+  static member inline onChangeCommitted(handler: float -> unit) = Interop.mkAttr "onChangeCommitted" (fun e v -> handler v)
   /// The granularity with which the slider can step through values. (A "discrete" slider.) When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
   static member inline step(value: int option) = Interop.mkAttr "step" value
   /// The granularity with which the slider can step through values. (A "discrete" slider.) When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
@@ -3593,6 +3733,16 @@ type speedDial =
   ///
   /// *key:* The key pressed
   static member inline onClose(handler: Event -> string -> unit) = Interop.mkAttr "onClose" handler
+  /// Callback fired when the component requests to be closed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, key: string) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *key:* The key pressed
+  static member inline onClose(handler: string -> unit) = Interop.mkAttr "onClose" (fun e s -> handler s)
   /// If `true`, the SpeedDial is open.
   static member inline open'(value: bool) = Interop.mkAttr "open" value
   /// The icon to display in the SpeedDial Floating Action Button when the SpeedDial is open.
@@ -3950,6 +4100,16 @@ type switch =
   ///
   /// *checked:* The `checked` value of the switch
   static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the state is changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, checked: boolean) => void`
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.checked`.
+  ///
+  /// *checked:* The `checked` value of the switch
+  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun e b -> handler b)
   /// If `true`, the `input` element will be required.
   static member inline required(value: bool) = Interop.mkAttr "required" value
   /// The input component prop `type`.
@@ -4200,6 +4360,16 @@ type tablePagination =
   ///
   /// *page:* The page selected
   static member inline onChangePage(handler: Event -> int -> unit) = Interop.mkAttr "onChangePage" handler
+  /// Callback fired when the page is changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, page: number) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *page:* The page selected
+  static member inline onChangePage(handler: int -> unit) = Interop.mkAttr "onChangePage" (fun e i -> handler i)
   /// Callback fired when the number of rows per page is changed.
   ///
   /// **Signature:**
@@ -4515,6 +4685,26 @@ type toggleButtonGroup =
   ///
   /// *value:* of the selected buttons. When `exclusive` is true this is a single value; when false an array of selected values. If no value is selected and `exclusive` is true the value is null; when false an empty array.
   static member inline onChange(handler: Event -> 'toggleButtonValue [] -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the value changes.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: object) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* of the selected buttons. When `exclusive` is true this is a single value; when false an array of selected values. If no value is selected and `exclusive` is true the value is null; when false an empty array.
+  static member inline onChange(handler: 'toggleButtonValue option -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
+  /// Callback fired when the value changes.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: object) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* of the selected buttons. When `exclusive` is true this is a single value; when false an array of selected values. If no value is selected and `exclusive` is true the value is null; when false an empty array.
+  static member inline onChange(handler: 'toggleButtonValue [] -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
   /// The currently selected value within the group or an array of selected values when `exclusive` is false.
   static member inline value(value: 'toggleButtonValue option) = Interop.mkAttr "value" value
   /// The currently selected value within the group or an array of selected values when `exclusive` is false.

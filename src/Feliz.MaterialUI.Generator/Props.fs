@@ -7,7 +7,6 @@ open FSharp.Data
 (*
 TODO:
   - Friendlier overloads for srcSet/sizes props? Wait for Feliz? https://github.com/Zaid-Ajaj/Feliz/issues/20
-  - Shortcuts for event callbacks with the value extracted
   - Test all shortcut event callbacks
   - Check if any values should be wrapped in option
   - test ref props and all other IRefValue props
@@ -256,7 +255,10 @@ let generatePage (url: String) =
             [sprintf "  static member %s(%s) = %s |> Interop.mkAttr \"%s\"" propNameSafe paramList objCreator propName]
 
         | "bottomNavigation", "onChange", "func" ->
-            [sprintf "  static member inline %s(handler: Event -> 'bottomNavigationActionValue -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+            [
+              sprintf "  static member inline %s(handler: Event -> 'bottomNavigationActionValue -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(handler: 'bottomNavigationActionValue -> unit) = Interop.mkAttr \"%s\" (fun e v -> handler v)" propNameSafe propName
+            ]
 
         | "bottomNavigation", "value", "any" ->
             [sprintf "  static member inline %s(value: 'bottomNavigationActionValue) = Interop.mkAttr \"%s\" value" propNameSafe propName]
@@ -272,10 +274,16 @@ let generatePage (url: String) =
 
         | "radioGroup", "onChange", "func"
         | "speedDial", "onClose", "func" ->
-            [sprintf "  static member inline %s(handler: Event -> string -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+            [
+              sprintf "  static member inline %s(handler: Event -> string -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(handler: string -> unit) = Interop.mkAttr \"%s\" (fun e s -> handler s)" propNameSafe propName
+            ]
 
         | ("expansionPanel" | "formControlLabel" | "checkbox" | "radio" | "switch"), "onChange", "func" ->
-            [sprintf "  static member inline %s(handler: Event -> bool -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+            [
+              sprintf "  static member inline %s(handler: Event -> bool -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(handler: bool -> unit) = Interop.mkAttr \"%s\" (fun e b -> handler b)" propNameSafe propName
+            ]
 
         | "tablePagination", "labelDisplayedRows", "func" ->
             [sprintf "  static member %s(getLabel: {| from: int; to': int; count: int |} -> ReactElement) = Interop.mkAttr \"%s\" getLabel" propNameSafe propName]
@@ -285,6 +293,8 @@ let generatePage (url: String) =
             [
               sprintf "  static member inline %s(handler: Event -> int -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
               sprintf "  static member inline %s(handler: Event -> float -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(handler: int -> unit) = Interop.mkAttr \"%s\" (fun e v -> handler v)" propNameSafe propName
+              sprintf "  static member inline %s(handler: float -> unit) = Interop.mkAttr \"%s\" (fun e v -> handler v)" propNameSafe propName
             ]
 
         | "select", "onChange", "func" ->
@@ -293,12 +303,15 @@ let generatePage (url: String) =
         | "tablePagination", "onChangePage", "func" ->
             [
               sprintf "  static member inline %s(handler: Event -> int -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(handler: int -> unit) = Interop.mkAttr \"%s\" (fun e i -> handler i)" propNameSafe propName
             ]
 
         | "toggleButtonGroup", "onChange", "func" ->
             [
               sprintf "  static member inline %s(handler: Event -> 'toggleButtonValue option -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
               sprintf "  static member inline %s(handler: Event -> 'toggleButtonValue [] -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(handler: 'toggleButtonValue option -> unit) = Interop.mkAttr \"%s\" (fun e v -> handler v)" propNameSafe propName
+              sprintf "  static member inline %s(handler: 'toggleButtonValue [] -> unit) = Interop.mkAttr \"%s\" (fun e v -> handler v)" propNameSafe propName
             ]
 
         | "slider", "step", "number" ->

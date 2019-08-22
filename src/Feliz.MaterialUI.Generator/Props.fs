@@ -6,12 +6,11 @@ open FSharp.Data
 
 (*
 TODO:
-  - Friendlier overloads for srcSet/sizes props? Wait for Feliz? https://github.com/Zaid-Ajaj/Feliz/issues/20
-  - Test all shortcut event callbacks
-  - Check if any values should be wrapped in option
+  - test all shortcut event callbacks
   - test ref props and all other IRefValue props
   - test anchorEl props
   - test select.onChange
+  - check if any values should be wrapped in option
   - use internal types instead of MUI for "action" props etc.?
   - unsure if component
 *)
@@ -449,9 +448,6 @@ let generatePage (url: String) =
 
         | _, pn, "func" when pn.StartsWith "on" ->
             [sprintf "  static member inline %s(handler: Event -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
-
-        | _, _, "func" ->
-            [sprintf "  static member inline %s(value: unit -> unit) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
         | _, pn, "node" when pn = "icon" || pn.EndsWith "Icon" ->
             [sprintf "  static member inline %s(element: ReactElement) = Interop.mkAttr \"%s\" element" propNameSafe propName]

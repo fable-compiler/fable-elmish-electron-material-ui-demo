@@ -202,6 +202,12 @@ let generatePage (url: String) =
         | ("input" | "filledInput" | "outlinedInput" | "inputBase" | "textareaAutosize" | "textField"), ("rows" | "rowsMax"), "string | number" ->
             [sprintf "  static member inline %s(value: int) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
+        | ("input" | "filledInput" | "outlinedInput" | "inputBase" | "textField"), "onChange", "func" ->
+            [
+              sprintf "  static member inline %s(handler: Event -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(handler: string -> unit) = Interop.mkAttr \"%s\" (fun (e: Event) -> handler e.target?value)" propNameSafe propName
+            ]
+
         | "slider", ("value" | "defaultValue"), _ ->
             [
               sprintf "  static member inline %s(value: int) = Interop.mkAttr \"%s\" value" propNameSafe propName

@@ -1276,6 +1276,14 @@ type filledInput =
   ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the value is changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object) => void`
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
+  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.target?value)
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
   /// It prevents the user from changing the value of the field (not from interacting with the field).
@@ -1969,6 +1977,14 @@ type input =
   ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the value is changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object) => void`
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
+  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.target?value)
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
   /// It prevents the user from changing the value of the field (not from interacting with the field).
@@ -2075,6 +2091,14 @@ type inputBase =
   ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the value is changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object) => void`
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
+  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.target?value)
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
   /// It prevents the user from changing the value of the field (not from interacting with the field).
@@ -2740,6 +2764,14 @@ type outlinedInput =
   ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the value is changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object) => void`
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
+  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.target?value)
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
   /// It prevents the user from changing the value of the field (not from interacting with the field).
@@ -4589,6 +4621,14 @@ type textField =
   ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the value is changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object) => void`
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
+  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.target?value)
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
   /// If `true`, the label is displayed as required and the `input` element` will be required.

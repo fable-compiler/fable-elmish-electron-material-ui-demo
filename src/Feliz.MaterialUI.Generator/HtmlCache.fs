@@ -19,4 +19,4 @@ let refreshApiCache () =
 
 let getCachedPages () =
   Directory.GetFiles(apiFolder, "*.html")
-  |> Array.sortBy (fun s -> s.Substring(0, s.LastIndexOf "."))
+  |> Array.sortBy (fun s -> s.Substring(0, s.LastIndexOf ".").Replace("-", ""))

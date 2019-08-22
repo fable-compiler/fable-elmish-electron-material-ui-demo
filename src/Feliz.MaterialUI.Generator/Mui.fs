@@ -9,6 +9,8 @@ let outFile = @"..\..\..\..\Feliz.MaterialUI\Mui.fs"
 
 // TODO: Also generate helpful overloads for common child types (e.g. Typography with string, DialogContentText with string, etc.)
 
+// TODO: some items are from @material-ui/lab
+
 let generatePage (url: String) =
   use w = new StringWriter()
   let html = ComponentApiPage.Load(url).Html
@@ -64,8 +66,8 @@ module MuiHelpers =
 type Mui =
 """)
 
-  HtmlCache.getCachedPages () |> Array.mapi (fun i path ->
-    Console.WriteLine(sprintf "Processing #%i: %s" i path)
+  HtmlCache.getCachedPages () |> Array.map (fun path ->
+    Console.WriteLine(sprintf "Processing %s" path)
     generatePage path
   )
   |> Array.iter w.WriteLine

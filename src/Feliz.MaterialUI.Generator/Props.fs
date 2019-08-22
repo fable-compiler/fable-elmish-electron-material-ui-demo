@@ -5,11 +5,16 @@ open System.IO
 open FSharp.Data
 
 (*
-TODO: verify all generated props against API docs
+TODO:
   - Friendlier overloads for srcSet/sizes props? Wait for Feliz? https://github.com/Zaid-Ajaj/Feliz/issues/20
+  - Shortcuts for event callbacks with the value extracted
+  - Test all shortcut event callbacks
+  - test ref props and all other IRefValue props
+  - test anchorEl props
+  - test select.onChange
+  - reconcile special prop handling for props where the desired overloads are identical
+  - use internal types instead of MUI for "action" props etc.?
   - unsure if component
-TODO: adjust doc strings
-
 *)
 
 let outFile = @"..\..\..\..\Feliz.MaterialUI\MuiProps.fs"
@@ -39,6 +44,7 @@ let paramListAndObjCreator paramData =
 let globalDocTransform (s: string) =
   s.Replace(" It supports those theme colors that make sense for this component.", "")
    .Replace(" You may specify a single timeout for all transitions, or individually with an object.", "")
+   .Replace("event.target.value", "event.Value")
 
 
 let generatePage (url: String) =
@@ -59,6 +65,13 @@ let generatePage (url: String) =
 
     let propSpecificTransform (s: string) =
       match componentNameCamelCase, propName with
+      | "nativeSelect", "children" ->
+          s.Replace("Can be some `` elements.", "Can be some `<option>` elements.")
+      | "stepper", "children" ->
+          s.Replace("Two or more `` components.", "Two or more `<Step />` components.")
+      | "tableRow", "children" ->
+          s.Replace("Should be valid | children", "Should be valid `<tr>` children")
+           .Replace("\r\n|  |", "")
       | _ -> s
 
     let markdownDoc =
@@ -166,8 +179,14 @@ let generatePage (url: String) =
         | "buttonBase", "action", "func | object" ->
             [
               sprintf "  static member inline %s(ref: IRefValue<IButtonBaseActions option>) = Interop.mkAttr \"%s\" ref" propNameSafe propName
-              sprintf "  static member inline %s(ref: IButtonBaseActions -> unit) = Interop.mkAttr \"%s\" ref" propNameSafe propName
+              sprintf "  static member inline %s(handler: IButtonBaseActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
             ]
+
+        | "popover", "action", "func" ->
+            [sprintf "  static member inline %s(handler: IPopoverActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+
+        | "tabs", "action", "func" ->
+            [sprintf "  static member inline %s(handler: ITabsActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
 
         | "tablePagination", "rowsPerPageOptions", "array" ->
             [sprintf "  static member inline %s([<ParamArray>] values: int []) = Interop.mkAttr \"%s\" values" propNameSafe propName]
@@ -205,10 +224,20 @@ let generatePage (url: String) =
         | "slider", "valueLabelFormat", _ ->
             [
               sprintf "  static member inline %s(value: string) = Interop.mkAttr \"%s\" value" propNameSafe propName
-              sprintf "  static member inline %s(format: int -> string) = Interop.mkAttr \"%s\" format" propNameSafe propName
               sprintf "  static member inline %s(format: int -> int -> string) = Interop.mkAttr \"%s\" format" propNameSafe propName
-              sprintf "  static member inline %s(format: float -> string) = Interop.mkAttr \"%s\" format" propNameSafe propName
               sprintf "  static member inline %s(format: float -> int -> string) = Interop.mkAttr \"%s\" format" propNameSafe propName
+            ]
+
+        | "rating", "getLabelText", "func" ->
+            [
+              sprintf "  static member inline %s(getText: int -> string) = Interop.mkAttr \"%s\" getText" propNameSafe propName
+              sprintf "  static member inline %s(getText: float -> string) = Interop.mkAttr \"%s\" getText" propNameSafe propName
+            ]
+
+        | "slider", "getAriaValueText", "func" ->
+            [
+              sprintf "  static member inline %s(getText: int -> int -> string) = Interop.mkAttr \"%s\" getText" propNameSafe propName
+              sprintf "  static member inline %s(getText: float -> int -> string) = Interop.mkAttr \"%s\" getText" propNameSafe propName
             ]
 
         | "typography", "variantMapping", "object" ->
@@ -232,11 +261,59 @@ let generatePage (url: String) =
         | "bottomNavigation", "value", "any" ->
             [sprintf "  static member inline %s(value: 'bottomNavigationActionValue) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
-        | "bottomNavigationAction", "value", "any" ->
-            [sprintf "  static member inline %s(value: 'a) = Interop.mkAttr \"%s\" value" propNameSafe propName]
+        | "tabs", "value", "any" ->
+            [sprintf "  static member inline %s(value: 'tabValue) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
-        | "checkbox", "onChange", "func" ->
+        | "toggleButtonGroup", "value", "any" ->
+            [
+              sprintf "  static member inline %s(value: 'toggleButtonValue option) = Interop.mkAttr \"%s\" value" propNameSafe propName
+              sprintf "  static member inline %s(values: 'toggleButtonValue []) = Interop.mkAttr \"%s\" values" propNameSafe propName
+            ]
+
+        | "radioGroup", "onChange", "func" ->
+            [sprintf "  static member inline %s(handler: Event -> string -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+
+        | ("expansionPanel" | "formControlLabel" | "checkbox" | "radio" | "switch"), "onChange", "func" ->
             [sprintf "  static member inline %s(handler: Event -> bool -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+
+        | "tablePagination", "labelDisplayedRows", "func" ->
+            [sprintf "  static member %s(getLabel: {| from: int; to': int; count: int |} -> ReactElement) = Interop.mkAttr \"%s\" getLabel" propNameSafe propName]
+            
+
+        | "rating", ("onChange" | "onChangeActive"), "func" ->
+            [
+              sprintf "  static member inline %s(handler: Event -> int -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(handler: Event -> float -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+            ]
+
+        | "select", "onChange", "func" ->
+            [sprintf "  static member inline %s(handler: Event -> ReactElement -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+
+        | "slider", ("onChange" | "onChangeCommitted"), "func" ->
+            [
+              sprintf "  static member inline %s(handler: Event -> int -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(handler: Event -> float -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+            ]
+
+        | "tablePagination", "onChangePage", "func" ->
+            [
+              sprintf "  static member inline %s(handler: Event -> int -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+            ]
+
+        | "toggleButtonGroup", "onChange", "func" ->
+            [
+              sprintf "  static member inline %s(handler: Event -> 'toggleButtonValue option -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(handler: Event -> 'toggleButtonValue [] -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+            ]
+
+        | "slider", "step", "number" ->
+            [
+              sprintf "  static member inline %s(value: int option) = Interop.mkAttr \"%s\" value" propNameSafe propName
+              sprintf "  static member inline %s(value: float option) = Interop.mkAttr \"%s\" value" propNameSafe propName
+            ]
+
+        | "select", "renderValue", "func" ->
+            [sprintf "  static member inline %s(render: 'a -> ReactElement) = Interop.mkAttr \"%s\" render" propNameSafe propName]
 
         | "checkbox", "value", "any" ->
             [sprintf "  static member inline %s(value: string) = Interop.mkAttr \"%s\" value" propNameSafe propName]
@@ -247,30 +324,50 @@ let generatePage (url: String) =
               sprintf "  static member inline %s(value: Styles.ICssUnit) = Interop.mkAttr \"%s\" value" propNameSafe propName
             ]
 
-        | "collapse", "collapsedHeight", "string" ->
+        | "skeleton", ("height" | "width"), "any" ->
             [
+              sprintf "  static member inline %s(value: int) = Interop.mkAttr \"%s\" value" propNameSafe propName
               sprintf "  static member inline %s(value: Styles.ICssUnit) = Interop.mkAttr \"%s\" value" propNameSafe propName
             ]
 
+        | "collapse", "collapsedHeight", "string" ->
+            [sprintf "  static member inline %s(value: Styles.ICssUnit) = Interop.mkAttr \"%s\" value" propNameSafe propName]
+
         | "dialog", "onClose", "func" ->
+            [sprintf "  static member inline %s(handler: Event -> DialogCloseReason -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+
+        | "menu", "onClose", "func" ->
+            [sprintf "  static member inline %s(handler: Event -> MenuCloseReason -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+
+        | "modal", "onClose", "func" ->
+            [sprintf "  static member inline %s(handler: Event -> ModalCloseReason -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+
+        | "popover", "onClose", "func" ->
+            [sprintf "  static member inline %s(handler: Event -> PopoverCloseReason -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+
+        | "snackbar", "onClose", "func" ->
+            [sprintf "  static member inline %s(handler: Event -> SnackbarCloseReason -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+
+        | "speedDial", "onClose", "func" ->
+            [sprintf "  static member inline %s(handler: Event -> string -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+
+        | ("modal" | "portal"), "onRendered", "func" ->
+            []  // deprecated
+
+        | ("dialog" | "menu" | "popover" | "snackbar"), ("onEnter" | "onEntered" | "onEntering"), "func" ->
+            [sprintf "  static member inline %s(handler: ReactElement -> bool -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+
+        | ("dialog" | "menu" | "popover" | "snackbar"), ("onExit" | "onExited" | "onExiting"), "func" ->
+            [sprintf "  static member inline %s(handler: ReactElement -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+
+        | "snackbar", "autoHideDuration", "number" ->
             [
-              sprintf "  static member inline %s(handler: Event -> DialogCloseReason -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(value: int) = Interop.mkAttr \"%s\" value" propNameSafe propName
+              sprintf "  static member inline %s(value: int option) = Interop.mkAttr \"%s\" value" propNameSafe propName
             ]
 
-        | "dialog", ("onEnter" | "onEntered" | "onEntering"), "func" ->
-            [
-              sprintf "  static member inline %s(handler: ReactElement -> bool -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
-            ]
-
-        | "dialog", ("onExit" | "onExited" | "onExiting"), "func" ->
-            [
-              sprintf "  static member inline %s(handler: ReactElement -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
-            ]
-
-        | ("expansionPanel" | "formControlLabel"), "onChange", "func" ->
-            [
-              sprintf "  static member inline %s(handler: Event -> bool -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
-            ]
+        | "treeView", "onNodeToggle", "func" ->
+            [sprintf "  static member inline %s(handler: string -> bool -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
 
         | _, "transitionDuration", "number | { appear?: number, enter?: number, exit?: number }" ->
             let paramList, objCreator =
@@ -296,15 +393,20 @@ let generatePage (url: String) =
         | _, "anchorEl", "object | func" ->
             [
               sprintf "  static member inline %s(value: Element option) = Interop.mkAttr \"%s\" value" propNameSafe propName
-              sprintf "  static member inline %s(value: unit -> Element option) = Interop.mkAttr \"%s\" value" propNameSafe propName
+              sprintf "  static member inline %s(handler: unit -> Element option) = Interop.mkAttr \"%s\" handler" propNameSafe propName
             ]
+
+        | "popover", "getContentAnchorEl", "func" ->
+          [
+            sprintf "  static member inline %s(handler: Element option -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+          ]
 
         | ("modal" | "popover" | "popper" | "portal"), "container", ("object | func" | "func | React.Component | Element") ->
             [
-              sprintf "  static member inline %s(value: Element option) = Interop.mkAttr \"%s\" value" propNameSafe propName
-              sprintf "  static member inline %s(value: ReactElement option) = Interop.mkAttr \"%s\" value" propNameSafe propName
-              sprintf "  static member inline %s(value: unit -> Element option) = Interop.mkAttr \"%s\" value" propNameSafe propName
-              sprintf "  static member inline %s(value: unit -> ReactElement option) = Interop.mkAttr \"%s\" value" propNameSafe propName
+              sprintf "  static member inline %s(element: Element option) = Interop.mkAttr \"%s\" element" propNameSafe propName
+              sprintf "  static member inline %s(element: ReactElement option) = Interop.mkAttr \"%s\" element" propNameSafe propName
+              sprintf "  static member inline %s(getElement: unit -> Element option) = Interop.mkAttr \"%s\" getElement" propNameSafe propName
+              sprintf "  static member inline %s(getElement: unit -> ReactElement option) = Interop.mkAttr \"%s\" getElement" propNameSafe propName
             ]
 
         | "popper", ("modifiers" | "popperOptions"), "object" ->
@@ -318,14 +420,12 @@ let generatePage (url: String) =
             ]
 
         | _, pn, ("elementType" | "element type") when pn.EndsWith "Component" ->
-            [
-              sprintf "  static member inline %s(value: ReactElementType) = Interop.mkAttr \"%s\" value" propNameSafe propName
-            ]
+            [sprintf "  static member inline %s(value: ReactElementType) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
         | _, pn, "func | object" when pn.EndsWith "Ref" ->
             [
               sprintf "  static member inline %s(ref: IRefValue<Element option>) = Interop.mkAttr \"%s\" ref" propNameSafe propName
-              sprintf "  static member inline %s(ref: Element -> unit) = Interop.mkAttr \"%s\" ref" propNameSafe propName
+              sprintf "  static member inline %s(handler: Element -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
             ]
 
         | _, pn, ("object" | "{ component?: element type }") when pn.EndsWith "Props" ->
@@ -341,6 +441,9 @@ let generatePage (url: String) =
         | _, _, "string" ->
             [sprintf "  static member inline %s(value: string) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
+        | "swipeableDrawer", "hysteresis", "number" ->
+            [sprintf "  static member inline %s(value: float) = Interop.mkAttr \"%s\" value" propNameSafe propName]
+
         | _, _, "number" ->
             [sprintf "  static member inline %s(value: int) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
@@ -350,13 +453,24 @@ let generatePage (url: String) =
         | _, _, "func" ->
             [sprintf "  static member inline %s(value: unit -> unit) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
-        | _, pn, "node" when pn.EndsWith "Icon" ->
+        | _, pn, "node" when pn = "icon" || pn.EndsWith "Icon" ->
             [sprintf "  static member inline %s(element: ReactElement) = Interop.mkAttr \"%s\" element" propNameSafe propName]
 
-        | ("filledInput" | "input"), ("startAdornment" | "endAdornment"), "node" ->
+        | ("filledInput" | "input" | "inputBase" | "outlinedInput"), ("startAdornment" | "endAdornment"), "node" ->
             [sprintf "  static member inline %s(element: ReactElement) = Interop.mkAttr \"%s\" element" propNameSafe propName]
 
         | "formControl", "children", "node" ->
+            [
+              sprintf "  static member inline %s(element: ReactElement) = prop.children element" propNameSafe
+              sprintf "  static member inline %s(elements: ReactElement seq) = prop.children elements" propNameSafe
+            ]
+
+        | "stepper", "children", "node" ->
+            [
+              sprintf "  static member inline %s(elements: ReactElement seq) = prop.children elements" propNameSafe
+            ]
+
+        | "tableRow", "children", "node" ->
             [
               sprintf "  static member inline %s(element: ReactElement) = prop.children element" propNameSafe
               sprintf "  static member inline %s(elements: ReactElement seq) = prop.children elements" propNameSafe
@@ -433,15 +547,36 @@ open Fable.MaterialUI
 open Fable.React
 open Feliz
 
-[<StringEnum>]
+[<StringEnum; RequireQualifiedAccess>]
 type DialogCloseReason =
   | EscapeKeyDown
   | BackdropClick
 
+[<StringEnum; RequireQualifiedAccess>]
+type MenuCloseReason =
+  | EscapeKeyDown
+  | BackdropClick
+  | TabKeyDown
+
+[<StringEnum; RequireQualifiedAccess>]
+type ModalCloseReason =
+  | EscapeKeyDown
+  | BackdropClick
+
+[<StringEnum; RequireQualifiedAccess>]
+type PopoverCloseReason =
+  | EscapeKeyDown
+  | BackdropClick
+
+[<StringEnum; RequireQualifiedAccess>]
+type SnackbarCloseReason =
+  | Timeout
+  | Clickaway
+
 """
 
-  HtmlCache.getCachedPages () |> Array.mapi (fun i path ->
-    Console.WriteLine(sprintf "Processing #%i: %s" i path)
+  HtmlCache.getCachedPages () |> Array.map (fun path ->
+    Console.WriteLine(sprintf "Processing %s" path)
     generatePage path
   )
   |> Array.iter w.WriteLine

@@ -56,6 +56,7 @@ let docElementsToMarkdown (nodes: HtmlNode list) =
   |> Seq.map (fun x -> x.ToString().Replace("\r\n", "<br><br>"))
   |> String.concat ""
   |> fun s -> s.Replace("href=\"/", "href=\"https://material-ui.com/")
+  |> fun s -> s.Replace("</code><code>", "</code> <code>")
   |> markdownConverter.Convert)
    .Replace("<br>", "\r\n")
   |> fun s -> System.Text.RegularExpressions.Regex.Replace(s, "\r\n\r\n(\r\n)+", "\r\n\r\n")
@@ -66,4 +67,5 @@ let getDocString indentSpaces (markdown: string) =
   else
     (markdown.Trim('\r', '\n').Split("\r\n")
     |> Array.map (fun s -> String.replicate indentSpaces " " + "/// " + s)
+    |> Array.map (fun s -> s.TrimEnd())
     |> String.concat ("\r\n"))

@@ -65,8 +65,8 @@ type IClassName = interface end
 /// Override or extend the styles applied to components.
 module classes ="""
 
-  HtmlCache.getCachedPages () |> Array.mapi (fun i path -> 
-    Console.WriteLine(sprintf "Processing #%i: %s" i path)
+  HtmlCache.getCachedPages () |> Array.map (fun path -> 
+    Console.WriteLine(sprintf "Processing %s" path)
     generatePage path
   )
   |> Array.iter w.WriteLine

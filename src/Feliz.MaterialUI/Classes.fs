@@ -85,6 +85,16 @@ module classes =
     static member inline dot(value: IClassName) = mkBadgeClasses "dot" value
 
 
+  type IBottomNavigationClasses = interface end
+
+  let inline private mkBottomNavigationClasses (key: string) (value: IClassName) : IBottomNavigationClasses = unbox (key, value)
+
+  [<Erase>]
+  type bottomNavigation =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkBottomNavigationClasses "root" value
+
+
   type IBottomNavigationActionClasses = interface end
 
   let inline private mkBottomNavigationActionClasses (key: string) (value: IClassName) : IBottomNavigationActionClasses = unbox (key, value)
@@ -103,16 +113,6 @@ module classes =
     static member inline label(value: IClassName) = mkBottomNavigationActionClasses "label" value
 
 
-  type IBottomNavigationClasses = interface end
-
-  let inline private mkBottomNavigationClasses (key: string) (value: IClassName) : IBottomNavigationClasses = unbox (key, value)
-
-  [<Erase>]
-  type bottomNavigation =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkBottomNavigationClasses "root" value
-
-
   type IBreadcrumbsClasses = interface end
 
   let inline private mkBreadcrumbsClasses (key: string) (value: IClassName) : IBreadcrumbsClasses = unbox (key, value)
@@ -127,6 +127,48 @@ module classes =
     static member inline li(value: IClassName) = mkBreadcrumbsClasses "li" value
     /// Styles applied to the separator element.
     static member inline separator(value: IClassName) = mkBreadcrumbsClasses "separator" value
+
+
+  type IButtonClasses = interface end
+
+  let inline private mkButtonClasses (key: string) (value: IClassName) : IButtonClasses = unbox (key, value)
+
+  [<Erase>]
+  type button =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkButtonClasses "root" value
+    /// Styles applied to the span element that wraps the children.
+    static member inline label(value: IClassName) = mkButtonClasses "label" value
+    /// Styles applied to the root element if `variant="text"`.
+    static member inline text(value: IClassName) = mkButtonClasses "text" value
+    /// Styles applied to the root element if `variant="text"` and `color="primary"`.
+    static member inline textPrimary(value: IClassName) = mkButtonClasses "textPrimary" value
+    /// Styles applied to the root element if `variant="text"` and `color="secondary"`.
+    static member inline textSecondary(value: IClassName) = mkButtonClasses "textSecondary" value
+    /// Styles applied to the root element if `variant="outlined"`.
+    static member inline outlined(value: IClassName) = mkButtonClasses "outlined" value
+    /// Styles applied to the root element if `variant="outlined"` and `color="primary"`.
+    static member inline outlinedPrimary(value: IClassName) = mkButtonClasses "outlinedPrimary" value
+    /// Styles applied to the root element if `variant="outlined"` and `color="secondary"`.
+    static member inline outlinedSecondary(value: IClassName) = mkButtonClasses "outlinedSecondary" value
+    /// Styles applied to the root element if `variant="contained"`.
+    static member inline contained(value: IClassName) = mkButtonClasses "contained" value
+    /// Styles applied to the root element if `variant="contained"` and `color="primary"`.
+    static member inline containedPrimary(value: IClassName) = mkButtonClasses "containedPrimary" value
+    /// Styles applied to the root element if `variant="contained"` and `color="secondary"`.
+    static member inline containedSecondary(value: IClassName) = mkButtonClasses "containedSecondary" value
+    /// Pseudo-class applied to the ButtonBase root element if the button is keyboard focused.
+    static member inline focusVisible(value: IClassName) = mkButtonClasses "focusVisible" value
+    /// Pseudo-class applied to the root element if `disabled={true}`.
+    static member inline disabled(value: IClassName) = mkButtonClasses "disabled" value
+    /// Styles applied to the root element if `color="inherit"`.
+    static member inline colorInherit(value: IClassName) = mkButtonClasses "colorInherit" value
+    /// Styles applied to the root element if `size="small"`.
+    static member inline sizeSmall(value: IClassName) = mkButtonClasses "sizeSmall" value
+    /// Styles applied to the root element if `size="large"`.
+    static member inline sizeLarge(value: IClassName) = mkButtonClasses "sizeLarge" value
+    /// Styles applied to the root element if `fullWidth={true}`.
+    static member inline fullWidth(value: IClassName) = mkButtonClasses "fullWidth" value
 
 
   type IButtonBaseClasses = interface end
@@ -171,46 +213,14 @@ module classes =
     static member inline groupedContainedSecondary(value: IClassName) = mkButtonGroupClasses "groupedContainedSecondary" value
 
 
-  type IButtonClasses = interface end
+  type ICardClasses = interface end
 
-  let inline private mkButtonClasses (key: string) (value: IClassName) : IButtonClasses = unbox (key, value)
+  let inline private mkCardClasses (key: string) (value: IClassName) : ICardClasses = unbox (key, value)
 
   [<Erase>]
-  type button =
+  type card =
     /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkButtonClasses "root" value
-    /// Styles applied to the span element that wraps the children.
-    static member inline label(value: IClassName) = mkButtonClasses "label" value
-    /// Styles applied to the root element if `variant="text"`.
-    static member inline text(value: IClassName) = mkButtonClasses "text" value
-    /// Styles applied to the root element if `variant="text"` and `color="primary"`.
-    static member inline textPrimary(value: IClassName) = mkButtonClasses "textPrimary" value
-    /// Styles applied to the root element if `variant="text"` and `color="secondary"`.
-    static member inline textSecondary(value: IClassName) = mkButtonClasses "textSecondary" value
-    /// Styles applied to the root element if `variant="outlined"`.
-    static member inline outlined(value: IClassName) = mkButtonClasses "outlined" value
-    /// Styles applied to the root element if `variant="outlined"` and `color="primary"`.
-    static member inline outlinedPrimary(value: IClassName) = mkButtonClasses "outlinedPrimary" value
-    /// Styles applied to the root element if `variant="outlined"` and `color="secondary"`.
-    static member inline outlinedSecondary(value: IClassName) = mkButtonClasses "outlinedSecondary" value
-    /// Styles applied to the root element if `variant="contained"`.
-    static member inline contained(value: IClassName) = mkButtonClasses "contained" value
-    /// Styles applied to the root element if `variant="contained"` and `color="primary"`.
-    static member inline containedPrimary(value: IClassName) = mkButtonClasses "containedPrimary" value
-    /// Styles applied to the root element if `variant="contained"` and `color="secondary"`.
-    static member inline containedSecondary(value: IClassName) = mkButtonClasses "containedSecondary" value
-    /// Pseudo-class applied to the ButtonBase root element if the button is keyboard focused.
-    static member inline focusVisible(value: IClassName) = mkButtonClasses "focusVisible" value
-    /// Pseudo-class applied to the root element if `disabled={true}`.
-    static member inline disabled(value: IClassName) = mkButtonClasses "disabled" value
-    /// Styles applied to the root element if `color="inherit"`.
-    static member inline colorInherit(value: IClassName) = mkButtonClasses "colorInherit" value
-    /// Styles applied to the root element if `size="small"`.
-    static member inline sizeSmall(value: IClassName) = mkButtonClasses "sizeSmall" value
-    /// Styles applied to the root element if `size="large"`.
-    static member inline sizeLarge(value: IClassName) = mkButtonClasses "sizeLarge" value
-    /// Styles applied to the root element if `fullWidth={true}`.
-    static member inline fullWidth(value: IClassName) = mkButtonClasses "fullWidth" value
+    static member inline root(value: IClassName) = mkCardClasses "root" value
 
 
   type ICardActionAreaClasses = interface end
@@ -281,16 +291,6 @@ module classes =
     static member inline media(value: IClassName) = mkCardMediaClasses "media" value
 
 
-  type ICardClasses = interface end
-
-  let inline private mkCardClasses (key: string) (value: IClassName) : ICardClasses = unbox (key, value)
-
-  [<Erase>]
-  type card =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkCardClasses "root" value
-
-
   type ICheckboxClasses = interface end
 
   let inline private mkCheckboxClasses (key: string) (value: IClassName) : ICheckboxClasses = unbox (key, value)
@@ -345,7 +345,6 @@ module classes =
     static member inline outlinedSecondary(value: IClassName) = mkChipClasses "outlinedSecondary" value
     /// Styles applied to the `avatar` element.
     static member inline avatar(value: IClassName) = mkChipClasses "avatar" value
-    /// 
     static member inline avatarSmall(value: IClassName) = mkChipClasses "avatarSmall" value
     /// Styles applied to the `avatar` element if `color="primary"`.
     static member inline avatarColorPrimary(value: IClassName) = mkChipClasses "avatarColorPrimary" value
@@ -355,7 +354,6 @@ module classes =
     static member inline avatarChildren(value: IClassName) = mkChipClasses "avatarChildren" value
     /// Styles applied to the `icon` element.
     static member inline icon(value: IClassName) = mkChipClasses "icon" value
-    /// 
     static member inline iconSmall(value: IClassName) = mkChipClasses "iconSmall" value
     /// Styles applied to the `icon` element if `color="primary"`.
     static member inline iconColorPrimary(value: IClassName) = mkChipClasses "iconColorPrimary" value
@@ -363,11 +361,9 @@ module classes =
     static member inline iconColorSecondary(value: IClassName) = mkChipClasses "iconColorSecondary" value
     /// Styles applied to the label `span` element`.
     static member inline label(value: IClassName) = mkChipClasses "label" value
-    /// 
     static member inline labelSmall(value: IClassName) = mkChipClasses "labelSmall" value
     /// Styles applied to the `deleteIcon` element.
     static member inline deleteIcon(value: IClassName) = mkChipClasses "deleteIcon" value
-    /// 
     static member inline deleteIconSmall(value: IClassName) = mkChipClasses "deleteIconSmall" value
     /// Styles applied to the deleteIcon element if `color="primary"` and `variant="default"`.
     static member inline deleteIconColorPrimary(value: IClassName) = mkChipClasses "deleteIconColorPrimary" value
@@ -453,50 +449,6 @@ module classes =
   type ICssBaselineClasses = interface end
 
 
-  type IDialogActionsClasses = interface end
-
-  let inline private mkDialogActionsClasses (key: string) (value: IClassName) : IDialogActionsClasses = unbox (key, value)
-
-  [<Erase>]
-  type dialogActions =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkDialogActionsClasses "root" value
-    /// Styles applied to the root element if `disableSpacing={false}`.
-    static member inline spacing(value: IClassName) = mkDialogActionsClasses "spacing" value
-
-
-  type IDialogContentTextClasses = interface end
-
-  let inline private mkDialogContentTextClasses (key: string) (value: IClassName) : IDialogContentTextClasses = unbox (key, value)
-
-  [<Erase>]
-  type dialogContentText =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkDialogContentTextClasses "root" value
-
-
-  type IDialogContentClasses = interface end
-
-  let inline private mkDialogContentClasses (key: string) (value: IClassName) : IDialogContentClasses = unbox (key, value)
-
-  [<Erase>]
-  type dialogContent =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkDialogContentClasses "root" value
-    /// Styles applied to the root element if `dividers={true}`.
-    static member inline dividers(value: IClassName) = mkDialogContentClasses "dividers" value
-
-
-  type IDialogTitleClasses = interface end
-
-  let inline private mkDialogTitleClasses (key: string) (value: IClassName) : IDialogTitleClasses = unbox (key, value)
-
-  [<Erase>]
-  type dialogTitle =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkDialogTitleClasses "root" value
-
-
   type IDialogClasses = interface end
 
   let inline private mkDialogClasses (key: string) (value: IClassName) : IDialogClasses = unbox (key, value)
@@ -533,6 +485,50 @@ module classes =
     static member inline paperFullWidth(value: IClassName) = mkDialogClasses "paperFullWidth" value
     /// Styles applied to the `Paper` component if `fullScreen={true}`.
     static member inline paperFullScreen(value: IClassName) = mkDialogClasses "paperFullScreen" value
+
+
+  type IDialogActionsClasses = interface end
+
+  let inline private mkDialogActionsClasses (key: string) (value: IClassName) : IDialogActionsClasses = unbox (key, value)
+
+  [<Erase>]
+  type dialogActions =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkDialogActionsClasses "root" value
+    /// Styles applied to the root element if `disableSpacing={false}`.
+    static member inline spacing(value: IClassName) = mkDialogActionsClasses "spacing" value
+
+
+  type IDialogContentClasses = interface end
+
+  let inline private mkDialogContentClasses (key: string) (value: IClassName) : IDialogContentClasses = unbox (key, value)
+
+  [<Erase>]
+  type dialogContent =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkDialogContentClasses "root" value
+    /// Styles applied to the root element if `dividers={true}`.
+    static member inline dividers(value: IClassName) = mkDialogContentClasses "dividers" value
+
+
+  type IDialogContentTextClasses = interface end
+
+  let inline private mkDialogContentTextClasses (key: string) (value: IClassName) : IDialogContentTextClasses = unbox (key, value)
+
+  [<Erase>]
+  type dialogContentText =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkDialogContentTextClasses "root" value
+
+
+  type IDialogTitleClasses = interface end
+
+  let inline private mkDialogTitleClasses (key: string) (value: IClassName) : IDialogTitleClasses = unbox (key, value)
+
+  [<Erase>]
+  type dialogTitle =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkDialogTitleClasses "root" value
 
 
   type IDividerClasses = interface end
@@ -585,6 +581,22 @@ module classes =
     static member inline modal(value: IClassName) = mkDrawerClasses "modal" value
 
 
+  type IExpansionPanelClasses = interface end
+
+  let inline private mkExpansionPanelClasses (key: string) (value: IClassName) : IExpansionPanelClasses = unbox (key, value)
+
+  [<Erase>]
+  type expansionPanel =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkExpansionPanelClasses "root" value
+    /// Styles applied to the root element if `square={false}`.
+    static member inline rounded(value: IClassName) = mkExpansionPanelClasses "rounded" value
+    /// Styles applied to the root element if `expanded={true}`.
+    static member inline expanded(value: IClassName) = mkExpansionPanelClasses "expanded" value
+    /// Styles applied to the root element if `disabled={true}`.
+    static member inline disabled(value: IClassName) = mkExpansionPanelClasses "disabled" value
+
+
   type IExpansionPanelActionsClasses = interface end
 
   let inline private mkExpansionPanelActionsClasses (key: string) (value: IClassName) : IExpansionPanelActionsClasses = unbox (key, value)
@@ -625,22 +637,6 @@ module classes =
     static member inline content(value: IClassName) = mkExpansionPanelSummaryClasses "content" value
     /// Styles applied to the `IconButton` component when `expandIcon` is supplied.
     static member inline expandIcon(value: IClassName) = mkExpansionPanelSummaryClasses "expandIcon" value
-
-
-  type IExpansionPanelClasses = interface end
-
-  let inline private mkExpansionPanelClasses (key: string) (value: IClassName) : IExpansionPanelClasses = unbox (key, value)
-
-  [<Erase>]
-  type expansionPanel =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkExpansionPanelClasses "root" value
-    /// Styles applied to the root element if `square={false}`.
-    static member inline rounded(value: IClassName) = mkExpansionPanelClasses "rounded" value
-    /// Styles applied to the root element if `expanded={true}`.
-    static member inline expanded(value: IClassName) = mkExpansionPanelClasses "expanded" value
-    /// Styles applied to the root element if `disabled={true}`.
-    static member inline disabled(value: IClassName) = mkExpansionPanelClasses "disabled" value
 
 
   type IFabClasses = interface end
@@ -702,7 +698,7 @@ module classes =
     static member inline input(value: IClassName) = mkFilledInputClasses "input" value
     /// Styles applied to the `input` element if `margin="dense"`.
     static member inline inputMarginDense(value: IClassName) = mkFilledInputClasses "inputMarginDense" value
-    /// Styles applied to the `input` if in `<FormControl hiddenLabel />`.
+    /// Styles applied to the `input` if in ``.
     static member inline inputHiddenLabel(value: IClassName) = mkFilledInputClasses "inputHiddenLabel" value
     /// Styles applied to the `input` element if `select={true}`.
     static member inline inputSelect(value: IClassName) = mkFilledInputClasses "inputSelect" value
@@ -712,6 +708,22 @@ module classes =
     static member inline inputAdornedStart(value: IClassName) = mkFilledInputClasses "inputAdornedStart" value
     /// Styles applied to the `input` element if `endAdornment` is provided.
     static member inline inputAdornedEnd(value: IClassName) = mkFilledInputClasses "inputAdornedEnd" value
+
+
+  type IFormControlClasses = interface end
+
+  let inline private mkFormControlClasses (key: string) (value: IClassName) : IFormControlClasses = unbox (key, value)
+
+  [<Erase>]
+  type formControl =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkFormControlClasses "root" value
+    /// Styles applied to the root element if `margin="normal"`.
+    static member inline marginNormal(value: IClassName) = mkFormControlClasses "marginNormal" value
+    /// Styles applied to the root element if `margin="dense"`.
+    static member inline marginDense(value: IClassName) = mkFormControlClasses "marginDense" value
+    /// Styles applied to the root element if `fullWidth={true}`.
+    static member inline fullWidth(value: IClassName) = mkFormControlClasses "fullWidth" value
 
 
   type IFormControlLabelClasses = interface end
@@ -732,22 +744,6 @@ module classes =
     static member inline disabled(value: IClassName) = mkFormControlLabelClasses "disabled" value
     /// Styles applied to the label's Typography component.
     static member inline label(value: IClassName) = mkFormControlLabelClasses "label" value
-
-
-  type IFormControlClasses = interface end
-
-  let inline private mkFormControlClasses (key: string) (value: IClassName) : IFormControlClasses = unbox (key, value)
-
-  [<Erase>]
-  type formControl =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkFormControlClasses "root" value
-    /// Styles applied to the root element if `margin="normal"`.
-    static member inline marginNormal(value: IClassName) = mkFormControlClasses "marginNormal" value
-    /// Styles applied to the root element if `margin="dense"`.
-    static member inline marginDense(value: IClassName) = mkFormControlClasses "marginDense" value
-    /// Styles applied to the root element if `fullWidth={true}`.
-    static member inline fullWidth(value: IClassName) = mkFormControlClasses "fullWidth" value
 
 
   type IFormGroupClasses = interface end
@@ -808,6 +804,91 @@ module classes =
     static member inline asterisk(value: IClassName) = mkFormLabelClasses "asterisk" value
 
 
+  type IGridClasses = interface end
+
+  let inline private mkGridClasses (key: string) (value: IClassName) : IGridClasses = unbox (key, value)
+
+  [<Erase>]
+  type grid =
+    /// Styles applied to the root element
+    static member inline root(value: IClassName) = mkGridClasses "root" value
+    /// Styles applied to the root element if `container={true}`.
+    static member inline container(value: IClassName) = mkGridClasses "container" value
+    /// Styles applied to the root element if `item={true}`.
+    static member inline item(value: IClassName) = mkGridClasses "item" value
+    /// Styles applied to the root element if `zeroMinWidth={true}`.
+    static member inline zeroMinWidth(value: IClassName) = mkGridClasses "zeroMinWidth" value
+    static member inline directionXsColumn(value: IClassName) = mkGridClasses "direction-xs-column" value
+    static member inline directionXsColumnReverse(value: IClassName) = mkGridClasses "direction-xs-column-reverse" value
+    static member inline directionXsRowReverse(value: IClassName) = mkGridClasses "direction-xs-row-reverse" value
+    static member inline wrapXsNowrap(value: IClassName) = mkGridClasses "wrap-xs-nowrap" value
+    static member inline wrapXsWrapReverse(value: IClassName) = mkGridClasses "wrap-xs-wrap-reverse" value
+    static member inline alignItemsXsCenter(value: IClassName) = mkGridClasses "align-items-xs-center" value
+    static member inline alignItemsXsFlexStart(value: IClassName) = mkGridClasses "align-items-xs-flex-start" value
+    static member inline alignItemsXsFlexEnd(value: IClassName) = mkGridClasses "align-items-xs-flex-end" value
+    static member inline alignItemsXsBaseline(value: IClassName) = mkGridClasses "align-items-xs-baseline" value
+    static member inline alignContentXsCenter(value: IClassName) = mkGridClasses "align-content-xs-center" value
+    static member inline alignContentXsFlexStart(value: IClassName) = mkGridClasses "align-content-xs-flex-start" value
+    static member inline alignContentXsFlexEnd(value: IClassName) = mkGridClasses "align-content-xs-flex-end" value
+    static member inline alignContentXsSpaceBetween(value: IClassName) = mkGridClasses "align-content-xs-space-between" value
+    static member inline alignContentXsSpaceAround(value: IClassName) = mkGridClasses "align-content-xs-space-around" value
+    static member inline justifyXsCenter(value: IClassName) = mkGridClasses "justify-xs-center" value
+    static member inline justifyXsFlexEnd(value: IClassName) = mkGridClasses "justify-xs-flex-end" value
+    static member inline justifyXsSpaceBetween(value: IClassName) = mkGridClasses "justify-xs-space-between" value
+    static member inline justifyXsSpaceAround(value: IClassName) = mkGridClasses "justify-xs-space-around" value
+    static member inline justifyXsSpaceEvenly(value: IClassName) = mkGridClasses "justify-xs-space-evenly" value
+    static member inline spacingXs1(value: IClassName) = mkGridClasses "spacing-xs-1" value
+    static member inline spacingXs2(value: IClassName) = mkGridClasses "spacing-xs-2" value
+    static member inline spacingXs3(value: IClassName) = mkGridClasses "spacing-xs-3" value
+    static member inline spacingXs4(value: IClassName) = mkGridClasses "spacing-xs-4" value
+    static member inline spacingXs5(value: IClassName) = mkGridClasses "spacing-xs-5" value
+    static member inline spacingXs6(value: IClassName) = mkGridClasses "spacing-xs-6" value
+    static member inline spacingXs7(value: IClassName) = mkGridClasses "spacing-xs-7" value
+    static member inline spacingXs8(value: IClassName) = mkGridClasses "spacing-xs-8" value
+    static member inline spacingXs9(value: IClassName) = mkGridClasses "spacing-xs-9" value
+    static member inline spacingXs10(value: IClassName) = mkGridClasses "spacing-xs-10" value
+    static member inline gridXsAuto(value: IClassName) = mkGridClasses "grid-xs-auto" value
+    static member inline gridXsTrue(value: IClassName) = mkGridClasses "grid-xs-true" value
+    static member inline gridXs1(value: IClassName) = mkGridClasses "grid-xs-1" value
+    static member inline gridXs2(value: IClassName) = mkGridClasses "grid-xs-2" value
+    static member inline gridXs3(value: IClassName) = mkGridClasses "grid-xs-3" value
+    static member inline gridXs4(value: IClassName) = mkGridClasses "grid-xs-4" value
+    static member inline gridXs5(value: IClassName) = mkGridClasses "grid-xs-5" value
+    static member inline gridXs6(value: IClassName) = mkGridClasses "grid-xs-6" value
+    static member inline gridXs7(value: IClassName) = mkGridClasses "grid-xs-7" value
+    static member inline gridXs8(value: IClassName) = mkGridClasses "grid-xs-8" value
+    static member inline gridXs9(value: IClassName) = mkGridClasses "grid-xs-9" value
+    static member inline gridXs10(value: IClassName) = mkGridClasses "grid-xs-10" value
+    static member inline gridXs11(value: IClassName) = mkGridClasses "grid-xs-11" value
+    static member inline gridXs12(value: IClassName) = mkGridClasses "grid-xs-12" value
+
+
+  type IGridListClasses = interface end
+
+  let inline private mkGridListClasses (key: string) (value: IClassName) : IGridListClasses = unbox (key, value)
+
+  [<Erase>]
+  type gridList =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkGridListClasses "root" value
+
+
+  type IGridListTileClasses = interface end
+
+  let inline private mkGridListTileClasses (key: string) (value: IClassName) : IGridListTileClasses = unbox (key, value)
+
+  [<Erase>]
+  type gridListTile =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkGridListTileClasses "root" value
+    /// Styles applied to the `div` element that wraps the children.
+    static member inline tile(value: IClassName) = mkGridListTileClasses "tile" value
+    /// Styles applied to an `img` element child, if needed to ensure it covers the tile.
+    static member inline imgFullHeight(value: IClassName) = mkGridListTileClasses "imgFullHeight" value
+    /// Styles applied to an `img` element child, if needed to ensure it covers the tile.
+    static member inline imgFullWidth(value: IClassName) = mkGridListTileClasses "imgFullWidth" value
+
+
   type IGridListTileBarClasses = interface end
 
   let inline private mkGridListTileBarClasses (key: string) (value: IClassName) : IGridListTileBarClasses = unbox (key, value)
@@ -838,138 +919,35 @@ module classes =
     static member inline actionIconActionPosLeft(value: IClassName) = mkGridListTileBarClasses "actionIconActionPosLeft" value
 
 
-  type IGridListTileClasses = interface end
-
-  let inline private mkGridListTileClasses (key: string) (value: IClassName) : IGridListTileClasses = unbox (key, value)
-
-  [<Erase>]
-  type gridListTile =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkGridListTileClasses "root" value
-    /// Styles applied to the `div` element that wraps the children.
-    static member inline tile(value: IClassName) = mkGridListTileClasses "tile" value
-    /// Styles applied to an `img` element child, if needed to ensure it covers the tile.
-    static member inline imgFullHeight(value: IClassName) = mkGridListTileClasses "imgFullHeight" value
-    /// Styles applied to an `img` element child, if needed to ensure it covers the tile.
-    static member inline imgFullWidth(value: IClassName) = mkGridListTileClasses "imgFullWidth" value
-
-
-  type IGridListClasses = interface end
-
-  let inline private mkGridListClasses (key: string) (value: IClassName) : IGridListClasses = unbox (key, value)
-
-  [<Erase>]
-  type gridList =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkGridListClasses "root" value
-
-
-  type IGridClasses = interface end
-
-  let inline private mkGridClasses (key: string) (value: IClassName) : IGridClasses = unbox (key, value)
-
-  [<Erase>]
-  type grid =
-    /// Styles applied to the root element
-    static member inline root(value: IClassName) = mkGridClasses "root" value
-    /// Styles applied to the root element if `container={true}`.
-    static member inline container(value: IClassName) = mkGridClasses "container" value
-    /// Styles applied to the root element if `item={true}`.
-    static member inline item(value: IClassName) = mkGridClasses "item" value
-    /// Styles applied to the root element if `zeroMinWidth={true}`.
-    static member inline zeroMinWidth(value: IClassName) = mkGridClasses "zeroMinWidth" value
-    /// 
-    static member inline directionXsColumn(value: IClassName) = mkGridClasses "direction-xs-column" value
-    /// 
-    static member inline directionXsColumnReverse(value: IClassName) = mkGridClasses "direction-xs-column-reverse" value
-    /// 
-    static member inline directionXsRowReverse(value: IClassName) = mkGridClasses "direction-xs-row-reverse" value
-    /// 
-    static member inline wrapXsNowrap(value: IClassName) = mkGridClasses "wrap-xs-nowrap" value
-    /// 
-    static member inline wrapXsWrapReverse(value: IClassName) = mkGridClasses "wrap-xs-wrap-reverse" value
-    /// 
-    static member inline alignItemsXsCenter(value: IClassName) = mkGridClasses "align-items-xs-center" value
-    /// 
-    static member inline alignItemsXsFlexStart(value: IClassName) = mkGridClasses "align-items-xs-flex-start" value
-    /// 
-    static member inline alignItemsXsFlexEnd(value: IClassName) = mkGridClasses "align-items-xs-flex-end" value
-    /// 
-    static member inline alignItemsXsBaseline(value: IClassName) = mkGridClasses "align-items-xs-baseline" value
-    /// 
-    static member inline alignContentXsCenter(value: IClassName) = mkGridClasses "align-content-xs-center" value
-    /// 
-    static member inline alignContentXsFlexStart(value: IClassName) = mkGridClasses "align-content-xs-flex-start" value
-    /// 
-    static member inline alignContentXsFlexEnd(value: IClassName) = mkGridClasses "align-content-xs-flex-end" value
-    /// 
-    static member inline alignContentXsSpaceBetween(value: IClassName) = mkGridClasses "align-content-xs-space-between" value
-    /// 
-    static member inline alignContentXsSpaceAround(value: IClassName) = mkGridClasses "align-content-xs-space-around" value
-    /// 
-    static member inline justifyXsCenter(value: IClassName) = mkGridClasses "justify-xs-center" value
-    /// 
-    static member inline justifyXsFlexEnd(value: IClassName) = mkGridClasses "justify-xs-flex-end" value
-    /// 
-    static member inline justifyXsSpaceBetween(value: IClassName) = mkGridClasses "justify-xs-space-between" value
-    /// 
-    static member inline justifyXsSpaceAround(value: IClassName) = mkGridClasses "justify-xs-space-around" value
-    /// 
-    static member inline justifyXsSpaceEvenly(value: IClassName) = mkGridClasses "justify-xs-space-evenly" value
-    /// 
-    static member inline spacingXs1(value: IClassName) = mkGridClasses "spacing-xs-1" value
-    /// 
-    static member inline spacingXs2(value: IClassName) = mkGridClasses "spacing-xs-2" value
-    /// 
-    static member inline spacingXs3(value: IClassName) = mkGridClasses "spacing-xs-3" value
-    /// 
-    static member inline spacingXs4(value: IClassName) = mkGridClasses "spacing-xs-4" value
-    /// 
-    static member inline spacingXs5(value: IClassName) = mkGridClasses "spacing-xs-5" value
-    /// 
-    static member inline spacingXs6(value: IClassName) = mkGridClasses "spacing-xs-6" value
-    /// 
-    static member inline spacingXs7(value: IClassName) = mkGridClasses "spacing-xs-7" value
-    /// 
-    static member inline spacingXs8(value: IClassName) = mkGridClasses "spacing-xs-8" value
-    /// 
-    static member inline spacingXs9(value: IClassName) = mkGridClasses "spacing-xs-9" value
-    /// 
-    static member inline spacingXs10(value: IClassName) = mkGridClasses "spacing-xs-10" value
-    /// 
-    static member inline gridXsAuto(value: IClassName) = mkGridClasses "grid-xs-auto" value
-    /// 
-    static member inline gridXsTrue(value: IClassName) = mkGridClasses "grid-xs-true" value
-    /// 
-    static member inline gridXs1(value: IClassName) = mkGridClasses "grid-xs-1" value
-    /// 
-    static member inline gridXs2(value: IClassName) = mkGridClasses "grid-xs-2" value
-    /// 
-    static member inline gridXs3(value: IClassName) = mkGridClasses "grid-xs-3" value
-    /// 
-    static member inline gridXs4(value: IClassName) = mkGridClasses "grid-xs-4" value
-    /// 
-    static member inline gridXs5(value: IClassName) = mkGridClasses "grid-xs-5" value
-    /// 
-    static member inline gridXs6(value: IClassName) = mkGridClasses "grid-xs-6" value
-    /// 
-    static member inline gridXs7(value: IClassName) = mkGridClasses "grid-xs-7" value
-    /// 
-    static member inline gridXs8(value: IClassName) = mkGridClasses "grid-xs-8" value
-    /// 
-    static member inline gridXs9(value: IClassName) = mkGridClasses "grid-xs-9" value
-    /// 
-    static member inline gridXs10(value: IClassName) = mkGridClasses "grid-xs-10" value
-    /// 
-    static member inline gridXs11(value: IClassName) = mkGridClasses "grid-xs-11" value
-    /// 
-    static member inline gridXs12(value: IClassName) = mkGridClasses "grid-xs-12" value
-
-
   type IGrowClasses = interface end
 
 
   type IHiddenClasses = interface end
+
+
+  type IIconClasses = interface end
+
+  let inline private mkIconClasses (key: string) (value: IClassName) : IIconClasses = unbox (key, value)
+
+  [<Erase>]
+  type icon =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkIconClasses "root" value
+    /// Styles applied to the root element if `color="primary"`.
+    static member inline colorPrimary(value: IClassName) = mkIconClasses "colorPrimary" value
+    /// Styles applied to the root element if `color="secondary"`.
+    static member inline colorSecondary(value: IClassName) = mkIconClasses "colorSecondary" value
+    /// Styles applied to the root element if `color="action"`.
+    static member inline colorAction(value: IClassName) = mkIconClasses "colorAction" value
+    /// Styles applied to the root element if `color="error"`.
+    static member inline colorError(value: IClassName) = mkIconClasses "colorError" value
+    /// Styles applied to the root element if `color="disabled"`.
+    static member inline colorDisabled(value: IClassName) = mkIconClasses "colorDisabled" value
+    static member inline fontSizeInherit(value: IClassName) = mkIconClasses "fontSizeInherit" value
+    /// Styles applied to the root element if `fontSize="small"`.
+    static member inline fontSizeSmall(value: IClassName) = mkIconClasses "fontSizeSmall" value
+    /// Styles applied to the root element if `fontSize="large"`.
+    static member inline fontSizeLarge(value: IClassName) = mkIconClasses "fontSizeLarge" value
 
 
   type IIconButtonClasses = interface end
@@ -998,30 +976,36 @@ module classes =
     static member inline label(value: IClassName) = mkIconButtonClasses "label" value
 
 
-  type IIconClasses = interface end
+  type IInputClasses = interface end
 
-  let inline private mkIconClasses (key: string) (value: IClassName) : IIconClasses = unbox (key, value)
+  let inline private mkInputClasses (key: string) (value: IClassName) : IInputClasses = unbox (key, value)
 
   [<Erase>]
-  type icon =
+  type input =
     /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkIconClasses "root" value
-    /// Styles applied to the root element if `color="primary"`.
-    static member inline colorPrimary(value: IClassName) = mkIconClasses "colorPrimary" value
-    /// Styles applied to the root element if `color="secondary"`.
-    static member inline colorSecondary(value: IClassName) = mkIconClasses "colorSecondary" value
-    /// Styles applied to the root element if `color="action"`.
-    static member inline colorAction(value: IClassName) = mkIconClasses "colorAction" value
-    /// Styles applied to the root element if `color="error"`.
-    static member inline colorError(value: IClassName) = mkIconClasses "colorError" value
-    /// Styles applied to the root element if `color="disabled"`.
-    static member inline colorDisabled(value: IClassName) = mkIconClasses "colorDisabled" value
-    /// 
-    static member inline fontSizeInherit(value: IClassName) = mkIconClasses "fontSizeInherit" value
-    /// Styles applied to the root element if `fontSize="small"`.
-    static member inline fontSizeSmall(value: IClassName) = mkIconClasses "fontSizeSmall" value
-    /// Styles applied to the root element if `fontSize="large"`.
-    static member inline fontSizeLarge(value: IClassName) = mkIconClasses "fontSizeLarge" value
+    static member inline root(value: IClassName) = mkInputClasses "root" value
+    /// Styles applied to the root element if the component is a descendant of `FormControl`.
+    static member inline formControl(value: IClassName) = mkInputClasses "formControl" value
+    /// Styles applied to the root element if the component is focused.
+    static member inline focused(value: IClassName) = mkInputClasses "focused" value
+    /// Styles applied to the root element if `disabled={true}`.
+    static member inline disabled(value: IClassName) = mkInputClasses "disabled" value
+    /// Styles applied to the root element if `disableUnderline={false}`.
+    static member inline underline(value: IClassName) = mkInputClasses "underline" value
+    /// Styles applied to the root element if `error={true}`.
+    static member inline error(value: IClassName) = mkInputClasses "error" value
+    /// Styles applied to the root element if `multiline={true}`.
+    static member inline multiline(value: IClassName) = mkInputClasses "multiline" value
+    /// Styles applied to the root element if `fullWidth={true}`.
+    static member inline fullWidth(value: IClassName) = mkInputClasses "fullWidth" value
+    /// Styles applied to the `input` element.
+    static member inline input(value: IClassName) = mkInputClasses "input" value
+    /// Styles applied to the `input` element if `margin="dense"`.
+    static member inline inputMarginDense(value: IClassName) = mkInputClasses "inputMarginDense" value
+    /// Styles applied to the `input` element if `multiline={true}`.
+    static member inline inputMultiline(value: IClassName) = mkInputClasses "inputMultiline" value
+    /// Styles applied to the `input` element if `type="search"`.
+    static member inline inputTypeSearch(value: IClassName) = mkInputClasses "inputTypeSearch" value
 
 
   type IInputAdornmentClasses = interface end
@@ -1040,9 +1024,9 @@ module classes =
     static member inline positionEnd(value: IClassName) = mkInputAdornmentClasses "positionEnd" value
     /// Styles applied to the root element if `disablePointerEvents=true`.
     static member inline disablePointerEvents(value: IClassName) = mkInputAdornmentClasses "disablePointerEvents" value
-    /// Styles applied if the adornment is used inside <FormControl hiddenLabel />.
+    /// Styles applied if the adornment is used inside <formcontrol hiddenlabel=""></formcontrol>.
     static member inline hiddenLabel(value: IClassName) = mkInputAdornmentClasses "hiddenLabel" value
-    /// Styles applied if the adornment is used inside <FormControl margin="dense" />.
+    /// Styles applied if the adornment is used inside <formcontrol margin="dense"></formcontrol>.
     static member inline marginDense(value: IClassName) = mkInputAdornmentClasses "marginDense" value
 
 
@@ -1122,38 +1106,6 @@ module classes =
     static member inline outlined(value: IClassName) = mkInputLabelClasses "outlined" value
 
 
-  type IInputClasses = interface end
-
-  let inline private mkInputClasses (key: string) (value: IClassName) : IInputClasses = unbox (key, value)
-
-  [<Erase>]
-  type input =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkInputClasses "root" value
-    /// Styles applied to the root element if the component is a descendant of `FormControl`.
-    static member inline formControl(value: IClassName) = mkInputClasses "formControl" value
-    /// Styles applied to the root element if the component is focused.
-    static member inline focused(value: IClassName) = mkInputClasses "focused" value
-    /// Styles applied to the root element if `disabled={true}`.
-    static member inline disabled(value: IClassName) = mkInputClasses "disabled" value
-    /// Styles applied to the root element if `disableUnderline={false}`.
-    static member inline underline(value: IClassName) = mkInputClasses "underline" value
-    /// Styles applied to the root element if `error={true}`.
-    static member inline error(value: IClassName) = mkInputClasses "error" value
-    /// Styles applied to the root element if `multiline={true}`.
-    static member inline multiline(value: IClassName) = mkInputClasses "multiline" value
-    /// Styles applied to the root element if `fullWidth={true}`.
-    static member inline fullWidth(value: IClassName) = mkInputClasses "fullWidth" value
-    /// Styles applied to the `input` element.
-    static member inline input(value: IClassName) = mkInputClasses "input" value
-    /// Styles applied to the `input` element if `margin="dense"`.
-    static member inline inputMarginDense(value: IClassName) = mkInputClasses "inputMarginDense" value
-    /// Styles applied to the `input` element if `multiline={true}`.
-    static member inline inputMultiline(value: IClassName) = mkInputClasses "inputMultiline" value
-    /// Styles applied to the `input` element if `type="search"`.
-    static member inline inputTypeSearch(value: IClassName) = mkInputClasses "inputTypeSearch" value
-
-
   type ILinearProgressClasses = interface end
 
   let inline private mkLinearProgressClasses (key: string) (value: IClassName) : ILinearProgressClasses = unbox (key, value)
@@ -1218,6 +1170,52 @@ module classes =
     static member inline focusVisible(value: IClassName) = mkLinkClasses "focusVisible" value
 
 
+  type IListClasses = interface end
+
+  let inline private mkListClasses (key: string) (value: IClassName) : IListClasses = unbox (key, value)
+
+  [<Erase>]
+  type list =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkListClasses "root" value
+    /// Styles applied to the root element if `disablePadding={false}`.
+    static member inline padding(value: IClassName) = mkListClasses "padding" value
+    /// Styles applied to the root element if dense.
+    static member inline dense(value: IClassName) = mkListClasses "dense" value
+    /// Styles applied to the root element if a `subheader` is provided.
+    static member inline subheader(value: IClassName) = mkListClasses "subheader" value
+
+
+  type IListItemClasses = interface end
+
+  let inline private mkListItemClasses (key: string) (value: IClassName) : IListItemClasses = unbox (key, value)
+
+  [<Erase>]
+  type listItem =
+    /// Styles applied to the (normally root) `component` element. May be wrapped by a `container`.
+    static member inline root(value: IClassName) = mkListItemClasses "root" value
+    /// Styles applied to the `container` element if `children` includes `ListItemSecondaryAction`.
+    static member inline container(value: IClassName) = mkListItemClasses "container" value
+    /// Pseudo-class applied to the `component`'s `focusVisibleClassName` prop if `button={true}`.
+    static member inline focusVisible(value: IClassName) = mkListItemClasses "focusVisible" value
+    /// Styles applied to the `component` element if dense.
+    static member inline dense(value: IClassName) = mkListItemClasses "dense" value
+    /// Styles applied to the `component` element if `alignItems="flex-start"`.
+    static member inline alignItemsFlexStart(value: IClassName) = mkListItemClasses "alignItemsFlexStart" value
+    /// Pseudo-class applied to the inner `component` element if `disabled={true}`.
+    static member inline disabled(value: IClassName) = mkListItemClasses "disabled" value
+    /// Styles applied to the inner `component` element if `divider={true}`.
+    static member inline divider(value: IClassName) = mkListItemClasses "divider" value
+    /// Styles applied to the inner `component` element if `disableGutters={false}`.
+    static member inline gutters(value: IClassName) = mkListItemClasses "gutters" value
+    /// Styles applied to the inner `component` element if `button={true}`.
+    static member inline button(value: IClassName) = mkListItemClasses "button" value
+    /// Styles applied to the `component` element if `children` includes `ListItemSecondaryAction`.
+    static member inline secondaryAction(value: IClassName) = mkListItemClasses "secondaryAction" value
+    /// Pseudo-class applied to the root element if `selected={true}`.
+    static member inline selected(value: IClassName) = mkListItemClasses "selected" value
+
+
   type IListItemAvatarClasses = interface end
 
   let inline private mkListItemAvatarClasses (key: string) (value: IClassName) : IListItemAvatarClasses = unbox (key, value)
@@ -1272,36 +1270,6 @@ module classes =
     static member inline secondary(value: IClassName) = mkListItemTextClasses "secondary" value
 
 
-  type IListItemClasses = interface end
-
-  let inline private mkListItemClasses (key: string) (value: IClassName) : IListItemClasses = unbox (key, value)
-
-  [<Erase>]
-  type listItem =
-    /// Styles applied to the (normally root) `component` element. May be wrapped by a `container`.
-    static member inline root(value: IClassName) = mkListItemClasses "root" value
-    /// Styles applied to the `container` element if `children` includes `ListItemSecondaryAction`.
-    static member inline container(value: IClassName) = mkListItemClasses "container" value
-    /// Pseudo-class applied to the `component`'s `focusVisibleClassName` prop if `button={true}`.
-    static member inline focusVisible(value: IClassName) = mkListItemClasses "focusVisible" value
-    /// Styles applied to the `component` element if dense.
-    static member inline dense(value: IClassName) = mkListItemClasses "dense" value
-    /// Styles applied to the `component` element if `alignItems="flex-start"`.
-    static member inline alignItemsFlexStart(value: IClassName) = mkListItemClasses "alignItemsFlexStart" value
-    /// Pseudo-class applied to the inner `component` element if `disabled={true}`.
-    static member inline disabled(value: IClassName) = mkListItemClasses "disabled" value
-    /// Styles applied to the inner `component` element if `divider={true}`.
-    static member inline divider(value: IClassName) = mkListItemClasses "divider" value
-    /// Styles applied to the inner `component` element if `disableGutters={false}`.
-    static member inline gutters(value: IClassName) = mkListItemClasses "gutters" value
-    /// Styles applied to the inner `component` element if `button={true}`.
-    static member inline button(value: IClassName) = mkListItemClasses "button" value
-    /// Styles applied to the `component` element if `children` includes `ListItemSecondaryAction`.
-    static member inline secondaryAction(value: IClassName) = mkListItemClasses "secondaryAction" value
-    /// Pseudo-class applied to the root element if `selected={true}`.
-    static member inline selected(value: IClassName) = mkListItemClasses "selected" value
-
-
   type IListSubheaderClasses = interface end
 
   let inline private mkListSubheaderClasses (key: string) (value: IClassName) : IListSubheaderClasses = unbox (key, value)
@@ -1322,20 +1290,16 @@ module classes =
     static member inline sticky(value: IClassName) = mkListSubheaderClasses "sticky" value
 
 
-  type IListClasses = interface end
+  type IMenuClasses = interface end
 
-  let inline private mkListClasses (key: string) (value: IClassName) : IListClasses = unbox (key, value)
+  let inline private mkMenuClasses (key: string) (value: IClassName) : IMenuClasses = unbox (key, value)
 
   [<Erase>]
-  type list =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkListClasses "root" value
-    /// Styles applied to the root element if `disablePadding={false}`.
-    static member inline padding(value: IClassName) = mkListClasses "padding" value
-    /// Styles applied to the root element if dense.
-    static member inline dense(value: IClassName) = mkListClasses "dense" value
-    /// Styles applied to the root element if a `subheader` is provided.
-    static member inline subheader(value: IClassName) = mkListClasses "subheader" value
+  type menu =
+    /// Styles applied to the `Paper` component.
+    static member inline paper(value: IClassName) = mkMenuClasses "paper" value
+    /// Styles applied to the `List` component via `MenuList`.
+    static member inline list(value: IClassName) = mkMenuClasses "list" value
 
 
   type IMenuItemClasses = interface end
@@ -1355,18 +1319,6 @@ module classes =
 
 
   type IMenuListClasses = interface end
-
-
-  type IMenuClasses = interface end
-
-  let inline private mkMenuClasses (key: string) (value: IClassName) : IMenuClasses = unbox (key, value)
-
-  [<Erase>]
-  type menu =
-    /// Styles applied to the `Paper` component.
-    static member inline paper(value: IClassName) = mkMenuClasses "paper" value
-    /// Styles applied to the `List` component via `MenuList`.
-    static member inline list(value: IClassName) = mkMenuClasses "list" value
 
 
   type IMobileStepperClasses = interface end
@@ -1469,55 +1421,30 @@ module classes =
     static member inline root(value: IClassName) = mkPaperClasses "root" value
     /// Styles applied to the root element if `square={false}`.
     static member inline rounded(value: IClassName) = mkPaperClasses "rounded" value
-    /// 
     static member inline elevation0(value: IClassName) = mkPaperClasses "elevation0" value
-    /// 
     static member inline elevation1(value: IClassName) = mkPaperClasses "elevation1" value
-    /// 
     static member inline elevation2(value: IClassName) = mkPaperClasses "elevation2" value
-    /// 
     static member inline elevation3(value: IClassName) = mkPaperClasses "elevation3" value
-    /// 
     static member inline elevation4(value: IClassName) = mkPaperClasses "elevation4" value
-    /// 
     static member inline elevation5(value: IClassName) = mkPaperClasses "elevation5" value
-    /// 
     static member inline elevation6(value: IClassName) = mkPaperClasses "elevation6" value
-    /// 
     static member inline elevation7(value: IClassName) = mkPaperClasses "elevation7" value
-    /// 
     static member inline elevation8(value: IClassName) = mkPaperClasses "elevation8" value
-    /// 
     static member inline elevation9(value: IClassName) = mkPaperClasses "elevation9" value
-    /// 
     static member inline elevation10(value: IClassName) = mkPaperClasses "elevation10" value
-    /// 
     static member inline elevation11(value: IClassName) = mkPaperClasses "elevation11" value
-    /// 
     static member inline elevation12(value: IClassName) = mkPaperClasses "elevation12" value
-    /// 
     static member inline elevation13(value: IClassName) = mkPaperClasses "elevation13" value
-    /// 
     static member inline elevation14(value: IClassName) = mkPaperClasses "elevation14" value
-    /// 
     static member inline elevation15(value: IClassName) = mkPaperClasses "elevation15" value
-    /// 
     static member inline elevation16(value: IClassName) = mkPaperClasses "elevation16" value
-    /// 
     static member inline elevation17(value: IClassName) = mkPaperClasses "elevation17" value
-    /// 
     static member inline elevation18(value: IClassName) = mkPaperClasses "elevation18" value
-    /// 
     static member inline elevation19(value: IClassName) = mkPaperClasses "elevation19" value
-    /// 
     static member inline elevation20(value: IClassName) = mkPaperClasses "elevation20" value
-    /// 
     static member inline elevation21(value: IClassName) = mkPaperClasses "elevation21" value
-    /// 
     static member inline elevation22(value: IClassName) = mkPaperClasses "elevation22" value
-    /// 
     static member inline elevation23(value: IClassName) = mkPaperClasses "elevation23" value
-    /// 
     static member inline elevation24(value: IClassName) = mkPaperClasses "elevation24" value
 
 
@@ -1537,9 +1464,6 @@ module classes =
   type IPortalClasses = interface end
 
 
-  type IRadioGroupClasses = interface end
-
-
   type IRadioClasses = interface end
 
   let inline private mkRadioClasses (key: string) (value: IClassName) : IRadioClasses = unbox (key, value)
@@ -1556,6 +1480,9 @@ module classes =
     static member inline colorPrimary(value: IClassName) = mkRadioClasses "colorPrimary" value
     /// Styles applied to the root element if `color="secondary"`.
     static member inline colorSecondary(value: IClassName) = mkRadioClasses "colorSecondary" value
+
+
+  type IRadioGroupClasses = interface end
 
 
   type IRatingClasses = interface end
@@ -1680,20 +1607,6 @@ module classes =
     static member inline markLabelActive(value: IClassName) = mkSliderClasses "markLabelActive" value
 
 
-  type ISnackbarContentClasses = interface end
-
-  let inline private mkSnackbarContentClasses (key: string) (value: IClassName) : ISnackbarContentClasses = unbox (key, value)
-
-  [<Erase>]
-  type snackbarContent =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkSnackbarContentClasses "root" value
-    /// Styles applied to the message wrapper element.
-    static member inline message(value: IClassName) = mkSnackbarContentClasses "message" value
-    /// Styles applied to the action wrapper element if `action` is provided.
-    static member inline action(value: IClassName) = mkSnackbarContentClasses "action" value
-
-
   type ISnackbarClasses = interface end
 
   let inline private mkSnackbarClasses (key: string) (value: IClassName) : ISnackbarClasses = unbox (key, value)
@@ -1714,6 +1627,44 @@ module classes =
     static member inline anchorOriginTopLeft(value: IClassName) = mkSnackbarClasses "anchorOriginTopLeft" value
     /// Styles applied to the root element if `anchorOrigin={{ 'bottom', 'left' }}`.
     static member inline anchorOriginBottomLeft(value: IClassName) = mkSnackbarClasses "anchorOriginBottomLeft" value
+
+
+  type ISnackbarContentClasses = interface end
+
+  let inline private mkSnackbarContentClasses (key: string) (value: IClassName) : ISnackbarContentClasses = unbox (key, value)
+
+  [<Erase>]
+  type snackbarContent =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkSnackbarContentClasses "root" value
+    /// Styles applied to the message wrapper element.
+    static member inline message(value: IClassName) = mkSnackbarContentClasses "message" value
+    /// Styles applied to the action wrapper element if `action` is provided.
+    static member inline action(value: IClassName) = mkSnackbarContentClasses "action" value
+
+
+  type ISpeedDialClasses = interface end
+
+  let inline private mkSpeedDialClasses (key: string) (value: IClassName) : ISpeedDialClasses = unbox (key, value)
+
+  [<Erase>]
+  type speedDial =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkSpeedDialClasses "root" value
+    /// Styles applied to the Button component.
+    static member inline fab(value: IClassName) = mkSpeedDialClasses "fab" value
+    /// Styles applied to the root and action container elements when direction="up"
+    static member inline directionUp(value: IClassName) = mkSpeedDialClasses "directionUp" value
+    /// Styles applied to the root and action container elements when direction="down"
+    static member inline directionDown(value: IClassName) = mkSpeedDialClasses "directionDown" value
+    /// Styles applied to the root and action container elements when direction="left"
+    static member inline directionLeft(value: IClassName) = mkSpeedDialClasses "directionLeft" value
+    /// Styles applied to the root and action container elements when direction="right"
+    static member inline directionRight(value: IClassName) = mkSpeedDialClasses "directionRight" value
+    /// Styles applied to the actions (`children` wrapper) element.
+    static member inline actions(value: IClassName) = mkSpeedDialClasses "actions" value
+    /// Styles applied to the actions (`children` wrapper) element if `open={false}`.
+    static member inline actionsClosed(value: IClassName) = mkSpeedDialClasses "actionsClosed" value
 
 
   type ISpeedDialActionClasses = interface end
@@ -1748,28 +1699,22 @@ module classes =
     static member inline openIconOpen(value: IClassName) = mkSpeedDialIconClasses "openIconOpen" value
 
 
-  type ISpeedDialClasses = interface end
+  type IStepClasses = interface end
 
-  let inline private mkSpeedDialClasses (key: string) (value: IClassName) : ISpeedDialClasses = unbox (key, value)
+  let inline private mkStepClasses (key: string) (value: IClassName) : IStepClasses = unbox (key, value)
 
   [<Erase>]
-  type speedDial =
+  type step =
     /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkSpeedDialClasses "root" value
-    /// Styles applied to the Button component.
-    static member inline fab(value: IClassName) = mkSpeedDialClasses "fab" value
-    /// Styles applied to the root and action container elements when direction="up"
-    static member inline directionUp(value: IClassName) = mkSpeedDialClasses "directionUp" value
-    /// Styles applied to the root and action container elements when direction="down"
-    static member inline directionDown(value: IClassName) = mkSpeedDialClasses "directionDown" value
-    /// Styles applied to the root and action container elements when direction="left"
-    static member inline directionLeft(value: IClassName) = mkSpeedDialClasses "directionLeft" value
-    /// Styles applied to the root and action container elements when direction="right"
-    static member inline directionRight(value: IClassName) = mkSpeedDialClasses "directionRight" value
-    /// Styles applied to the actions (`children` wrapper) element.
-    static member inline actions(value: IClassName) = mkSpeedDialClasses "actions" value
-    /// Styles applied to the actions (`children` wrapper) element if `open={false}`.
-    static member inline actionsClosed(value: IClassName) = mkSpeedDialClasses "actionsClosed" value
+    static member inline root(value: IClassName) = mkStepClasses "root" value
+    /// Styles applied to the root element if `orientation="horizontal"`.
+    static member inline horizontal(value: IClassName) = mkStepClasses "horizontal" value
+    /// Styles applied to the root element if `orientation="vertical"`.
+    static member inline vertical(value: IClassName) = mkStepClasses "vertical" value
+    /// Styles applied to the root element if `alternativeLabel={true}`.
+    static member inline alternativeLabel(value: IClassName) = mkStepClasses "alternativeLabel" value
+    /// Pseudo-class applied to the root element if `completed={true}`.
+    static member inline completed(value: IClassName) = mkStepClasses "completed" value
 
 
   type IStepButtonClasses = interface end
@@ -1878,24 +1823,6 @@ module classes =
     static member inline labelContainer(value: IClassName) = mkStepLabelClasses "labelContainer" value
 
 
-  type IStepClasses = interface end
-
-  let inline private mkStepClasses (key: string) (value: IClassName) : IStepClasses = unbox (key, value)
-
-  [<Erase>]
-  type step =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkStepClasses "root" value
-    /// Styles applied to the root element if `orientation="horizontal"`.
-    static member inline horizontal(value: IClassName) = mkStepClasses "horizontal" value
-    /// Styles applied to the root element if `orientation="vertical"`.
-    static member inline vertical(value: IClassName) = mkStepClasses "vertical" value
-    /// Styles applied to the root element if `alternativeLabel={true}`.
-    static member inline alternativeLabel(value: IClassName) = mkStepClasses "alternativeLabel" value
-    /// Pseudo-class applied to the root element if `completed={true}`.
-    static member inline completed(value: IClassName) = mkStepClasses "completed" value
-
-
   type IStepperClasses = interface end
 
   let inline private mkStepperClasses (key: string) (value: IClassName) : IStepperClasses = unbox (key, value)
@@ -1983,11 +1910,11 @@ module classes =
     static member inline root(value: IClassName) = mkTabClasses "root" value
     /// Styles applied to the root element if both `icon` and `label` are provided.
     static member inline labelIcon(value: IClassName) = mkTabClasses "labelIcon" value
-    /// Styles applied to the root element if the parent `Tabs` has `textColor="inherit"`.
+    /// Styles applied to the root element if the parent [`Tabs`](https://material-ui.com/api/tabs/) has `textColor="inherit"`.
     static member inline textColorInherit(value: IClassName) = mkTabClasses "textColorInherit" value
-    /// Styles applied to the root element if the parent `Tabs` has `textColor="primary"`.
+    /// Styles applied to the root element if the parent [`Tabs`](https://material-ui.com/api/tabs/) has `textColor="primary"`.
     static member inline textColorPrimary(value: IClassName) = mkTabClasses "textColorPrimary" value
-    /// Styles applied to the root element if the parent `Tabs` has `textColor="secondary"`.
+    /// Styles applied to the root element if the parent [`Tabs`](https://material-ui.com/api/tabs/) has `textColor="secondary"`.
     static member inline textColorSecondary(value: IClassName) = mkTabClasses "textColorSecondary" value
     /// Pseudo-class applied to the root element if `selected={true}` (controlled by the Tabs component).
     static member inline selected(value: IClassName) = mkTabClasses "selected" value
@@ -1999,6 +1926,16 @@ module classes =
     static member inline wrapped(value: IClassName) = mkTabClasses "wrapped" value
     /// Styles applied to the `icon` and `label`'s wrapper element.
     static member inline wrapper(value: IClassName) = mkTabClasses "wrapper" value
+
+
+  type ITableClasses = interface end
+
+  let inline private mkTableClasses (key: string) (value: IClassName) : ITableClasses = unbox (key, value)
+
+  [<Erase>]
+  type table =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkTableClasses "root" value
 
 
   type ITableBodyClasses = interface end
@@ -2125,16 +2062,6 @@ module classes =
     static member inline iconDirectionAsc(value: IClassName) = mkTableSortLabelClasses "iconDirectionAsc" value
 
 
-  type ITableClasses = interface end
-
-  let inline private mkTableClasses (key: string) (value: IClassName) : ITableClasses = unbox (key, value)
-
-  [<Erase>]
-  type table =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkTableClasses "root" value
-
-
   type ITabsClasses = interface end
 
   let inline private mkTabsClasses (key: string) (value: IClassName) : ITabsClasses = unbox (key, value)
@@ -2165,6 +2092,9 @@ module classes =
     static member inline indicator(value: IClassName) = mkTabsClasses "indicator" value
 
 
+  type ITextareaAutosizeClasses = interface end
+
+
   type ITextFieldClasses = interface end
 
   let inline private mkTextFieldClasses (key: string) (value: IClassName) : ITextFieldClasses = unbox (key, value)
@@ -2173,19 +2103,6 @@ module classes =
   type textField =
     /// Styles applied to the root element.
     static member inline root(value: IClassName) = mkTextFieldClasses "root" value
-
-
-  type ITextareaAutosizeClasses = interface end
-
-
-  type IToggleButtonGroupClasses = interface end
-
-  let inline private mkToggleButtonGroupClasses (key: string) (value: IClassName) : IToggleButtonGroupClasses = unbox (key, value)
-
-  [<Erase>]
-  type toggleButtonGroup =
-    /// Styles applied to the root element.
-    static member inline root(value: IClassName) = mkToggleButtonGroupClasses "root" value
 
 
   type IToggleButtonClasses = interface end
@@ -2206,6 +2123,16 @@ module classes =
     static member inline sizeSmall(value: IClassName) = mkToggleButtonClasses "sizeSmall" value
     /// Styles applied to the root element if `size="large"`.
     static member inline sizeLarge(value: IClassName) = mkToggleButtonClasses "sizeLarge" value
+
+
+  type IToggleButtonGroupClasses = interface end
+
+  let inline private mkToggleButtonGroupClasses (key: string) (value: IClassName) : IToggleButtonGroupClasses = unbox (key, value)
+
+  [<Erase>]
+  type toggleButtonGroup =
+    /// Styles applied to the root element.
+    static member inline root(value: IClassName) = mkToggleButtonGroupClasses "root" value
 
 
   type IToolbarClasses = interface end

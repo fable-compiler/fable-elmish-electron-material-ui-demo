@@ -12,10 +12,31 @@ open Fable.MaterialUI
 open Fable.React
 open Feliz
 
-[<StringEnum>]
+[<StringEnum; RequireQualifiedAccess>]
 type DialogCloseReason =
   | EscapeKeyDown
   | BackdropClick
+
+[<StringEnum; RequireQualifiedAccess>]
+type MenuCloseReason =
+  | EscapeKeyDown
+  | BackdropClick
+  | TabKeyDown
+
+[<StringEnum; RequireQualifiedAccess>]
+type ModalCloseReason =
+  | EscapeKeyDown
+  | BackdropClick
+
+[<StringEnum; RequireQualifiedAccess>]
+type PopoverCloseReason =
+  | EscapeKeyDown
+  | BackdropClick
+
+[<StringEnum; RequireQualifiedAccess>]
+type SnackbarCloseReason =
+  | Timeout
+  | Clickaway
 
 
 type appBar =
@@ -56,27 +77,27 @@ type avatar =
   /// Used in combination with `src` or `srcSet` to provide an alt attribute for the rendered `img` element.
   static member inline alt(value: string) = Interop.mkAttr "alt" value
   /// Used to render icon or text elements inside the Avatar. `src` and `alt` props will not be used and no `img` will be rendered by default.
-  /// 
+  ///
   /// This can be an element, or just a string.
   static member inline children(element: ReactElement) = prop.children element
   /// Used to render icon or text elements inside the Avatar. `src` and `alt` props will not be used and no `img` will be rendered by default.
-  /// 
+  ///
   /// This can be an element, or just a string.
   static member inline children(elements: ReactElement seq) = prop.children elements
   /// Used to render icon or text elements inside the Avatar. `src` and `alt` props will not be used and no `img` will be rendered by default.
-  /// 
+  ///
   /// This can be an element, or just a string.
   static member inline children(value: string) = Interop.mkAttr "children" value
   /// Used to render icon or text elements inside the Avatar. `src` and `alt` props will not be used and no `img` will be rendered by default.
-  /// 
+  ///
   /// This can be an element, or just a string.
   static member inline children(values: string seq) = Interop.mkAttr "children" values
   /// Used to render icon or text elements inside the Avatar. `src` and `alt` props will not be used and no `img` will be rendered by default.
-  /// 
+  ///
   /// This can be an element, or just a string.
   static member inline children(value: int) = Interop.mkAttr "children" value
   /// Used to render icon or text elements inside the Avatar. `src` and `alt` props will not be used and no `img` will be rendered by default.
-  /// 
+  ///
   /// This can be an element, or just a string.
   static member inline children(value: float) = Interop.mkAttr "children" value
   /// Override or extend the styles applied to the component. Use `classes.avatar` to specify class names.
@@ -193,13 +214,13 @@ type bottomNavigation =
   /// The component used for the root node. Either a string to use a DOM element or a component.
   static member inline component'(value: ReactElementType) = Interop.mkAttr "component" value
   /// Callback fired when the value changes.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, value: any) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *value:* We default to the index of the child
   static member inline onChange(handler: Event -> 'bottomNavigationActionValue -> unit) = Interop.mkAttr "onChange" handler
   /// If `true`, all `BottomNavigationAction`s will show their labels. By default, only the selected `BottomNavigationAction` will show its label.
@@ -212,17 +233,7 @@ type bottomNavigationAction =
   /// Override or extend the styles applied to the component. Use `classes.bottomNavigationAction` to specify class names.
   static member inline classes(classNames: classes.IBottomNavigationActionClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
   /// The icon element.
-  static member inline icon(value: ReactElement) = Interop.mkAttr "icon" value
-  /// The icon element.
-  static member inline icon(values: ReactElement seq) = Interop.mkAttr "icon" values
-  /// The icon element.
-  static member inline icon(value: string) = Interop.mkAttr "icon" value
-  /// The icon element.
-  static member inline icon(values: string seq) = Interop.mkAttr "icon" values
-  /// The icon element.
-  static member inline icon(value: int) = Interop.mkAttr "icon" value
-  /// The icon element.
-  static member inline icon(value: float) = Interop.mkAttr "icon" value
+  static member inline icon(element: ReactElement) = Interop.mkAttr "icon" element
   /// The label element.
   static member inline label(value: ReactElement) = Interop.mkAttr "label" value
   /// The label element.
@@ -304,7 +315,7 @@ type button =
   /// If `true`, the keyboard focus ripple will be disabled. `disableRipple` must also be true.
   static member inline disableFocusRipple(value: bool) = Interop.mkAttr "disableFocusRipple" value
   /// If `true`, the ripple effect will be disabled.
-  /// 
+  ///
   /// ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure to highlight the element by applying separate styles with the `focusVisibleClassName`.
   static member inline disableRipple(value: bool) = Interop.mkAttr "disableRipple" value
   /// If `true`, the button will take up the full width of its container.
@@ -338,11 +349,11 @@ type buttonBase =
   /// A ref for imperative actions. It currently only supports `focusVisible()` action.
   static member inline action(ref: IRefValue<IButtonBaseActions option>) = Interop.mkAttr "action" ref
   /// A ref for imperative actions. It currently only supports `focusVisible()` action.
-  static member inline action(ref: IButtonBaseActions -> unit) = Interop.mkAttr "action" ref
+  static member inline action(handler: IButtonBaseActions -> unit) = Interop.mkAttr "action" handler
   /// Use that prop to pass a ref callback to the native button component.
   static member inline buttonRef(ref: IRefValue<Element option>) = Interop.mkAttr "buttonRef" ref
   /// Use that prop to pass a ref callback to the native button component.
-  static member inline buttonRef(ref: Element -> unit) = Interop.mkAttr "buttonRef" ref
+  static member inline buttonRef(handler: Element -> unit) = Interop.mkAttr "buttonRef" handler
   /// If `true`, the ripples will be centered. They won't start at the cursor interaction position.
   static member inline centerRipple(value: bool) = Interop.mkAttr "centerRipple" value
   /// The content of the component.
@@ -360,17 +371,17 @@ type buttonBase =
   /// Override or extend the styles applied to the component. Use `classes.buttonBase` to specify class names.
   static member inline classes(classNames: classes.IButtonBaseClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
   /// The component used for the root node. Either a string to use a DOM element or a component.
-  /// 
+  ///
   /// ⚠️ [Needs to be able to hold a ref](https://material-ui.com/guides/composition/#caveat-with-refs).
   static member inline component'(value: string) = Interop.mkAttr "component" value
   /// The component used for the root node. Either a string to use a DOM element or a component.
-  /// 
+  ///
   /// ⚠️ [Needs to be able to hold a ref](https://material-ui.com/guides/composition/#caveat-with-refs).
   static member inline component'(value: ReactElementType) = Interop.mkAttr "component" value
   /// If `true`, the base button will be disabled.
   static member inline disabled(value: bool) = Interop.mkAttr "disabled" value
   /// If `true`, the ripple effect will be disabled.
-  /// 
+  ///
   /// ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure to highlight the element by applying separate styles with the `focusVisibleClassName`.
   static member inline disableRipple(value: bool) = Interop.mkAttr "disableRipple" value
   /// If `true`, the touch ripple effect will be disabled.
@@ -582,17 +593,7 @@ type checkbox =
   /// If `true`, the ripple effect will be disabled.
   static member inline disableRipple(value: bool) = Interop.mkAttr "disableRipple" value
   /// The icon to display when the component is unchecked.
-  static member inline icon(value: ReactElement) = Interop.mkAttr "icon" value
-  /// The icon to display when the component is unchecked.
-  static member inline icon(values: ReactElement seq) = Interop.mkAttr "icon" values
-  /// The icon to display when the component is unchecked.
-  static member inline icon(value: string) = Interop.mkAttr "icon" value
-  /// The icon to display when the component is unchecked.
-  static member inline icon(values: string seq) = Interop.mkAttr "icon" values
-  /// The icon to display when the component is unchecked.
-  static member inline icon(value: int) = Interop.mkAttr "icon" value
-  /// The icon to display when the component is unchecked.
-  static member inline icon(value: float) = Interop.mkAttr "icon" value
+  static member inline icon(element: ReactElement) = Interop.mkAttr "icon" element
   /// The id of the `input` element.
   static member inline id(value: string) = Interop.mkAttr "id" value
   /// If `true`, the component appears indeterminate. This does not set the native input element to indeterminate due to inconsistent behavior across browsers. However, we set a `data-indeterminate` attribute on the input.
@@ -604,15 +605,15 @@ type checkbox =
   /// This prop can be used to pass a ref callback to the `input` element.
   static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: Element -> unit) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
   /// Callback fired when the state is changed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, checked: boolean) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.checked`.
-  /// 
+  ///
   /// *checked:* The `checked` value of the switch
   static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
   /// If `true`, the `input` element will be required.
@@ -711,7 +712,7 @@ module circularProgress =
 
 type clickAwayListener =
   /// The wrapped element.
-  /// 
+  ///
   /// ⚠️ [Needs to be able to hold a ref](https://material-ui.com/guides/composition/#caveat-with-refs).
   static member inline children(value: ReactElement) = Interop.mkAttr "children" value
   /// Callback fired when a "click away" event is detected.
@@ -760,7 +761,7 @@ type collapse =
 module collapse =
 
   /// The duration for the transition, in milliseconds.
-  /// 
+  ///
   /// Set to 'auto' to automatically calculate transition time based on height.
   type timeout =
     static member inline value(value: int) = Interop.mkAttr "timeout" value
@@ -837,13 +838,13 @@ type dialog =
   /// Callback fired when the backdrop is clicked.
   static member inline onBackdropClick(handler: Event -> unit) = Interop.mkAttr "onBackdropClick" handler
   /// Callback fired when the component requests to be closed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, reason: string) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`
   static member inline onClose(handler: Event -> DialogCloseReason -> unit) = Interop.mkAttr "onClose" handler
   /// Callback fired before the dialog enters.
@@ -1007,11 +1008,11 @@ type drawer =
   /// Props applied to the [`Modal`](https://material-ui.com/api/modal/) element.
   static member inline ModalProps(props: IReactProperty list) = Interop.mkAttr "ModalProps" (createObj !!props)
   /// Callback fired when the component requests to be closed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
   static member inline onClose(handler: Event -> unit) = Interop.mkAttr "onClose" handler
   /// If `true`, the drawer is open.
@@ -1063,13 +1064,13 @@ type expansionPanel =
   /// If `true`, expands the panel, otherwise collapse it. Setting this prop enables control over the panel.
   static member inline expanded(value: bool) = Interop.mkAttr "expanded" value
   /// Callback fired when the expand/collapse state is changed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, expanded: boolean) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *expanded:* The `expanded` state of the panel
   static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
   /// The component used for the collapse effect.
@@ -1227,18 +1228,18 @@ type filledInput =
   /// This prop can be used to pass a ref callback to the `input` element.
   static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: Element -> unit) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
   /// If `true`, a textarea element will be rendered.
   static member inline multiline(value: bool) = Interop.mkAttr "multiline" value
   /// Name attribute of the `input` element.
   static member inline name(value: string) = Interop.mkAttr "name" value
   /// Callback fired when the value is changed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
-  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.value`.
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
@@ -1314,7 +1315,7 @@ type formControlLabel =
   /// This prop can be used to pass a ref callback to the `input` element.
   static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: Element -> unit) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
   /// The text to be used in an enclosing label element.
   static member inline label(value: ReactElement) = Interop.mkAttr "label" value
   /// The text to be used in an enclosing label element.
@@ -1329,13 +1330,13 @@ type formControlLabel =
   static member inline label(value: float) = Interop.mkAttr "label" value
   static member inline name(value: string) = Interop.mkAttr "name" value
   /// Callback fired when the state is changed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, checked: boolean) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.checked`.
-  /// 
+  ///
   /// *checked:* The `checked` value of the switch
   static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
   /// The value of the component.
@@ -1725,7 +1726,7 @@ type grow =
 module grow =
 
   /// The duration for the transition, in milliseconds.
-  /// 
+  ///
   /// Set to 'auto' to automatically calculate transition time based on height.
   type timeout =
     static member inline value(value: int) = Interop.mkAttr "timeout" value
@@ -1775,9 +1776,9 @@ module hidden =
     static member inline css = Interop.mkAttr "implementation" "css"
 
   /// You can use this prop when choosing the `js` implementation with server-side rendering.
-  /// 
+  ///
   /// As `window.innerWidth` is unavailable on the server, we default to rendering an empty component during the first mount. You might want to use an heuristic to approximate the screen width of the client browser screen width.
-  /// 
+  ///
   /// For instance, you could be using the user-agent or the client-hints. https://caniuse.com/#search=client%20hint
   type initialWidth =
     static member inline xs = Interop.mkAttr "initialWidth" "xs"
@@ -1910,18 +1911,18 @@ type input =
   /// This prop can be used to pass a ref callback to the `input` element.
   static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: Element -> unit) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
   /// If `true`, a textarea element will be rendered.
   static member inline multiline(value: bool) = Interop.mkAttr "multiline" value
   /// Name attribute of the `input` element.
   static member inline name(value: string) = Interop.mkAttr "name" value
   /// Callback fired when the value is changed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
-  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.value`.
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
@@ -2000,17 +2001,7 @@ type inputBase =
   /// If `true`, the `input` element will be disabled.
   static member inline disabled(value: bool) = Interop.mkAttr "disabled" value
   /// End `InputAdornment` for this component.
-  static member inline endAdornment(value: ReactElement) = Interop.mkAttr "endAdornment" value
-  /// End `InputAdornment` for this component.
-  static member inline endAdornment(values: ReactElement seq) = Interop.mkAttr "endAdornment" values
-  /// End `InputAdornment` for this component.
-  static member inline endAdornment(value: string) = Interop.mkAttr "endAdornment" value
-  /// End `InputAdornment` for this component.
-  static member inline endAdornment(values: string seq) = Interop.mkAttr "endAdornment" values
-  /// End `InputAdornment` for this component.
-  static member inline endAdornment(value: int) = Interop.mkAttr "endAdornment" value
-  /// End `InputAdornment` for this component.
-  static member inline endAdornment(value: float) = Interop.mkAttr "endAdornment" value
+  static member inline endAdornment(element: ReactElement) = Interop.mkAttr "endAdornment" element
   /// If `true`, the input will indicate an error. This is normally obtained via context from FormControl.
   static member inline error(value: bool) = Interop.mkAttr "error" value
   /// If `true`, the input will take up the full width of its container.
@@ -2026,18 +2017,18 @@ type inputBase =
   /// This prop can be used to pass a ref callback to the `input` element.
   static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: Element -> unit) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
   /// If `true`, a textarea element will be rendered.
   static member inline multiline(value: bool) = Interop.mkAttr "multiline" value
   /// Name attribute of the `input` element.
   static member inline name(value: string) = Interop.mkAttr "name" value
   /// Callback fired when the value is changed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
-  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.value`.
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
@@ -2052,17 +2043,7 @@ type inputBase =
   /// Should be `true` when the component hosts a select.
   static member inline select(value: bool) = Interop.mkAttr "select" value
   /// Start `InputAdornment` for this component.
-  static member inline startAdornment(value: ReactElement) = Interop.mkAttr "startAdornment" value
-  /// Start `InputAdornment` for this component.
-  static member inline startAdornment(values: ReactElement seq) = Interop.mkAttr "startAdornment" values
-  /// Start `InputAdornment` for this component.
-  static member inline startAdornment(value: string) = Interop.mkAttr "startAdornment" value
-  /// Start `InputAdornment` for this component.
-  static member inline startAdornment(values: string seq) = Interop.mkAttr "startAdornment" values
-  /// Start `InputAdornment` for this component.
-  static member inline startAdornment(value: int) = Interop.mkAttr "startAdornment" value
-  /// Start `InputAdornment` for this component.
-  static member inline startAdornment(value: float) = Interop.mkAttr "startAdornment" value
+  static member inline startAdornment(element: ReactElement) = Interop.mkAttr "startAdornment" element
   /// Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
   static member inline type'(value: string) = Interop.mkAttr "type" value
   /// The value of the `input` element, required for a controlled component.
@@ -2385,7 +2366,7 @@ type menu =
   /// The DOM element used to set the position of the menu.
   static member inline anchorEl(value: Element option) = Interop.mkAttr "anchorEl" value
   /// The DOM element used to set the position of the menu.
-  static member inline anchorEl(value: unit -> Element option) = Interop.mkAttr "anchorEl" value
+  static member inline anchorEl(handler: unit -> Element option) = Interop.mkAttr "anchorEl" handler
   /// If `true` (default), the menu list (possibly a particular item depending on the menu variant) will receive focus on open.
   static member inline autoFocus(value: bool) = Interop.mkAttr "autoFocus" value
   /// Menu contents, normally `MenuItem`s.
@@ -2407,27 +2388,27 @@ type menu =
   /// Props applied to the [`MenuList`](https://material-ui.com/api/menu-list/) element.
   static member inline MenuListProps(props: IReactProperty list) = Interop.mkAttr "MenuListProps" (createObj !!props)
   /// Callback fired when the component requests to be closed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, reason: string) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`, `"tabKeyDown"`
-  static member inline onClose(handler: Event -> unit) = Interop.mkAttr "onClose" handler
+  static member inline onClose(handler: Event -> MenuCloseReason -> unit) = Interop.mkAttr "onClose" handler
   /// Callback fired before the Menu enters.
-  static member inline onEnter(handler: Event -> unit) = Interop.mkAttr "onEnter" handler
+  static member inline onEnter(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEnter" handler
   /// Callback fired when the Menu has entered.
-  static member inline onEntered(handler: Event -> unit) = Interop.mkAttr "onEntered" handler
+  static member inline onEntered(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEntered" handler
   /// Callback fired when the Menu is entering.
-  static member inline onEntering(handler: Event -> unit) = Interop.mkAttr "onEntering" handler
+  static member inline onEntering(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEntering" handler
   /// Callback fired before the Menu exits.
-  static member inline onExit(handler: Event -> unit) = Interop.mkAttr "onExit" handler
+  static member inline onExit(handler: ReactElement -> unit) = Interop.mkAttr "onExit" handler
   /// Callback fired when the Menu has exited.
-  static member inline onExited(handler: Event -> unit) = Interop.mkAttr "onExited" handler
+  static member inline onExited(handler: ReactElement -> unit) = Interop.mkAttr "onExited" handler
   /// Callback fired when the Menu is exiting.
-  static member inline onExiting(handler: Event -> unit) = Interop.mkAttr "onExiting" handler
+  static member inline onExiting(handler: ReactElement -> unit) = Interop.mkAttr "onExiting" handler
   /// If `true`, the menu is visible.
   static member inline open'(value: bool) = Interop.mkAttr "open" value
   /// `classes` prop applied to the [`Popover`](https://material-ui.com/api/popover/) element.
@@ -2546,27 +2527,27 @@ type modal =
   /// Props applied to the [`Backdrop`](https://material-ui.com/api/backdrop/) element.
   static member inline BackdropProps(props: IReactProperty list) = Interop.mkAttr "BackdropProps" (createObj !!props)
   /// A single child content element.
-  /// 
+  ///
   /// ⚠️ [Needs to be able to hold a ref](https://material-ui.com/guides/composition/#caveat-with-refs).
   static member inline children(value: ReactElement) = Interop.mkAttr "children" value
   /// When set to true the Modal waits until a nested Transition is completed before closing.
   static member inline closeAfterTransition(value: bool) = Interop.mkAttr "closeAfterTransition" value
   /// A node, component instance, or function that returns either. The `container` will have the portal children appended to it.
-  static member inline container(value: Element option) = Interop.mkAttr "container" value
+  static member inline container(element: Element option) = Interop.mkAttr "container" element
   /// A node, component instance, or function that returns either. The `container` will have the portal children appended to it.
-  static member inline container(value: ReactElement option) = Interop.mkAttr "container" value
+  static member inline container(element: ReactElement option) = Interop.mkAttr "container" element
   /// A node, component instance, or function that returns either. The `container` will have the portal children appended to it.
-  static member inline container(value: unit -> Element option) = Interop.mkAttr "container" value
+  static member inline container(getElement: unit -> Element option) = Interop.mkAttr "container" getElement
   /// A node, component instance, or function that returns either. The `container` will have the portal children appended to it.
-  static member inline container(value: unit -> ReactElement option) = Interop.mkAttr "container" value
+  static member inline container(getElement: unit -> ReactElement option) = Interop.mkAttr "container" getElement
   /// If `true`, the modal will not automatically shift focus to itself when it opens, and replace it to the last focused element when it closes. This also works correctly with any modal children that have the `disableAutoFocus` prop.
-  /// 
+  ///
   /// Generally this should never be set to `true` as it makes the modal less accessible to assistive technologies, like screen readers.
   static member inline disableAutoFocus(value: bool) = Interop.mkAttr "disableAutoFocus" value
   /// If `true`, clicking the backdrop will not fire any callback.
   static member inline disableBackdropClick(value: bool) = Interop.mkAttr "disableBackdropClick" value
   /// If `true`, the modal will not prevent focus from leaving the modal while open.
-  /// 
+  ///
   /// Generally this should never be set to `true` as it makes the modal less accessible to assistive technologies, like screen readers.
   static member inline disableEnforceFocus(value: bool) = Interop.mkAttr "disableEnforceFocus" value
   /// If `true`, hitting escape will not fire any callback.
@@ -2584,37 +2565,33 @@ type modal =
   /// Callback fired when the backdrop is clicked.
   static member inline onBackdropClick(handler: Event -> unit) = Interop.mkAttr "onBackdropClick" handler
   /// Callback fired when the component requests to be closed. The `reason` parameter can optionally be used to control the response to `onClose`.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, reason: string) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`
-  static member inline onClose(handler: Event -> unit) = Interop.mkAttr "onClose" handler
+  static member inline onClose(handler: Event -> ModalCloseReason -> unit) = Interop.mkAttr "onClose" handler
   /// Callback fired when the escape key is pressed, `disableEscapeKeyDown` is false and the modal is in focus.
   static member inline onEscapeKeyDown(handler: Event -> unit) = Interop.mkAttr "onEscapeKeyDown" handler
-  /// Callback fired once the children has been mounted into the `container`. It signals that the `open={true}` prop took effect.
-  /// 
-  /// This prop will be deprecated and removed in v5, the ref can be used instead.
-  static member inline onRendered(handler: Event -> unit) = Interop.mkAttr "onRendered" handler
   /// If `true`, the modal is open.
   static member inline open'(value: bool) = Interop.mkAttr "open" value
 
 
 type nativeSelect =
-  /// The option elements to populate the select with. Can be some `` elements.
+  /// The option elements to populate the select with. Can be some `<option>` elements.
   static member inline children(element: ReactElement) = prop.children element
-  /// The option elements to populate the select with. Can be some `` elements.
+  /// The option elements to populate the select with. Can be some `<option>` elements.
   static member inline children(elements: ReactElement seq) = prop.children elements
-  /// The option elements to populate the select with. Can be some `` elements.
+  /// The option elements to populate the select with. Can be some `<option>` elements.
   static member inline children(value: string) = Interop.mkAttr "children" value
-  /// The option elements to populate the select with. Can be some `` elements.
+  /// The option elements to populate the select with. Can be some `<option>` elements.
   static member inline children(values: string seq) = Interop.mkAttr "children" values
-  /// The option elements to populate the select with. Can be some `` elements.
+  /// The option elements to populate the select with. Can be some `<option>` elements.
   static member inline children(value: int) = Interop.mkAttr "children" value
-  /// The option elements to populate the select with. Can be some `` elements.
+  /// The option elements to populate the select with. Can be some `<option>` elements.
   static member inline children(value: float) = Interop.mkAttr "children" value
   /// Override or extend the styles applied to the component. Use `classes.nativeSelect` to specify class names.
   static member inline classes(classNames: classes.INativeSelectClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
@@ -2625,12 +2602,12 @@ type nativeSelect =
   /// Attributes applied to the `select` element.
   static member inline inputProps(props: IReactProperty list) = Interop.mkAttr "inputProps" (createObj !!props)
   /// Callback function fired when a menu item is selected.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
-  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.value`.
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
   /// The input value.
   static member inline value(value: 'a) = Interop.mkAttr "value" value
@@ -2687,17 +2664,7 @@ type outlinedInput =
   /// If `true`, the `input` element will be disabled.
   static member inline disabled(value: bool) = Interop.mkAttr "disabled" value
   /// End `InputAdornment` for this component.
-  static member inline endAdornment(value: ReactElement) = Interop.mkAttr "endAdornment" value
-  /// End `InputAdornment` for this component.
-  static member inline endAdornment(values: ReactElement seq) = Interop.mkAttr "endAdornment" values
-  /// End `InputAdornment` for this component.
-  static member inline endAdornment(value: string) = Interop.mkAttr "endAdornment" value
-  /// End `InputAdornment` for this component.
-  static member inline endAdornment(values: string seq) = Interop.mkAttr "endAdornment" values
-  /// End `InputAdornment` for this component.
-  static member inline endAdornment(value: int) = Interop.mkAttr "endAdornment" value
-  /// End `InputAdornment` for this component.
-  static member inline endAdornment(value: float) = Interop.mkAttr "endAdornment" value
+  static member inline endAdornment(element: ReactElement) = Interop.mkAttr "endAdornment" element
   /// If `true`, the input will indicate an error. This is normally obtained via context from FormControl.
   static member inline error(value: bool) = Interop.mkAttr "error" value
   /// If `true`, the input will take up the full width of its container.
@@ -2711,7 +2678,7 @@ type outlinedInput =
   /// This prop can be used to pass a ref callback to the `input` element.
   static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: Element -> unit) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
   /// The width of the label.
   static member inline labelWidth(value: int) = Interop.mkAttr "labelWidth" value
   /// If `true`, a textarea element will be rendered.
@@ -2721,12 +2688,12 @@ type outlinedInput =
   /// If `true`, the outline is notched to accommodate the label.
   static member inline notched(value: bool) = Interop.mkAttr "notched" value
   /// Callback fired when the value is changed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
-  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.value`.
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
@@ -2739,17 +2706,7 @@ type outlinedInput =
   /// Maximum number of rows to display when multiline option is set to true.
   static member inline rowsMax(value: int) = Interop.mkAttr "rowsMax" value
   /// Start `InputAdornment` for this component.
-  static member inline startAdornment(value: ReactElement) = Interop.mkAttr "startAdornment" value
-  /// Start `InputAdornment` for this component.
-  static member inline startAdornment(values: ReactElement seq) = Interop.mkAttr "startAdornment" values
-  /// Start `InputAdornment` for this component.
-  static member inline startAdornment(value: string) = Interop.mkAttr "startAdornment" value
-  /// Start `InputAdornment` for this component.
-  static member inline startAdornment(values: string seq) = Interop.mkAttr "startAdornment" values
-  /// Start `InputAdornment` for this component.
-  static member inline startAdornment(value: int) = Interop.mkAttr "startAdornment" value
-  /// Start `InputAdornment` for this component.
-  static member inline startAdornment(value: float) = Interop.mkAttr "startAdornment" value
+  static member inline startAdornment(element: ReactElement) = Interop.mkAttr "startAdornment" element
   /// Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
   static member inline type'(value: string) = Interop.mkAttr "type" value
   /// The value of the `input` element, required for a controlled component.
@@ -2790,17 +2747,17 @@ type paper =
 
 type popover =
   /// This is callback prop. It's called by the component on mount. This is useful when you want to trigger an action programmatically. It currently only supports updatePosition() action.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(actions: object) => void`
-  /// 
+  ///
   /// *actions:* This object contains all possible actions that can be triggered programmatically.
-  static member inline action(value: unit -> unit) = Interop.mkAttr "action" value
+  static member inline action(handler: IPopoverActions -> unit) = Interop.mkAttr "action" handler
   /// This is the DOM element, or a function that returns the DOM element, that may be used to set the position of the popover.
   static member inline anchorEl(value: Element option) = Interop.mkAttr "anchorEl" value
   /// This is the DOM element, or a function that returns the DOM element, that may be used to set the position of the popover.
-  static member inline anchorEl(value: unit -> Element option) = Interop.mkAttr "anchorEl" value
+  static member inline anchorEl(handler: unit -> Element option) = Interop.mkAttr "anchorEl" handler
   /// This is the position that may be used to set the position of the popover. The coordinates are relative to the application's client area.
   static member anchorPosition(left: int, top: int) = [yield "left" ==> left; yield "top" ==> top] |> createObj |> Interop.mkAttr "anchorPosition"
   /// The content of the component.
@@ -2818,43 +2775,43 @@ type popover =
   /// Override or extend the styles applied to the component. Use `classes.popover` to specify class names.
   static member inline classes(classNames: classes.IPopoverClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
   /// A node, component instance, or function that returns either. The `container` will passed to the Modal component. By default, it uses the body of the anchorEl's top-level document object, so it's simply `document.body` most of the time.
-  static member inline container(value: Element option) = Interop.mkAttr "container" value
+  static member inline container(element: Element option) = Interop.mkAttr "container" element
   /// A node, component instance, or function that returns either. The `container` will passed to the Modal component. By default, it uses the body of the anchorEl's top-level document object, so it's simply `document.body` most of the time.
-  static member inline container(value: ReactElement option) = Interop.mkAttr "container" value
+  static member inline container(element: ReactElement option) = Interop.mkAttr "container" element
   /// A node, component instance, or function that returns either. The `container` will passed to the Modal component. By default, it uses the body of the anchorEl's top-level document object, so it's simply `document.body` most of the time.
-  static member inline container(value: unit -> Element option) = Interop.mkAttr "container" value
+  static member inline container(getElement: unit -> Element option) = Interop.mkAttr "container" getElement
   /// A node, component instance, or function that returns either. The `container` will passed to the Modal component. By default, it uses the body of the anchorEl's top-level document object, so it's simply `document.body` most of the time.
-  static member inline container(value: unit -> ReactElement option) = Interop.mkAttr "container" value
+  static member inline container(getElement: unit -> ReactElement option) = Interop.mkAttr "container" getElement
   /// The elevation of the popover.
   static member inline elevation(value: int) = Interop.mkAttr "elevation" value
   /// This function is called in order to retrieve the content anchor element. It's the opposite of the `anchorEl` prop. The content anchor element should be an element inside the popover. It's used to correctly scroll and set the position of the popover. The positioning strategy tries to make the content anchor element just above the anchor element.
-  static member inline getContentAnchorEl(value: unit -> unit) = Interop.mkAttr "getContentAnchorEl" value
+  static member inline getContentAnchorEl(handler: Element option -> unit) = Interop.mkAttr "getContentAnchorEl" handler
   /// Specifies how close to the edge of the window the popover can appear.
   static member inline marginThreshold(value: int) = Interop.mkAttr "marginThreshold" value
   /// `classes` prop applied to the [`Modal`](https://material-ui.com/api/modal/) element.
   static member inline ModalClasses(classNames: classes.IModalClasses list) = Interop.mkAttr "ModalClasses" (createObj !!classNames)
   /// Callback fired when the component requests to be closed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, reason: string) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback.
-  /// 
+  ///
   /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`
-  static member inline onClose(handler: Event -> unit) = Interop.mkAttr "onClose" handler
+  static member inline onClose(handler: Event -> PopoverCloseReason -> unit) = Interop.mkAttr "onClose" handler
   /// Callback fired before the component is entering.
-  static member inline onEnter(handler: Event -> unit) = Interop.mkAttr "onEnter" handler
+  static member inline onEnter(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEnter" handler
   /// Callback fired when the component has entered.
-  static member inline onEntered(handler: Event -> unit) = Interop.mkAttr "onEntered" handler
+  static member inline onEntered(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEntered" handler
   /// Callback fired when the component is entering.
-  static member inline onEntering(handler: Event -> unit) = Interop.mkAttr "onEntering" handler
+  static member inline onEntering(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEntering" handler
   /// Callback fired before the component is exiting.
-  static member inline onExit(handler: Event -> unit) = Interop.mkAttr "onExit" handler
+  static member inline onExit(handler: ReactElement -> unit) = Interop.mkAttr "onExit" handler
   /// Callback fired when the component has exited.
-  static member inline onExited(handler: Event -> unit) = Interop.mkAttr "onExited" handler
+  static member inline onExited(handler: ReactElement -> unit) = Interop.mkAttr "onExited" handler
   /// Callback fired when the component is exiting.
-  static member inline onExiting(handler: Event -> unit) = Interop.mkAttr "onExiting" handler
+  static member inline onExiting(handler: ReactElement -> unit) = Interop.mkAttr "onExiting" handler
   /// If `true`, the popover is visible.
   static member inline open'(value: bool) = Interop.mkAttr "open" value
   /// Props applied to the [`Paper`](https://material-ui.com/api/paper/) element.
@@ -2867,7 +2824,7 @@ type popover =
 module popover =
 
   /// This is the point on the anchor where the popover's `anchorEl` will attach to. This is not used when the anchorReference is 'anchorPosition'.
-  /// 
+  ///
   /// Options: vertical: [top, center, bottom]; horizontal: [left, center, right].
   type anchorOrigin =
     static member inline topLeft = Interop.mkAttr "anchorOrigin" {| vertical = "top"; horizontal = "left" |}
@@ -2893,7 +2850,7 @@ module popover =
     static member inline none = Interop.mkAttr "anchorReference" "none"
 
   /// This is the point on the popover which will attach to the anchor's origin.
-  /// 
+  ///
   /// Options: vertical: [top, center, bottom, x(px)]; horizontal: [left, center, right, x(px)].
   type transformOrigin =
     static member inline topLeft = Interop.mkAttr "transformOrigin" {| vertical = "top"; horizontal = "left" |}
@@ -2922,13 +2879,13 @@ module popover =
 
 type popper =
   /// This is the reference element, or a function that returns the reference element, that may be used to set the position of the popover. The return value will passed as the reference object of the Popper instance.
-  /// 
+  ///
   /// The reference element should be an HTML Element instance or a referenceObject: https://popper.js.org/popper-documentation.html#referenceObject.
   static member inline anchorEl(value: Element option) = Interop.mkAttr "anchorEl" value
   /// This is the reference element, or a function that returns the reference element, that may be used to set the position of the popover. The return value will passed as the reference object of the Popper instance.
-  /// 
+  ///
   /// The reference element should be an HTML Element instance or a referenceObject: https://popper.js.org/popper-documentation.html#referenceObject.
-  static member inline anchorEl(value: unit -> Element option) = Interop.mkAttr "anchorEl" value
+  static member inline anchorEl(handler: unit -> Element option) = Interop.mkAttr "anchorEl" handler
   /// Popper render function or node.
   static member inline children(element: ReactElement) = prop.children element
   /// Popper render function or node.
@@ -2942,19 +2899,19 @@ type popper =
   /// Popper render function or node.
   static member inline children(value: float) = Interop.mkAttr "children" value
   /// A node, component instance, or function that returns either. The `container` will passed to the Modal component. By default, it uses the body of the anchorEl's top-level document object, so it's simply `document.body` most of the time.
-  static member inline container(value: Element option) = Interop.mkAttr "container" value
+  static member inline container(element: Element option) = Interop.mkAttr "container" element
   /// A node, component instance, or function that returns either. The `container` will passed to the Modal component. By default, it uses the body of the anchorEl's top-level document object, so it's simply `document.body` most of the time.
-  static member inline container(value: ReactElement option) = Interop.mkAttr "container" value
+  static member inline container(element: ReactElement option) = Interop.mkAttr "container" element
   /// A node, component instance, or function that returns either. The `container` will passed to the Modal component. By default, it uses the body of the anchorEl's top-level document object, so it's simply `document.body` most of the time.
-  static member inline container(value: unit -> Element option) = Interop.mkAttr "container" value
+  static member inline container(getElement: unit -> Element option) = Interop.mkAttr "container" getElement
   /// A node, component instance, or function that returns either. The `container` will passed to the Modal component. By default, it uses the body of the anchorEl's top-level document object, so it's simply `document.body` most of the time.
-  static member inline container(value: unit -> ReactElement option) = Interop.mkAttr "container" value
+  static member inline container(getElement: unit -> ReactElement option) = Interop.mkAttr "container" getElement
   /// Disable the portal behavior. The children stay within it's parent DOM hierarchy.
   static member inline disablePortal(value: bool) = Interop.mkAttr "disablePortal" value
   /// Always keep the children in the DOM. This prop can be useful in SEO situation or when you want to maximize the responsiveness of the Popper.
   static member inline keepMounted(value: bool) = Interop.mkAttr "keepMounted" value
   /// Popper.js is based on a "plugin-like" architecture, most of its features are fully encapsulated "modifiers".
-  /// 
+  ///
   /// A modifier is a function that is called each time Popper.js needs to compute the position of the popper. For this reason, modifiers should be very performant to avoid bottlenecks. To learn how to create a modifier, [read the modifiers documentation](https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/popper-documentation.md#modifiers--object).
   static member inline modifiers(value: 'a) = Interop.mkAttr "modifiers" value
   /// If `true`, the popper is visible.
@@ -2964,7 +2921,7 @@ type popper =
   /// Callback fired when a new popper instance is used.
   static member inline popperRef(ref: IRefValue<Element option>) = Interop.mkAttr "popperRef" ref
   /// Callback fired when a new popper instance is used.
-  static member inline popperRef(ref: Element -> unit) = Interop.mkAttr "popperRef" ref
+  static member inline popperRef(handler: Element -> unit) = Interop.mkAttr "popperRef" handler
   /// Help supporting a react-transition-group/Transition component.
   static member inline transition(value: bool) = Interop.mkAttr "transition" value
 
@@ -3000,19 +2957,15 @@ type portal =
   /// The children to render into the `container`.
   static member inline children(value: float) = Interop.mkAttr "children" value
   /// A node, component instance, or function that returns either. The `container` will have the portal children appended to it. By default, it uses the body of the top-level document object, so it's simply `document.body` most of the time.
-  static member inline container(value: Element option) = Interop.mkAttr "container" value
+  static member inline container(element: Element option) = Interop.mkAttr "container" element
   /// A node, component instance, or function that returns either. The `container` will have the portal children appended to it. By default, it uses the body of the top-level document object, so it's simply `document.body` most of the time.
-  static member inline container(value: ReactElement option) = Interop.mkAttr "container" value
+  static member inline container(element: ReactElement option) = Interop.mkAttr "container" element
   /// A node, component instance, or function that returns either. The `container` will have the portal children appended to it. By default, it uses the body of the top-level document object, so it's simply `document.body` most of the time.
-  static member inline container(value: unit -> Element option) = Interop.mkAttr "container" value
+  static member inline container(getElement: unit -> Element option) = Interop.mkAttr "container" getElement
   /// A node, component instance, or function that returns either. The `container` will have the portal children appended to it. By default, it uses the body of the top-level document object, so it's simply `document.body` most of the time.
-  static member inline container(value: unit -> ReactElement option) = Interop.mkAttr "container" value
+  static member inline container(getElement: unit -> ReactElement option) = Interop.mkAttr "container" getElement
   /// Disable the portal behavior. The children stay within it's parent DOM hierarchy.
   static member inline disablePortal(value: bool) = Interop.mkAttr "disablePortal" value
-  /// Callback fired once the children has been mounted into the `container`.
-  /// 
-  /// This prop will be deprecated and removed in v5, the ref can be used instead.
-  static member inline onRendered(handler: Event -> unit) = Interop.mkAttr "onRendered" handler
 
 
 type radio =
@@ -3027,17 +2980,7 @@ type radio =
   /// If `true`, the ripple effect will be disabled.
   static member inline disableRipple(value: bool) = Interop.mkAttr "disableRipple" value
   /// The icon to display when the component is unchecked.
-  static member inline icon(value: ReactElement) = Interop.mkAttr "icon" value
-  /// The icon to display when the component is unchecked.
-  static member inline icon(values: ReactElement seq) = Interop.mkAttr "icon" values
-  /// The icon to display when the component is unchecked.
-  static member inline icon(value: string) = Interop.mkAttr "icon" value
-  /// The icon to display when the component is unchecked.
-  static member inline icon(values: string seq) = Interop.mkAttr "icon" values
-  /// The icon to display when the component is unchecked.
-  static member inline icon(value: int) = Interop.mkAttr "icon" value
-  /// The icon to display when the component is unchecked.
-  static member inline icon(value: float) = Interop.mkAttr "icon" value
+  static member inline icon(element: ReactElement) = Interop.mkAttr "icon" element
   /// The id of the `input` element.
   static member inline id(value: string) = Interop.mkAttr "id" value
   /// [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
@@ -3045,19 +2988,19 @@ type radio =
   /// This prop can be used to pass a ref callback to the `input` element.
   static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: Element -> unit) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
   /// Name attribute of the `input` element.
   static member inline name(value: string) = Interop.mkAttr "name" value
   /// Callback fired when the state is changed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, checked: boolean) => void`
-  /// 
-  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.value`.
-  /// 
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
+  ///
   /// *checked:* The `checked` value of the switch
-  static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
   /// If `true`, the `input` element will be required.
   static member inline required(value: bool) = Interop.mkAttr "required" value
   /// The input component prop `type`.
@@ -3092,15 +3035,15 @@ type radioGroup =
   /// The name used to reference the value of the control.
   static member inline name(value: string) = Interop.mkAttr "name" value
   /// Callback fired when a radio button is selected.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, value: string) => void`
-  /// 
-  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.value`.
-  /// 
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
+  ///
   /// *value:* The `value` of the selected radio button
-  static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> string -> unit) = Interop.mkAttr "onChange" handler
   /// Value of the selected radio button.
   static member inline value(value: string) = Interop.mkAttr "value" value
 
@@ -3113,25 +3056,23 @@ type rating =
   /// The icon to display when empty.
   static member inline emptyIcon(element: ReactElement) = Interop.mkAttr "emptyIcon" element
   /// Accepts a function which returns a string value that provides a user-friendly name for the current value of the rating.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(value: number) => void`
-  /// 
+  ///
   /// *value:* The rating label's value to format
-  static member inline getLabelText(value: unit -> unit) = Interop.mkAttr "getLabelText" value
+  static member inline getLabelText(getText: int -> string) = Interop.mkAttr "getLabelText" getText
+  /// Accepts a function which returns a string value that provides a user-friendly name for the current value of the rating.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(value: number) => void`
+  ///
+  /// *value:* The rating label's value to format
+  static member inline getLabelText(getText: float -> string) = Interop.mkAttr "getLabelText" getText
   /// The icon to display.
-  static member inline icon(value: ReactElement) = Interop.mkAttr "icon" value
-  /// The icon to display.
-  static member inline icon(values: ReactElement seq) = Interop.mkAttr "icon" values
-  /// The icon to display.
-  static member inline icon(value: string) = Interop.mkAttr "icon" value
-  /// The icon to display.
-  static member inline icon(values: string seq) = Interop.mkAttr "icon" values
-  /// The icon to display.
-  static member inline icon(value: int) = Interop.mkAttr "icon" value
-  /// The icon to display.
-  static member inline icon(value: float) = Interop.mkAttr "icon" value
+  static member inline icon(element: ReactElement) = Interop.mkAttr "icon" element
   /// The component containing the icon.
   static member inline IconContainerComponent(value: ReactElementType) = Interop.mkAttr "IconContainerComponent" value
   /// Maximum rating.
@@ -3139,25 +3080,45 @@ type rating =
   /// Name attribute of the radio `input` elements.
   static member inline name(value: string) = Interop.mkAttr "name" value
   /// Callback fired when the value changes.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, value: number) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *value:* The new value
-  static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
-  /// Callback function that is fired when the hover state changes.
-  /// 
+  static member inline onChange(handler: Event -> int -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the value changes.
+  ///
   /// **Signature:**
-  /// 
-  /// `function(event: object, value: any) => void`
-  /// 
+  ///
+  /// `function(event: object, value: number) => void`
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *value:* The new value
-  static member inline onChangeActive(handler: Event -> unit) = Interop.mkAttr "onChangeActive" handler
+  static member inline onChange(handler: Event -> float -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback function that is fired when the hover state changes.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: any) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* The new value
+  static member inline onChangeActive(handler: Event -> int -> unit) = Interop.mkAttr "onChangeActive" handler
+  /// Callback function that is fired when the hover state changes.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: any) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* The new value
+  static member inline onChangeActive(handler: Event -> float -> unit) = Interop.mkAttr "onChangeActive" handler
   /// The minimum increment value change allowed.
   static member inline precision(value: int) = Interop.mkAttr "precision" value
   /// Removes all hover effects and pointer events.
@@ -3180,40 +3141,40 @@ type rootRef =
   /// Provide a way to access the DOM node of the wrapped element. You can provide a callback ref or a `React.createRef()` ref.
   static member inline rootRef(ref: IRefValue<Element option>) = Interop.mkAttr "rootRef" ref
   /// Provide a way to access the DOM node of the wrapped element. You can provide a callback ref or a `React.createRef()` ref.
-  static member inline rootRef(ref: Element -> unit) = Interop.mkAttr "rootRef" ref
+  static member inline rootRef(handler: Element -> unit) = Interop.mkAttr "rootRef" handler
 
 
 type select =
   /// If true, the width of the popover will automatically be set according to the items inside the menu, otherwise it will be at least the width of the select input.
   static member inline autoWidth(value: bool) = Interop.mkAttr "autoWidth" value
   /// The option elements to populate the select with. Can be some `MenuItem` when `native` is false and `option` when `native` is true.
-  /// 
+  ///
   /// ⚠️The `MenuItem` elements **must** be direct descendants when `native` is false.
   static member inline children(element: ReactElement) = prop.children element
   /// The option elements to populate the select with. Can be some `MenuItem` when `native` is false and `option` when `native` is true.
-  /// 
+  ///
   /// ⚠️The `MenuItem` elements **must** be direct descendants when `native` is false.
   static member inline children(elements: ReactElement seq) = prop.children elements
   /// The option elements to populate the select with. Can be some `MenuItem` when `native` is false and `option` when `native` is true.
-  /// 
+  ///
   /// ⚠️The `MenuItem` elements **must** be direct descendants when `native` is false.
   static member inline children(value: string) = Interop.mkAttr "children" value
   /// The option elements to populate the select with. Can be some `MenuItem` when `native` is false and `option` when `native` is true.
-  /// 
+  ///
   /// ⚠️The `MenuItem` elements **must** be direct descendants when `native` is false.
   static member inline children(values: string seq) = Interop.mkAttr "children" values
   /// The option elements to populate the select with. Can be some `MenuItem` when `native` is false and `option` when `native` is true.
-  /// 
+  ///
   /// ⚠️The `MenuItem` elements **must** be direct descendants when `native` is false.
   static member inline children(value: int) = Interop.mkAttr "children" value
   /// The option elements to populate the select with. Can be some `MenuItem` when `native` is false and `option` when `native` is true.
-  /// 
+  ///
   /// ⚠️The `MenuItem` elements **must** be direct descendants when `native` is false.
   static member inline children(value: float) = Interop.mkAttr "children" value
   /// Override or extend the styles applied to the component. Use `classes.select` to specify class names.
   static member inline classes(classNames: classes.ISelectClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
   /// If `true`, a value is displayed even if no items are selected.
-  /// 
+  ///
   /// In order to display a meaningful value, a function should be passed to the `renderValue` prop which returns the value to be displayed when no items are selected. You can only use it when the `native` prop is `false` (default).
   static member inline displayEmpty(value: bool) = Interop.mkAttr "displayEmpty" value
   /// The icon that displays the arrow.
@@ -3229,41 +3190,41 @@ type select =
   /// If `true`, the component will be using a native `select` element.
   static member inline native(value: bool) = Interop.mkAttr "native" value
   /// Callback function fired when a menu item is selected.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, child?: object) => void`
-  /// 
-  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.value`.
-  /// 
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
+  ///
   /// *child:* The react element that was selected when `native` is `false` (default).
-  static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> ReactElement -> unit) = Interop.mkAttr "onChange" handler
   /// Callback fired when the component requests to be closed. Use in controlled mode (see open).
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
   static member inline onClose(handler: Event -> unit) = Interop.mkAttr "onClose" handler
   /// Callback fired when the component requests to be opened. Use in controlled mode (see open).
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
   static member inline onOpen(handler: Event -> unit) = Interop.mkAttr "onOpen" handler
   /// Control `select` open state. You can only use it when the `native` prop is `false` (default).
   static member inline open'(value: bool) = Interop.mkAttr "open" value
   /// Render the selected value. You can only use it when the `native` prop is `false` (default).
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(value: any) => ReactElement`
-  /// 
+  ///
   /// *value:* The `value` provided to the component.
-  static member inline renderValue(value: unit -> unit) = Interop.mkAttr "renderValue" value
+  static member inline renderValue(render: 'a -> ReactElement) = Interop.mkAttr "renderValue" render
   /// Props applied to the clickable div element.
   static member inline SelectDisplayProps(props: IReactProperty list) = Interop.mkAttr "SelectDisplayProps" (createObj !!props)
   /// The input value. This prop is required when the `native` prop is `false` (default).
@@ -3288,9 +3249,13 @@ type skeleton =
   /// If `true` the animation effect is disabled.
   static member inline disableAnimate(value: bool) = Interop.mkAttr "disableAnimate" value
   /// Height of the skeleton. Useful when you don't want to adapt the skeleton to a text element but for instance a card.
-  static member inline height(value: 'a) = Interop.mkAttr "height" value
+  static member inline height(value: int) = Interop.mkAttr "height" value
+  /// Height of the skeleton. Useful when you don't want to adapt the skeleton to a text element but for instance a card.
+  static member inline height(value: Styles.ICssUnit) = Interop.mkAttr "height" value
   /// Width of the skeleton. Useful when the skeleton is inside an inline element with no width of its own.
-  static member inline width(value: 'a) = Interop.mkAttr "width" value
+  static member inline width(value: int) = Interop.mkAttr "width" value
+  /// Width of the skeleton. Useful when the skeleton is inside an inline element with no width of its own.
+  static member inline width(value: Styles.ICssUnit) = Interop.mkAttr "width" value
 
 module skeleton =
 
@@ -3303,7 +3268,7 @@ module skeleton =
 
 type slide =
   /// A single child content element.
-  /// 
+  ///
   /// ⚠️ [Needs to be able to hold a ref](https://material-ui.com/guides/composition/#caveat-with-refs).
   static member inline children(value: ReactElement) = Interop.mkAttr "children" value
   /// If `true`, show the component; triggers the enter or exit animation.
@@ -3347,15 +3312,25 @@ type slider =
   /// If `true`, the slider will be disabled.
   static member inline disabled(value: bool) = Interop.mkAttr "disabled" value
   /// Accepts a function which returns a string value that provides a user-friendly name for the current value of the slider.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(value: number, index: number) => void`
-  /// 
+  ///
   /// *value:* The thumb label's value to format
-  /// 
+  ///
   /// *index:* The thumb label's index to format
-  static member inline getAriaValueText(value: unit -> unit) = Interop.mkAttr "getAriaValueText" value
+  static member inline getAriaValueText(getText: int -> int -> string) = Interop.mkAttr "getAriaValueText" getText
+  /// Accepts a function which returns a string value that provides a user-friendly name for the current value of the slider.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(value: number, index: number) => void`
+  ///
+  /// *value:* The thumb label's value to format
+  ///
+  /// *index:* The thumb label's index to format
+  static member inline getAriaValueText(getText: float -> int -> string) = Interop.mkAttr "getAriaValueText" getText
   /// Marks indicate predetermined values to which the user can move the slider. If `true` the marks will be spaced according the value of the `step` prop. If an array, it should contain objects with `value` and an optional `label` keys.
   static member inline marks(value: bool) = Interop.mkAttr "marks" value
   /// Marks indicate predetermined values to which the user can move the slider. If `true` the marks will be spaced according the value of the `step` prop. If an array, it should contain objects with `value` and an optional `label` keys.
@@ -3373,27 +3348,49 @@ type slider =
   /// Name attribute of the hidden `input` element.
   static member inline name(value: string) = Interop.mkAttr "name" value
   /// Callback function that is fired when the slider's value changed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, value: any) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *value:* The new value
-  static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> int -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback function that is fired when the slider's value changed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: any) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* The new value
+  static member inline onChange(handler: Event -> float -> unit) = Interop.mkAttr "onChange" handler
   /// Callback function that is fired when the `mouseup` is triggered.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, value: any) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *value:* The new value
-  static member inline onChangeCommitted(handler: Event -> unit) = Interop.mkAttr "onChangeCommitted" handler
+  static member inline onChangeCommitted(handler: Event -> int -> unit) = Interop.mkAttr "onChangeCommitted" handler
+  /// Callback function that is fired when the `mouseup` is triggered.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: any) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* The new value
+  static member inline onChangeCommitted(handler: Event -> float -> unit) = Interop.mkAttr "onChangeCommitted" handler
   /// The granularity with which the slider can step through values. (A "discrete" slider.) When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
-  static member inline step(value: int) = Interop.mkAttr "step" value
+  static member inline step(value: int option) = Interop.mkAttr "step" value
+  /// The granularity with which the slider can step through values. (A "discrete" slider.) When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
+  static member inline step(value: float option) = Interop.mkAttr "step" value
   /// The component used to display the value label.
   static member inline ThumbComponent(value: ReactElementType) = Interop.mkAttr "ThumbComponent" value
   /// The value of the slider. For ranged sliders, provide an array with two values.
@@ -3407,33 +3404,21 @@ type slider =
   /// The value label component.
   static member inline ValueLabelComponent(value: ReactElementType) = Interop.mkAttr "ValueLabelComponent" value
   /// The format function the value label's value.
-  /// 
+  ///
   /// When a function is provided, it should have the following signature:
-  /// 
+  ///
   /// - {number} value The value label's value to format - {number} index The value label's index to format
   static member inline valueLabelFormat(value: string) = Interop.mkAttr "valueLabelFormat" value
   /// The format function the value label's value.
-  /// 
+  ///
   /// When a function is provided, it should have the following signature:
-  /// 
-  /// - {number} value The value label's value to format - {number} index The value label's index to format
-  static member inline valueLabelFormat(format: int -> string) = Interop.mkAttr "valueLabelFormat" format
-  /// The format function the value label's value.
-  /// 
-  /// When a function is provided, it should have the following signature:
-  /// 
+  ///
   /// - {number} value The value label's value to format - {number} index The value label's index to format
   static member inline valueLabelFormat(format: int -> int -> string) = Interop.mkAttr "valueLabelFormat" format
   /// The format function the value label's value.
-  /// 
+  ///
   /// When a function is provided, it should have the following signature:
-  /// 
-  /// - {number} value The value label's value to format - {number} index The value label's index to format
-  static member inline valueLabelFormat(format: float -> string) = Interop.mkAttr "valueLabelFormat" format
-  /// The format function the value label's value.
-  /// 
-  /// When a function is provided, it should have the following signature:
-  /// 
+  ///
   /// - {number} value The value label's value to format - {number} index The value label's index to format
   static member inline valueLabelFormat(format: float -> int -> string) = Interop.mkAttr "valueLabelFormat" format
 
@@ -3445,7 +3430,7 @@ module slider =
     static member inline vertical = Interop.mkAttr "orientation" "vertical"
 
   /// Controls when the value label is displayed:
-  /// 
+  ///
   /// - `auto` the value label will display when the thumb is hovered or focused. - `on` will display persistently. - `off` will never display.
   type valueLabelDisplay =
     static member inline on = Interop.mkAttr "valueLabelDisplay" "on"
@@ -3468,6 +3453,8 @@ type snackbar =
   static member inline action(value: float) = Interop.mkAttr "action" value
   /// The number of milliseconds to wait before automatically calling the `onClose` function. `onClose` should then set the state of the `open` prop to hide the Snackbar. This behavior is disabled by default with the `null` value.
   static member inline autoHideDuration(value: int) = Interop.mkAttr "autoHideDuration" value
+  /// The number of milliseconds to wait before automatically calling the `onClose` function. `onClose` should then set the state of the `open` prop to hide the Snackbar. This behavior is disabled by default with the `null` value.
+  static member inline autoHideDuration(value: int option) = Interop.mkAttr "autoHideDuration" value
   /// Replace the `SnackbarContent` component.
   static member inline children(value: ReactElement) = Interop.mkAttr "children" value
   /// Override or extend the styles applied to the component. Use `classes.snackbar` to specify class names.
@@ -3492,28 +3479,28 @@ type snackbar =
   static member inline message(value: int) = Interop.mkAttr "message" value
   /// The message to display.
   static member inline message(value: float) = Interop.mkAttr "message" value
-  /// Callback fired when the component requests to be closed. Typically `onClose` is used to set state in the parent component, which is used to control the `Snackbar``open` prop. The `reason` parameter can optionally be used to control the response to `onClose`, for example ignoring `clickaway`.
-  /// 
+  /// Callback fired when the component requests to be closed. Typically `onClose` is used to set state in the parent component, which is used to control the `Snackbar` `open` prop. The `reason` parameter can optionally be used to control the response to `onClose`, for example ignoring `clickaway`.
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, reason: string) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *reason:* Can be:`"timeout"` (`autoHideDuration` expired) or: `"clickaway"`
-  static member inline onClose(handler: Event -> unit) = Interop.mkAttr "onClose" handler
+  static member inline onClose(handler: Event -> SnackbarCloseReason -> unit) = Interop.mkAttr "onClose" handler
   /// Callback fired before the transition is entering.
-  static member inline onEnter(handler: Event -> unit) = Interop.mkAttr "onEnter" handler
+  static member inline onEnter(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEnter" handler
   /// Callback fired when the transition has entered.
-  static member inline onEntered(handler: Event -> unit) = Interop.mkAttr "onEntered" handler
+  static member inline onEntered(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEntered" handler
   /// Callback fired when the transition is entering.
-  static member inline onEntering(handler: Event -> unit) = Interop.mkAttr "onEntering" handler
+  static member inline onEntering(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEntering" handler
   /// Callback fired before the transition is exiting.
-  static member inline onExit(handler: Event -> unit) = Interop.mkAttr "onExit" handler
+  static member inline onExit(handler: ReactElement -> unit) = Interop.mkAttr "onExit" handler
   /// Callback fired when the transition has exited.
-  static member inline onExited(handler: Event -> unit) = Interop.mkAttr "onExited" handler
+  static member inline onExited(handler: ReactElement -> unit) = Interop.mkAttr "onExited" handler
   /// Callback fired when the transition is exiting.
-  static member inline onExiting(handler: Event -> unit) = Interop.mkAttr "onExiting" handler
+  static member inline onExiting(handler: ReactElement -> unit) = Interop.mkAttr "onExiting" handler
   /// If true, `Snackbar` is open.
   static member inline open'(value: bool) = Interop.mkAttr "open" value
   /// The number of milliseconds to wait before dismissing after user interaction. If `autoHideDuration` prop isn't specified, it does nothing. If `autoHideDuration` prop is specified but `resumeHideDuration` isn't, we default to `autoHideDuration / 2` ms.
@@ -3592,15 +3579,15 @@ type speedDial =
   /// The icon to display in the SpeedDial Floating Action Button. The `SpeedDialIcon` component provides a default Icon with animation.
   static member inline icon(value: ReactElement) = Interop.mkAttr "icon" value
   /// Callback fired when the component requests to be closed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, key: string) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *key:* The key pressed
-  static member inline onClose(handler: Event -> unit) = Interop.mkAttr "onClose" handler
+  static member inline onClose(handler: Event -> string -> unit) = Interop.mkAttr "onClose" handler
   /// If `true`, the SpeedDial is open.
   static member inline open'(value: bool) = Interop.mkAttr "open" value
   /// The icon to display in the SpeedDial Floating Action Button when the SpeedDial is open.
@@ -3632,17 +3619,7 @@ type speedDialAction =
   /// Adds a transition delay, to allow a series of SpeedDialActions to be animated.
   static member inline delay(value: int) = Interop.mkAttr "delay" value
   /// The Icon to display in the SpeedDial Floating Action Button.
-  static member inline icon(value: ReactElement) = Interop.mkAttr "icon" value
-  /// The Icon to display in the SpeedDial Floating Action Button.
-  static member inline icon(values: ReactElement seq) = Interop.mkAttr "icon" values
-  /// The Icon to display in the SpeedDial Floating Action Button.
-  static member inline icon(value: string) = Interop.mkAttr "icon" value
-  /// The Icon to display in the SpeedDial Floating Action Button.
-  static member inline icon(values: string seq) = Interop.mkAttr "icon" values
-  /// The Icon to display in the SpeedDial Floating Action Button.
-  static member inline icon(value: int) = Interop.mkAttr "icon" value
-  /// The Icon to display in the SpeedDial Floating Action Button.
-  static member inline icon(value: float) = Interop.mkAttr "icon" value
+  static member inline icon(element: ReactElement) = Interop.mkAttr "icon" element
   /// Classes applied to the [`Tooltip`](https://material-ui.com/api/tooltip/) element.
   static member inline TooltipClasses(classNames: classes.ITooltipClasses list) = Interop.mkAttr "TooltipClasses" (createObj !!classNames)
   /// Make the tooltip always visible when the SpeedDial is open.
@@ -3682,17 +3659,7 @@ type speedDialIcon =
   /// Override or extend the styles applied to the component. Use `classes.speedDialIcon` to specify class names.
   static member inline classes(classNames: classes.ISpeedDialIconClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
   /// The icon to display in the SpeedDial Floating Action Button.
-  static member inline icon(value: ReactElement) = Interop.mkAttr "icon" value
-  /// The icon to display in the SpeedDial Floating Action Button.
-  static member inline icon(values: ReactElement seq) = Interop.mkAttr "icon" values
-  /// The icon to display in the SpeedDial Floating Action Button.
-  static member inline icon(value: string) = Interop.mkAttr "icon" value
-  /// The icon to display in the SpeedDial Floating Action Button.
-  static member inline icon(values: string seq) = Interop.mkAttr "icon" values
-  /// The icon to display in the SpeedDial Floating Action Button.
-  static member inline icon(value: int) = Interop.mkAttr "icon" value
-  /// The icon to display in the SpeedDial Floating Action Button.
-  static member inline icon(value: float) = Interop.mkAttr "icon" value
+  static member inline icon(element: ReactElement) = Interop.mkAttr "icon" element
   /// The icon to display in the SpeedDial Floating Action Button when the SpeedDial is open.
   static member inline openIcon(element: ReactElement) = Interop.mkAttr "openIcon" element
 
@@ -3736,17 +3703,7 @@ type stepButton =
   /// Override or extend the styles applied to the component. Use `classes.stepButton` to specify class names.
   static member inline classes(classNames: classes.IStepButtonClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
   /// The icon displayed by the step label.
-  static member inline icon(value: ReactElement) = Interop.mkAttr "icon" value
-  /// The icon displayed by the step label.
-  static member inline icon(values: ReactElement seq) = Interop.mkAttr "icon" values
-  /// The icon displayed by the step label.
-  static member inline icon(value: string) = Interop.mkAttr "icon" value
-  /// The icon displayed by the step label.
-  static member inline icon(values: string seq) = Interop.mkAttr "icon" values
-  /// The icon displayed by the step label.
-  static member inline icon(value: int) = Interop.mkAttr "icon" value
-  /// The icon displayed by the step label.
-  static member inline icon(value: float) = Interop.mkAttr "icon" value
+  static member inline icon(element: ReactElement) = Interop.mkAttr "icon" element
   /// The optional node to display.
   static member inline optional(value: ReactElement) = Interop.mkAttr "optional" value
   /// The optional node to display.
@@ -3789,7 +3746,7 @@ type stepContent =
 module stepContent =
 
   /// Adjust the duration of the content expand transition. Passed as a prop to the transition component.
-  /// 
+  ///
   /// Set to 'auto' to automatically calculate transition time based on height.
   type transitionDuration =
     static member inline value(value: int) = Interop.mkAttr "transitionDuration" value
@@ -3807,17 +3764,7 @@ type stepIcon =
   /// Mark the step as failed.
   static member inline error(value: bool) = Interop.mkAttr "error" value
   /// The label displayed in the step icon.
-  static member inline icon(value: ReactElement) = Interop.mkAttr "icon" value
-  /// The label displayed in the step icon.
-  static member inline icon(values: ReactElement seq) = Interop.mkAttr "icon" values
-  /// The label displayed in the step icon.
-  static member inline icon(value: string) = Interop.mkAttr "icon" value
-  /// The label displayed in the step icon.
-  static member inline icon(values: string seq) = Interop.mkAttr "icon" values
-  /// The label displayed in the step icon.
-  static member inline icon(value: int) = Interop.mkAttr "icon" value
-  /// The label displayed in the step icon.
-  static member inline icon(value: float) = Interop.mkAttr "icon" value
+  static member inline icon(element: ReactElement) = Interop.mkAttr "icon" element
 
 
 type stepLabel =
@@ -3840,17 +3787,7 @@ type stepLabel =
   /// Mark the step as failed.
   static member inline error(value: bool) = Interop.mkAttr "error" value
   /// Override the default label of the step icon.
-  static member inline icon(value: ReactElement) = Interop.mkAttr "icon" value
-  /// Override the default label of the step icon.
-  static member inline icon(values: ReactElement seq) = Interop.mkAttr "icon" values
-  /// Override the default label of the step icon.
-  static member inline icon(value: string) = Interop.mkAttr "icon" value
-  /// Override the default label of the step icon.
-  static member inline icon(values: string seq) = Interop.mkAttr "icon" values
-  /// Override the default label of the step icon.
-  static member inline icon(value: int) = Interop.mkAttr "icon" value
-  /// Override the default label of the step icon.
-  static member inline icon(value: float) = Interop.mkAttr "icon" value
+  static member inline icon(element: ReactElement) = Interop.mkAttr "icon" element
   /// The optional node to display.
   static member inline optional(value: ReactElement) = Interop.mkAttr "optional" value
   /// The optional node to display.
@@ -3874,18 +3811,8 @@ type stepper =
   static member inline activeStep(value: int) = Interop.mkAttr "activeStep" value
   /// If set to 'true' and orientation is horizontal, then the step label will be positioned under the icon.
   static member inline alternativeLabel(value: bool) = Interop.mkAttr "alternativeLabel" value
-  /// Two or more `` components.
-  static member inline children(element: ReactElement) = prop.children element
-  /// Two or more `` components.
+  /// Two or more `<Step />` components.
   static member inline children(elements: ReactElement seq) = prop.children elements
-  /// Two or more `` components.
-  static member inline children(value: string) = Interop.mkAttr "children" value
-  /// Two or more `` components.
-  static member inline children(values: string seq) = Interop.mkAttr "children" values
-  /// Two or more `` components.
-  static member inline children(value: int) = Interop.mkAttr "children" value
-  /// Two or more `` components.
-  static member inline children(value: float) = Interop.mkAttr "children" value
   /// Override or extend the styles applied to the component. Use `classes.stepper` to specify class names.
   static member inline classes(classNames: classes.IStepperClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
   /// An element to be placed between each step.
@@ -3956,23 +3883,23 @@ type swipeableDrawer =
   /// If `true`, swipe to open is disabled. This is useful in browsers where swiping triggers navigation actions. Swipe to open is disabled on iOS browsers by default.
   static member inline disableSwipeToOpen(value: bool) = Interop.mkAttr "disableSwipeToOpen" value
   /// Affects how far the drawer must be opened/closed to change his state. Specified as percent (0-1) of the width of the drawer
-  static member inline hysteresis(value: int) = Interop.mkAttr "hysteresis" value
+  static member inline hysteresis(value: float) = Interop.mkAttr "hysteresis" value
   /// Defines, from which (average) velocity on, the swipe is defined as complete although hysteresis isn't reached. Good threshold is between 250 - 1000 px/s
   static member inline minFlingVelocity(value: int) = Interop.mkAttr "minFlingVelocity" value
   /// Callback fired when the component requests to be closed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
   static member inline onClose(handler: Event -> unit) = Interop.mkAttr "onClose" handler
   /// Callback fired when the component requests to be opened.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
   static member inline onOpen(handler: Event -> unit) = Interop.mkAttr "onOpen" handler
   /// If `true`, the drawer is open.
@@ -3999,17 +3926,7 @@ type switch =
   /// If `true`, the ripple effect will be disabled.
   static member inline disableRipple(value: bool) = Interop.mkAttr "disableRipple" value
   /// The icon to display when the component is unchecked.
-  static member inline icon(value: ReactElement) = Interop.mkAttr "icon" value
-  /// The icon to display when the component is unchecked.
-  static member inline icon(values: ReactElement seq) = Interop.mkAttr "icon" values
-  /// The icon to display when the component is unchecked.
-  static member inline icon(value: string) = Interop.mkAttr "icon" value
-  /// The icon to display when the component is unchecked.
-  static member inline icon(values: string seq) = Interop.mkAttr "icon" values
-  /// The icon to display when the component is unchecked.
-  static member inline icon(value: int) = Interop.mkAttr "icon" value
-  /// The icon to display when the component is unchecked.
-  static member inline icon(value: float) = Interop.mkAttr "icon" value
+  static member inline icon(element: ReactElement) = Interop.mkAttr "icon" element
   /// The id of the `input` element.
   static member inline id(value: string) = Interop.mkAttr "id" value
   /// [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
@@ -4017,17 +3934,17 @@ type switch =
   /// This prop can be used to pass a ref callback to the `input` element.
   static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: Element -> unit) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
   /// Callback fired when the state is changed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, checked: boolean) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.checked`.
-  /// 
+  ///
   /// *checked:* The `checked` value of the switch
-  static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
   /// If `true`, the `input` element will be required.
   static member inline required(value: bool) = Interop.mkAttr "required" value
   /// The input component prop `type`.
@@ -4065,17 +3982,7 @@ type tab =
   /// If `true`, the ripple effect will be disabled.
   static member inline disableRipple(value: bool) = Interop.mkAttr "disableRipple" value
   /// The icon element.
-  static member inline icon(value: ReactElement) = Interop.mkAttr "icon" value
-  /// The icon element.
-  static member inline icon(values: ReactElement seq) = Interop.mkAttr "icon" values
-  /// The icon element.
-  static member inline icon(value: string) = Interop.mkAttr "icon" value
-  /// The icon element.
-  static member inline icon(values: string seq) = Interop.mkAttr "icon" values
-  /// The icon element.
-  static member inline icon(value: int) = Interop.mkAttr "icon" value
-  /// The icon element.
-  static member inline icon(value: float) = Interop.mkAttr "icon" value
+  static member inline icon(element: ReactElement) = Interop.mkAttr "icon" element
   /// The label element.
   static member inline label(value: ReactElement) = Interop.mkAttr "label" value
   /// The label element.
@@ -4174,7 +4081,7 @@ type tableCell =
 module tableCell =
 
   /// Set the text-align on the table cell content.
-  /// 
+  ///
   /// Monetary or generally number fields **should be right aligned** as that allows you to add them up quickly in your head without having to worry about decimals.
   type align =
     static member inline inherit' = Interop.mkAttr "align" "inherit"
@@ -4263,7 +4170,7 @@ type tablePagination =
   /// The total number of rows.
   static member inline count(value: int) = Interop.mkAttr "count" value
   /// Customize the displayed rows label.
-  static member inline labelDisplayedRows(value: unit -> unit) = Interop.mkAttr "labelDisplayedRows" value
+  static member labelDisplayedRows(getLabel: {| from: int; to': int; count: int |} -> ReactElement) = Interop.mkAttr "labelDisplayedRows" getLabel
   /// Customize the rows per page label. Invoked with a `{ from, to, count, page }` object.
   static member inline labelRowsPerPage(value: ReactElement) = Interop.mkAttr "labelRowsPerPage" value
   /// Customize the rows per page label. Invoked with a `{ from, to, count, page }` object.
@@ -4279,21 +4186,21 @@ type tablePagination =
   /// Props applied to the next arrow [`IconButton`](https://material-ui.com/api/icon-button/) element.
   static member inline nextIconButtonProps(props: IReactProperty list) = Interop.mkAttr "nextIconButtonProps" (createObj !!props)
   /// Callback fired when the page is changed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, page: number) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *page:* The page selected
-  static member inline onChangePage(handler: Event -> unit) = Interop.mkAttr "onChangePage" handler
+  static member inline onChangePage(handler: Event -> int -> unit) = Interop.mkAttr "onChangePage" handler
   /// Callback fired when the number of rows per page is changed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
   static member inline onChangeRowsPerPage(handler: Event -> unit) = Interop.mkAttr "onChangeRowsPerPage" handler
   /// The zero-based index of the current page.
@@ -4307,24 +4214,10 @@ type tablePagination =
 
 
 type tableRow =
-  /// Should be valid | children such as `TableCell`.
-  /// |  |
+  /// Should be valid `<tr>` children such as `TableCell`.
   static member inline children(element: ReactElement) = prop.children element
-  /// Should be valid | children such as `TableCell`.
-  /// |  |
+  /// Should be valid `<tr>` children such as `TableCell`.
   static member inline children(elements: ReactElement seq) = prop.children elements
-  /// Should be valid | children such as `TableCell`.
-  /// |  |
-  static member inline children(value: string) = Interop.mkAttr "children" value
-  /// Should be valid | children such as `TableCell`.
-  /// |  |
-  static member inline children(values: string seq) = Interop.mkAttr "children" values
-  /// Should be valid | children such as `TableCell`.
-  /// |  |
-  static member inline children(value: int) = Interop.mkAttr "children" value
-  /// Should be valid | children such as `TableCell`.
-  /// |  |
-  static member inline children(value: float) = Interop.mkAttr "children" value
   /// Override or extend the styles applied to the component. Use `classes.tableRow` to specify class names.
   static member inline classes(classNames: classes.ITableRowClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
   /// The component used for the root node. Either a string to use a DOM element or a component.
@@ -4369,13 +4262,13 @@ module tableSortLabel =
 
 type tabs =
   /// Callback fired when the component mounts. This is useful when you want to trigger an action programmatically. It currently only supports `updateIndicator()` action.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(actions: object) => void`
-  /// 
+  ///
   /// *actions:* This object contains all possible actions that can be triggered programmatically.
-  static member inline action(value: unit -> unit) = Interop.mkAttr "action" value
+  static member inline action(handler: ITabsActions -> unit) = Interop.mkAttr "action" handler
   /// If `true`, the tabs will be centered. This property is intended for large views.
   static member inline centered(value: bool) = Interop.mkAttr "centered" value
   /// The content of the component.
@@ -4397,13 +4290,13 @@ type tabs =
   /// The component used for the root node. Either a string to use a DOM element or a component.
   static member inline component'(value: ReactElementType) = Interop.mkAttr "component" value
   /// Callback fired when the value changes.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, value: any) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *value:* We default to the index of the child (number)
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
   /// The component used to render the scroll buttons.
@@ -4411,7 +4304,7 @@ type tabs =
   /// Props applied to the tab indicator element.
   static member inline TabIndicatorProps(props: IReactProperty list) = Interop.mkAttr "TabIndicatorProps" (createObj !!props)
   /// The value of the currently selected `Tab`. If you don't want any selected `Tab`, you can set this property to `false`.
-  static member inline value(value: 'a) = Interop.mkAttr "value" value
+  static member inline value(value: 'tabValue) = Interop.mkAttr "value" value
 
 module tabs =
 
@@ -4426,7 +4319,7 @@ module tabs =
     static member inline vertical = Interop.mkAttr "orientation" "vertical"
 
   /// Determine behavior of scroll buttons when tabs are set to scroll:
-  /// 
+  ///
   /// - `auto` will only present them when not all the items are visible. - `desktop` will only present them on medium and larger viewports. - `on` will always present them. - `off` will never present them.
   type scrollButtons =
     static member inline auto = Interop.mkAttr "scrollButtons" "auto"
@@ -4441,12 +4334,19 @@ module tabs =
     static member inline inherit' = Interop.mkAttr "textColor" "inherit"
 
   /// Determines additional display behavior of the tabs:
-  /// 
+  ///
   ///  - `scrollable` will invoke scrolling properties and allow for horizontally scrolling (or swiping) of the tab bar. -`fullWidth` will make the tabs grow to use all the available space, which should be used for small views, like on mobile. - `standard` will render the default state.
   type variant =
     static member inline standard = Interop.mkAttr "variant" "standard"
     static member inline scrollable = Interop.mkAttr "variant" "scrollable"
     static member inline fullWidth = Interop.mkAttr "variant" "fullWidth"
+
+
+type textareaAutosize =
+  /// Minimum number of rows to display.
+  static member inline rows(value: int) = Interop.mkAttr "rows" value
+  /// Maximum number of rows to display.
+  static member inline rowsMax(value: int) = Interop.mkAttr "rowsMax" value
 
 
 type textField =
@@ -4489,7 +4389,7 @@ type textField =
   /// This prop can be used to pass a ref callback to the `input` element.
   static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: Element -> unit) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
   /// The label content.
   static member inline label(value: ReactElement) = Interop.mkAttr "label" value
   /// The label content.
@@ -4507,12 +4407,12 @@ type textField =
   /// Name attribute of the `input` element.
   static member inline name(value: string) = Interop.mkAttr "name" value
   /// Callback fired when the value is changed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
-  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.value`.
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
@@ -4544,13 +4444,6 @@ module textField =
     static member inline standard = Interop.mkAttr "variant" "standard"
     static member inline outlined = Interop.mkAttr "variant" "outlined"
     static member inline filled = Interop.mkAttr "variant" "filled"
-
-
-type textareaAutosize =
-  /// Minimum number of rows to display.
-  static member inline rows(value: int) = Interop.mkAttr "rows" value
-  /// Maximum number of rows to display.
-  static member inline rowsMax(value: int) = Interop.mkAttr "rowsMax" value
 
 
 type toggleButton =
@@ -4598,17 +4491,29 @@ type toggleButtonGroup =
   /// If `true`, only allow one of the child ToggleButton values to be selected.
   static member inline exclusive(value: bool) = Interop.mkAttr "exclusive" value
   /// Callback fired when the value changes.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object, value: object) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
-  /// 
+  ///
   /// *value:* of the selected buttons. When `exclusive` is true this is a single value; when false an array of selected values. If no value is selected and `exclusive` is true the value is null; when false an empty array.
-  static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> 'toggleButtonValue option -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback fired when the value changes.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: object) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* of the selected buttons. When `exclusive` is true this is a single value; when false an array of selected values. If no value is selected and `exclusive` is true the value is null; when false an empty array.
+  static member inline onChange(handler: Event -> 'toggleButtonValue [] -> unit) = Interop.mkAttr "onChange" handler
   /// The currently selected value within the group or an array of selected values when `exclusive` is false.
-  static member inline value(value: 'a) = Interop.mkAttr "value" value
+  static member inline value(value: 'toggleButtonValue option) = Interop.mkAttr "value" value
+  /// The currently selected value within the group or an array of selected values when `exclusive` is false.
+  static member inline value(values: 'toggleButtonValue []) = Interop.mkAttr "value" values
 
 module toggleButtonGroup =
 
@@ -4651,7 +4556,7 @@ module toolbar =
 
 type tooltip =
   /// Tooltip reference element.
-  /// 
+  ///
   /// ⚠️ [Needs to be able to hold a ref](https://material-ui.com/guides/composition/#caveat-with-refs).
   static member inline children(value: ReactElement) = Interop.mkAttr "children" value
   /// Override or extend the styles applied to the component. Use `classes.tooltip` to specify class names.
@@ -4675,19 +4580,19 @@ type tooltip =
   /// The number of milliseconds after the user stops touching an element before hiding the tooltip.
   static member inline leaveTouchDelay(value: int) = Interop.mkAttr "leaveTouchDelay" value
   /// Callback fired when the tooltip requests to be closed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
   static member inline onClose(handler: Event -> unit) = Interop.mkAttr "onClose" handler
   /// Callback fired when the tooltip requests to be open.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(event: object) => void`
-  /// 
+  ///
   /// *event:* The event source of the callback
   static member inline onOpen(handler: Event -> unit) = Interop.mkAttr "onOpen" handler
   /// If `true`, the tooltip is shown.
@@ -4758,17 +4663,7 @@ type treeItem =
   /// The icon used to expand the node.
   static member inline expandIcon(element: ReactElement) = Interop.mkAttr "expandIcon" element
   /// The icon to display next to the tree node's label.
-  static member inline icon(value: ReactElement) = Interop.mkAttr "icon" value
-  /// The icon to display next to the tree node's label.
-  static member inline icon(values: ReactElement seq) = Interop.mkAttr "icon" values
-  /// The icon to display next to the tree node's label.
-  static member inline icon(value: string) = Interop.mkAttr "icon" value
-  /// The icon to display next to the tree node's label.
-  static member inline icon(values: string seq) = Interop.mkAttr "icon" values
-  /// The icon to display next to the tree node's label.
-  static member inline icon(value: int) = Interop.mkAttr "icon" value
-  /// The icon to display next to the tree node's label.
-  static member inline icon(value: float) = Interop.mkAttr "icon" value
+  static member inline icon(element: ReactElement) = Interop.mkAttr "icon" element
   /// The tree node label.
   static member inline label(value: ReactElement) = Interop.mkAttr "label" value
   /// The tree node label.
@@ -4813,15 +4708,15 @@ type treeView =
   /// The default icon displayed next to a parent node. This is applied to all parent nodes and can be overridden by the TreeItem `icon` prop.
   static member inline defaultParentIcon(element: ReactElement) = Interop.mkAttr "defaultParentIcon" element
   /// Callback fired when a `TreeItem` is expanded/collapsed.
-  /// 
+  ///
   /// **Signature:**
-  /// 
+  ///
   /// `function(nodeId: string, expanded: boolean) => void`
-  /// 
+  ///
   /// *nodeId:* The id of the toggled node.
-  /// 
+  ///
   /// *expanded:* The node status - If `true` the node was expanded. If `false` the node was collapsed.
-  static member inline onNodeToggle(handler: Event -> unit) = Interop.mkAttr "onNodeToggle" handler
+  static member inline onNodeToggle(handler: string -> bool -> unit) = Interop.mkAttr "onNodeToggle" handler
 
 
 type typography =

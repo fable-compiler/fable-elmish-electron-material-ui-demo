@@ -1,22 +1,10 @@
 module App
 
-open System
 open Elmish
 open Elmish.React
-open Fable.Core
-open Fable.Core.JsInterop
 open Fable.React
-open Fable.React.Props
-open Fable.MaterialUI
-open Fable.MaterialUI.Core
-open Fable.MaterialUI.Props
-open Fable.MaterialUI.MaterialDesignIcons
-open Fable.MaterialUI.Icons
 open Feliz
 open Feliz.MaterialUI
-
-
-let log x = Browser.Dom.console.log x
 
 
 type Page =
@@ -164,7 +152,7 @@ let private pageView model dispatch =
           ]
         ]
       ]
-  | TextFields -> lazyView2 TextFields.view model.TextFields (TextFieldsMsg >> dispatch)
+  | TextFields -> TextFields.TextFieldPage (model.TextFields, TextFieldsMsg >> dispatch)
 
 
 let RootView = FunctionComponent.Of((fun(model, dispatch) ->

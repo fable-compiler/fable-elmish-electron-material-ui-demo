@@ -9,10 +9,10 @@ TODO:
   - Friendlier overloads for srcSet/sizes props? Wait for Feliz? https://github.com/Zaid-Ajaj/Feliz/issues/20
   - Shortcuts for event callbacks with the value extracted
   - Test all shortcut event callbacks
+  - Check if any values should be wrapped in option
   - test ref props and all other IRefValue props
   - test anchorEl props
   - test select.onChange
-  - reconcile special prop handling for props where the desired overloads are identical
   - use internal types instead of MUI for "action" props etc.?
   - unsure if component
 *)
@@ -193,15 +193,15 @@ let generatePage (url: String) =
 
         | "popover", "anchorPosition",  "{ left: number, top: number }" ->
             let paramList, objCreator =
-              [ "left", "int", false;
+              [ "left", "int", false
                 "top", "int", false ]
               |> paramListAndObjCreator
             [sprintf "  static member %s(%s) = %s |> Interop.mkAttr \"%s\"" propNameSafe paramList objCreator propName]
 
         | "treeView", "defaultExpanded", _ ->
-            [sprintf "  static member inline %s([<ParamArray>] nodeIds: string []) = Interop.mkAttr \"%s\" nodeIds"propNameSafe propName]
+            [sprintf "  static member inline %s([<ParamArray>] nodeIds: string []) = Interop.mkAttr \"%s\" nodeIds" propNameSafe propName]
 
-        | ("input" | "filledInput" | "outlinedInput" | "inputBase" | "textareaAutosize" | "textField"), ("rows" | "rowsMax"), _ ->
+        | ("input" | "filledInput" | "outlinedInput" | "inputBase" | "textareaAutosize" | "textField"), ("rows" | "rowsMax"), "string | number" ->
             [sprintf "  static member inline %s(value: int) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
         | "slider", ("value" | "defaultValue"), _ ->
@@ -270,7 +270,8 @@ let generatePage (url: String) =
               sprintf "  static member inline %s(values: 'toggleButtonValue []) = Interop.mkAttr \"%s\" values" propNameSafe propName
             ]
 
-        | "radioGroup", "onChange", "func" ->
+        | "radioGroup", "onChange", "func"
+        | "speedDial", "onClose", "func" ->
             [sprintf "  static member inline %s(handler: Event -> string -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
 
         | ("expansionPanel" | "formControlLabel" | "checkbox" | "radio" | "switch"), "onChange", "func" ->
@@ -278,9 +279,9 @@ let generatePage (url: String) =
 
         | "tablePagination", "labelDisplayedRows", "func" ->
             [sprintf "  static member %s(getLabel: {| from: int; to': int; count: int |} -> ReactElement) = Interop.mkAttr \"%s\" getLabel" propNameSafe propName]
-            
 
-        | "rating", ("onChange" | "onChangeActive"), "func" ->
+        | "rating", ("onChange" | "onChangeActive"), "func"
+        | "slider", ("onChange" | "onChangeCommitted"), "func" ->
             [
               sprintf "  static member inline %s(handler: Event -> int -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
               sprintf "  static member inline %s(handler: Event -> float -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
@@ -288,12 +289,6 @@ let generatePage (url: String) =
 
         | "select", "onChange", "func" ->
             [sprintf "  static member inline %s(handler: Event -> ReactElement -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
-
-        | "slider", ("onChange" | "onChangeCommitted"), "func" ->
-            [
-              sprintf "  static member inline %s(handler: Event -> int -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
-              sprintf "  static member inline %s(handler: Event -> float -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
-            ]
 
         | "tablePagination", "onChangePage", "func" ->
             [
@@ -318,12 +313,7 @@ let generatePage (url: String) =
         | "checkbox", "value", "any" ->
             [sprintf "  static member inline %s(value: string) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
-        | "circularProgress", "size", "number | string" ->
-            [
-              sprintf "  static member inline %s(value: int) = Interop.mkAttr \"%s\" value" propNameSafe propName
-              sprintf "  static member inline %s(value: Styles.ICssUnit) = Interop.mkAttr \"%s\" value" propNameSafe propName
-            ]
-
+        | "circularProgress", "size", "number | string"
         | "skeleton", ("height" | "width"), "any" ->
             [
               sprintf "  static member inline %s(value: int) = Interop.mkAttr \"%s\" value" propNameSafe propName
@@ -347,9 +337,6 @@ let generatePage (url: String) =
 
         | "snackbar", "onClose", "func" ->
             [sprintf "  static member inline %s(handler: Event -> SnackbarCloseReason -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
-
-        | "speedDial", "onClose", "func" ->
-            [sprintf "  static member inline %s(handler: Event -> string -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
 
         | ("modal" | "portal"), "onRendered", "func" ->
             []  // deprecated
@@ -459,7 +446,7 @@ let generatePage (url: String) =
         | ("filledInput" | "input" | "inputBase" | "outlinedInput"), ("startAdornment" | "endAdornment"), "node" ->
             [sprintf "  static member inline %s(element: ReactElement) = Interop.mkAttr \"%s\" element" propNameSafe propName]
 
-        | "formControl", "children", "node" ->
+        | ("formControl" | "tableRow"), "children", "node" ->
             [
               sprintf "  static member inline %s(element: ReactElement) = prop.children element" propNameSafe
               sprintf "  static member inline %s(elements: ReactElement seq) = prop.children elements" propNameSafe
@@ -467,12 +454,6 @@ let generatePage (url: String) =
 
         | "stepper", "children", "node" ->
             [
-              sprintf "  static member inline %s(elements: ReactElement seq) = prop.children elements" propNameSafe
-            ]
-
-        | "tableRow", "children", "node" ->
-            [
-              sprintf "  static member inline %s(element: ReactElement) = prop.children element" propNameSafe
               sprintf "  static member inline %s(elements: ReactElement seq) = prop.children elements" propNameSafe
             ]
 
@@ -502,12 +483,6 @@ let generatePage (url: String) =
 
         | _, _, "any" ->
             [sprintf "  static member inline %s(value: 'a) = Interop.mkAttr \"%s\" value" propNameSafe propName]
-
-        | _, _, "number | string" ->
-            [
-              sprintf "  static member inline %s(value: int) = Interop.mkAttr \"%s\" value" propNameSafe propName
-              sprintf "  static member inline %s(value: string) = Interop.mkAttr \"%s\" value" propNameSafe propName
-            ]
 
         | _ ->
             [sprintf "  static member inline %s(value: TODO) = Interop.mkAttr \"%s\" value" propNameSafe propName]

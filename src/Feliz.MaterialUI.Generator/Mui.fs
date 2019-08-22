@@ -15,7 +15,7 @@ let generatePage (url: String) =
   use w = new StringWriter()
   let html = ComponentApiPage.Load(url).Html
   let code = html.CssSelect("pre").[0].InnerText()
-  let matches = RegularExpressions.Regex.Match(code, "import (.+) from'(.+)'")
+  let matches = RegularExpressions.Regex.Match(code, "import (.+) from'(.+?)'")
   let componentName =
     let s = matches.Groups.[1].Value
     s.Substring(0, 1).ToLower() + s.Substring(1)

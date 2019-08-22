@@ -1,17 +1,9 @@
 ﻿module Snackbars
 
-open System
 open Elmish
-open Elmish.React
-open Fable.Core
-open Fable.Core.JsInterop
 open Fable.React
-open Fable.React.Props
-open Fable.MaterialUI
-open Fable.MaterialUI.Core
-open Fable.MaterialUI.Props
-open Fable.MaterialUI.MaterialDesignIcons
-open Fable.MaterialUI.Icons
+open Feliz
+open Feliz.MaterialUI
 
 
 type Msg =
@@ -56,34 +48,16 @@ let update msg m =
 // Domain/Elmish above, view below
 
 
-let private styles (theme: ITheme) : IStyles list =
-  []
-
-
-let private view' (classes: IClasses) model dispatch =
-  div [] [
-    yield lazyView2 Snack.view model.Snack (SnackMsg >> dispatch)
-    yield button [ OnClick (fun _ -> dispatch ShowSnackbar) ] [ str "Show snackbar" ]
-    if model.CustomActionOngoing then yield circularProgress []
+let SnackbarPage = FunctionComponent.Of((fun (model, dispatch) ->
+  Html.div [
+    prop.children [
+      yield Snack.Snackbar(model.Snack, SnackMsg >> dispatch)
+      yield Mui.button [
+        prop.onClick (fun _ -> dispatch ShowSnackbar)
+        button.children "Show snackbar"
+      ]
+      if model.CustomActionOngoing then
+        yield Mui.circularProgress []
+    ]
   ]
-
-
-// Workaround for using JSS with Elmish
-// https://github.com/mvsmal/fable-material-ui/issues/4#issuecomment-422781471
-type private IProps =
-  abstract member model: Model with get, set
-  abstract member dispatch: (Msg -> unit) with get, set
-  inherit IClassesProps
-
-type private Component(p) =
-  inherit PureStatelessComponent<IProps>(p)
-  let viewFun (p: IProps) = view' p.classes p.model p.dispatch
-  let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = ReactElementType.create viewWithStyles this.props []
-
-
-let view (model: Model) (dispatch: Msg -> unit) : ReactElement =
-  let props = jsOptions<IProps>(fun p ->
-    p.model <- model
-    p.dispatch <- dispatch)
-  ofType<Component,_,_> props []
+), "SnackbarPage", memoEqualsButFunctions)

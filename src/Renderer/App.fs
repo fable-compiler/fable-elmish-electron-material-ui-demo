@@ -139,7 +139,7 @@ let private pageView model dispatch =
   | Dialogs -> lazyView2 Dialogs.view model.Dialogs (DialogsMsg >> dispatch)
   | SaveLoad -> lazyView2 SaveLoad.view model.SaveLoad (SaveLoadMsg >> dispatch)
   | Selects -> lazyView2 Selects.view model.Selects (SelectsMsg >> dispatch)
-  | Snackbars -> lazyView2 Snackbars.view model.Snackbars (SnackbarsMsg >> dispatch)
+  | Snackbars -> Snackbars.SnackbarPage (model.Snackbars, SnackbarsMsg >> dispatch)
   | StaticAssets ->
       Html.div [
         prop.children [
@@ -155,7 +155,7 @@ let private pageView model dispatch =
   | TextFields -> TextFields.TextFieldPage (model.TextFields, TextFieldsMsg >> dispatch)
 
 
-let RootView = FunctionComponent.Of((fun(model, dispatch) ->
+let RootView = FunctionComponent.Of((fun (model, dispatch) ->
   let c = useStyles ()
   Html.div [
     prop.className c.root

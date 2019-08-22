@@ -80,7 +80,7 @@ let private useStyles = Styles.makeStyles(fun theme ->
   |}
 )
 
-let TextFieldPage = FunctionComponent.Of((fun(model, dispatch) ->
+let TextFieldPage = FunctionComponent.Of((fun (model, dispatch) ->
   let c = useStyles ()
   Html.form [
     prop.onSubmit (fun e -> e.preventDefault())

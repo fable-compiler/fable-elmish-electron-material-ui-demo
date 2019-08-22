@@ -42,9 +42,9 @@ let generateAll () =
   use w = new StringWriter()
   w.printfn("""namespace Feliz.MaterialUI
 
-//////////////////////////////////
+(*////////////////////////////////
 /// THIS FILE IS AUTO-GENERATED //
-//////////////////////////////////
+////////////////////////////////*)
 
 open Fable.Core
 open Fable.Core.JsInterop

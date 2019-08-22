@@ -202,9 +202,12 @@ let RootView = FunctionComponent.Of((fun(model, dispatch) ->
           ]
         ]
       ]
-      main [ Class !!c.content ] [
-        Html.div [ prop.className c.toolbar ]
-        pageView model dispatch
+      Html.main [
+        prop.className c.content
+        prop.children [
+          Html.div [ prop.className c.toolbar ]
+          pageView model dispatch
+        ]
       ]
     ]
   ]

@@ -24,12 +24,12 @@ let generatePage (url: String) =
   let noteNodes1 =
     html.CssSelect(".markdown-body").[0].Elements()
     |> List.skipWhile (fun n -> n.Name() <> "table")
-    |> List.skip 1
+    |> fun l -> if l.IsEmpty then l else List.skip 1 l
     |> List.takeWhile (fun n -> n.Name() = "p")
   let noteNodes2 =
     html.CssSelect(".markdown-body").[0].Elements()
     |> List.skipWhile (fun n -> n.Name() <> "h2" || n.InnerText() <> "Notes")
-    |> List.skip 1
+    |> fun l -> if l.IsEmpty then l else List.skip 1 l
     |> List.takeWhile (fun n -> n.Name() = "p")
   let docString = noteNodes1 @ noteNodes2 |> docElementsToMarkdown |> getDocString 2
 

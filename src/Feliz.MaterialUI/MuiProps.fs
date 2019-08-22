@@ -536,7 +536,7 @@ type cardHeader =
   static member inline component'(value: string) = Interop.mkAttr "component" value
   /// The component used for the root node. Either a string to use a DOM element or a component.
   static member inline component'(value: ReactElementType) = Interop.mkAttr "component" value
-  /// If `true`, the children won't be wrapped by a Typography component. This can be useful to render an alternative Typography variant by wrapping the `title` text, and optional `subheader` text with the Typography component.
+  /// If `true`, `subheader` and `title` won't be wrapped by a Typography component. This can be useful to render an alternative Typography variant by wrapping the `title` text, and optional `subheader` text with the Typography component.
   static member inline disableTypography(value: bool) = Interop.mkAttr "disableTypography" value
   /// The content of the component.
   static member inline subheader(value: ReactElement) = Interop.mkAttr "subheader" value
@@ -980,6 +980,11 @@ type divider =
   static member inline light(value: bool) = Interop.mkAttr "light" value
 
 module divider =
+
+  /// The divider orientation.
+  type orientation =
+    static member inline horizontal = Interop.mkAttr "orientation" "horizontal"
+    static member inline vertical = Interop.mkAttr "orientation" "vertical"
 
   /// The variant to use.
   type variant =

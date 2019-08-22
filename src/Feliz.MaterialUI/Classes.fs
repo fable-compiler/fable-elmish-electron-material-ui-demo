@@ -547,6 +547,8 @@ module classes =
     static member inline light(value: IClassName) = mkDividerClasses "light" value
     /// Styles applied to the root element if `variant="middle"`.
     static member inline middle(value: IClassName) = mkDividerClasses "middle" value
+    /// Styles applied to the root element if `orientation="vertical"`.
+    static member inline vertical(value: IClassName) = mkDividerClasses "vertical" value
 
 
   type IDrawerClasses = interface end

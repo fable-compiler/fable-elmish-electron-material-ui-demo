@@ -706,9 +706,9 @@ type circularProgress =
   static member inline classes(classNames: classes.ICircularProgressClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
   /// If `true`, the shrink animation is disabled. This only works if variant is `indeterminate`.
   static member inline disableShrink(value: bool) = Interop.mkAttr "disableShrink" value
-  /// The size of the circle.
+  /// The size of the circle. If using a number, the pixel unit is assumed. If using a string, you need to provide the CSS unit, e.g '3rem'.
   static member inline size(value: int) = Interop.mkAttr "size" value
-  /// The size of the circle.
+  /// The size of the circle. If using a number, the pixel unit is assumed. If using a string, you need to provide the CSS unit, e.g '3rem'.
   static member inline size(value: Styles.ICssUnit) = Interop.mkAttr "size" value
   /// The thickness of the circle.
   static member inline thickness(value: int) = Interop.mkAttr "thickness" value
@@ -2832,12 +2832,6 @@ type paper =
 
 type popover =
   /// This is callback prop. It's called by the component on mount. This is useful when you want to trigger an action programmatically. It currently only supports updatePosition() action.
-  ///
-  /// **Signature:**
-  ///
-  /// `function(actions: object) => void`
-  ///
-  /// *actions:* This object contains all possible actions that can be triggered programmatically.
   static member inline action(handler: IPopoverActions -> unit) = Interop.mkAttr "action" handler
   /// This is the DOM element, or a function that returns the DOM element, that may be used to set the position of the popover.
   static member inline anchorEl(value: Element option) = Interop.mkAttr "anchorEl" value
@@ -3154,7 +3148,7 @@ type rating =
   ///
   /// **Signature:**
   ///
-  /// `function(value: number) => void`
+  /// `function(value: number) => string`
   ///
   /// *value:* The rating label's value to format
   static member inline getLabelText(getText: int -> string) = Interop.mkAttr "getLabelText" getText
@@ -3162,7 +3156,7 @@ type rating =
   ///
   /// **Signature:**
   ///
-  /// `function(value: number) => void`
+  /// `function(value: number) => string`
   ///
   /// *value:* The rating label's value to format
   static member inline getLabelText(getText: float -> string) = Interop.mkAttr "getLabelText" getText
@@ -3172,7 +3166,7 @@ type rating =
   static member inline IconContainerComponent(value: ReactElementType) = Interop.mkAttr "IconContainerComponent" value
   /// Maximum rating.
   static member inline max(value: int) = Interop.mkAttr "max" value
-  /// Name attribute of the radio `input` elements.
+  /// The name attribute of the radio `input` elements. If `readOnly` is false, the prop is required, this input name`should be unique within the parent form.
   static member inline name(value: string) = Interop.mkAttr "name" value
   /// Callback fired when the value changes.
   ///
@@ -3218,7 +3212,7 @@ type rating =
   ///
   /// **Signature:**
   ///
-  /// `function(event: object, value: any) => void`
+  /// `function(event: object, value: number) => void`
   ///
   /// *event:* The event source of the callback
   ///
@@ -3228,7 +3222,7 @@ type rating =
   ///
   /// **Signature:**
   ///
-  /// `function(event: object, value: any) => void`
+  /// `function(event: object, value: number) => void`
   ///
   /// *event:* The event source of the callback
   ///
@@ -3238,7 +3232,7 @@ type rating =
   ///
   /// **Signature:**
   ///
-  /// `function(event: object, value: any) => void`
+  /// `function(event: object, value: number) => void`
   ///
   /// *event:* The event source of the callback
   ///
@@ -3248,7 +3242,7 @@ type rating =
   ///
   /// **Signature:**
   ///
-  /// `function(event: object, value: any) => void`
+  /// `function(event: object, value: number) => void`
   ///
   /// *event:* The event source of the callback
   ///

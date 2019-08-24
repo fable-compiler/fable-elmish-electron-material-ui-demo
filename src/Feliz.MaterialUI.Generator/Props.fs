@@ -184,7 +184,7 @@ let generatePage (url: String) =
               sprintf "  static member inline %s(handler: IButtonBaseActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
             ]
 
-        | "popover", "action", "func" ->
+        | "popover", "action", "func | object" ->  // TODO: what's the func overload? https://github.com/mui-org/material-ui/issues/17136
             [sprintf "  static member inline %s(handler: IPopoverActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
 
         | "tabs", "action", "func" ->
@@ -344,7 +344,7 @@ let generatePage (url: String) =
             [sprintf "  static member inline %s(value: string) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
         | "circularProgress", "size", "number | string"
-        | "skeleton", ("height" | "width"), "any" ->
+        | "skeleton", ("height" | "width"), "number | string" ->
             [
               sprintf "  static member inline %s(value: int) = Interop.mkAttr \"%s\" value" propNameSafe propName
               sprintf "  static member inline %s(value: Styles.ICssUnit) = Interop.mkAttr \"%s\" value" propNameSafe propName

@@ -211,6 +211,8 @@ module classes =
     static member inline groupedContainedPrimary(value: IClassName) = mkButtonGroupClasses "groupedContainedPrimary" value
     /// Styles applied to the children if variant="contained"& color="secondary".
     static member inline groupedContainedSecondary(value: IClassName) = mkButtonGroupClasses "groupedContainedSecondary" value
+    /// Pseudo-class applied to child elements if `disabled={true}`.
+    static member inline disabled(value: IClassName) = mkButtonGroupClasses "disabled" value
 
 
   type ICardClasses = interface end
@@ -2207,6 +2209,8 @@ module classes =
   type treeItem =
     /// Styles applied to the root element.
     static member inline root(value: IClassName) = mkTreeItemClasses "root" value
+    /// Pseudo-class applied to the root element when expanded.
+    static member inline expanded(value: IClassName) = mkTreeItemClasses "expanded" value
     /// Styles applied to the `role="group"` element.
     static member inline group(value: IClassName) = mkTreeItemClasses "group" value
     /// Styles applied to the tree node content.

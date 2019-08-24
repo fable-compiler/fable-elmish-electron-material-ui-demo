@@ -137,7 +137,7 @@ let private pageView model dispatch =
   | AutoComplete -> lazyView2 AutoComplete.view model.AutoCompleteDownshift (AutoCompleteMsg >> dispatch)
   | Badges -> lazyView2 Badges.view model.Badges (BadgesMsg >> dispatch)
   | Dialogs -> lazyView2 Dialogs.view model.Dialogs (DialogsMsg >> dispatch)
-  | SaveLoad -> lazyView2 SaveLoad.view model.SaveLoad (SaveLoadMsg >> dispatch)
+  | SaveLoad -> SaveLoad.SaveLoadPage (model.SaveLoad, SaveLoadMsg >> dispatch)
   | Selects -> Selects.SelectsPage (model.Selects, SelectsMsg >> dispatch)
   | Snackbars -> Snackbars.SnackbarPage (model.Snackbars, SnackbarsMsg >> dispatch)
   | StaticAssets ->

@@ -222,7 +222,7 @@ type bottomNavigation =
   /// *event:* The event source of the callback
   ///
   /// *value:* We default to the index of the child
-  static member inline onChange(handler: Event -> 'bottomNavigationActionValue -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> 'bottomNavigationActionValue -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
   /// Callback fired when the value changes.
   ///
   /// **Signature:**
@@ -232,7 +232,7 @@ type bottomNavigation =
   /// *event:* The event source of the callback
   ///
   /// *value:* We default to the index of the child
-  static member inline onChange(handler: 'bottomNavigationActionValue -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
+  static member inline onChange(handler: 'bottomNavigationActionValue -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
   /// If `true`, all `BottomNavigationAction`s will show their labels. By default, only the selected `BottomNavigationAction` will show its label.
   static member inline showLabels(value: bool) = Interop.mkAttr "showLabels" value
   /// The value of the currently selected `BottomNavigationAction`.
@@ -625,7 +625,7 @@ type checkbox =
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.checked`.
   ///
   /// *checked:* The `checked` value of the switch
-  static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
   /// Callback fired when the state is changed.
   ///
   /// **Signature:**
@@ -635,7 +635,7 @@ type checkbox =
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.checked`.
   ///
   /// *checked:* The `checked` value of the switch
-  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun e b -> handler b)
+  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.Checked)
   /// If `true`, the `input` element will be required.
   static member inline required(value: bool) = Interop.mkAttr "required" value
   /// The input component prop `type`.
@@ -866,7 +866,7 @@ type dialog =
   /// *event:* The event source of the callback
   ///
   /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`
-  static member inline onClose(handler: Event -> DialogCloseReason -> unit) = Interop.mkAttr "onClose" handler
+  static member inline onClose(handler: Event -> DialogCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> handler)
   /// Callback fired before the dialog enters.
   static member inline onEnter(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEnter" handler
   /// Callback fired when the dialog has entered.
@@ -1097,7 +1097,7 @@ type expansionPanel =
   /// *event:* The event source of the callback
   ///
   /// *expanded:* The `expanded` state of the panel
-  static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
   /// Callback fired when the expand/collapse state is changed.
   ///
   /// **Signature:**
@@ -1107,7 +1107,7 @@ type expansionPanel =
   /// *event:* The event source of the callback
   ///
   /// *expanded:* The `expanded` state of the panel
-  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun e b -> handler b)
+  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
   /// The component used for the collapse effect.
   static member inline TransitionComponent(value: ReactElementType) = Interop.mkAttr "TransitionComponent" value
   /// Props applied to the `Transition` element.
@@ -1283,7 +1283,7 @@ type filledInput =
   /// `function(event: object) => void`
   ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
-  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.target?value)
+  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.Value)
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
   /// It prevents the user from changing the value of the field (not from interacting with the field).
@@ -1381,7 +1381,7 @@ type formControlLabel =
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.checked`.
   ///
   /// *checked:* The `checked` value of the switch
-  static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
   /// Callback fired when the state is changed.
   ///
   /// **Signature:**
@@ -1391,7 +1391,7 @@ type formControlLabel =
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.checked`.
   ///
   /// *checked:* The `checked` value of the switch
-  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun e b -> handler b)
+  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.Checked)
   /// The value of the component.
   static member inline value(value: 'a) = Interop.mkAttr "value" value
 
@@ -1984,7 +1984,7 @@ type input =
   /// `function(event: object) => void`
   ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
-  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.target?value)
+  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.Value)
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
   /// It prevents the user from changing the value of the field (not from interacting with the field).
@@ -2098,7 +2098,7 @@ type inputBase =
   /// `function(event: object) => void`
   ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
-  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.target?value)
+  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.Value)
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
   /// It prevents the user from changing the value of the field (not from interacting with the field).
@@ -2465,7 +2465,7 @@ type menu =
   /// *event:* The event source of the callback
   ///
   /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`, `"tabKeyDown"`
-  static member inline onClose(handler: Event -> MenuCloseReason -> unit) = Interop.mkAttr "onClose" handler
+  static member inline onClose(handler: Event -> MenuCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> handler)
   /// Callback fired before the Menu enters.
   static member inline onEnter(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEnter" handler
   /// Callback fired when the Menu has entered.
@@ -2642,7 +2642,7 @@ type modal =
   /// *event:* The event source of the callback
   ///
   /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`
-  static member inline onClose(handler: Event -> ModalCloseReason -> unit) = Interop.mkAttr "onClose" handler
+  static member inline onClose(handler: Event -> ModalCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> handler)
   /// Callback fired when the escape key is pressed, `disableEscapeKeyDown` is false and the modal is in focus.
   static member inline onEscapeKeyDown(handler: Event -> unit) = Interop.mkAttr "onEscapeKeyDown" handler
   /// If `true`, the modal is open.
@@ -2678,6 +2678,14 @@ type nativeSelect =
   ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
+  /// Callback function fired when a menu item is selected.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object) => void`
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
+  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.Value)
   /// The input value.
   static member inline value(value: 'a) = Interop.mkAttr "value" value
 
@@ -2771,7 +2779,7 @@ type outlinedInput =
   /// `function(event: object) => void`
   ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
-  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.target?value)
+  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.Value)
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
   /// It prevents the user from changing the value of the field (not from interacting with the field).
@@ -2876,7 +2884,7 @@ type popover =
   /// *event:* The event source of the callback.
   ///
   /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`
-  static member inline onClose(handler: Event -> PopoverCloseReason -> unit) = Interop.mkAttr "onClose" handler
+  static member inline onClose(handler: Event -> PopoverCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> handler)
   /// Callback fired before the component is entering.
   static member inline onEnter(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEnter" handler
   /// Callback fired when the component has entered.
@@ -3077,7 +3085,7 @@ type radio =
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   ///
   /// *checked:* The `checked` value of the switch
-  static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
   /// Callback fired when the state is changed.
   ///
   /// **Signature:**
@@ -3087,7 +3095,7 @@ type radio =
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   ///
   /// *checked:* The `checked` value of the switch
-  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun e b -> handler b)
+  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.Checked)
   /// If `true`, the `input` element will be required.
   static member inline required(value: bool) = Interop.mkAttr "required" value
   /// The input component prop `type`.
@@ -3130,7 +3138,7 @@ type radioGroup =
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   ///
   /// *value:* The `value` of the selected radio button
-  static member inline onChange(handler: Event -> string -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
   /// Callback fired when a radio button is selected.
   ///
   /// **Signature:**
@@ -3140,7 +3148,7 @@ type radioGroup =
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   ///
   /// *value:* The `value` of the selected radio button
-  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun e s -> handler s)
+  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.Value)
   /// Value of the selected radio button.
   static member inline value(value: string) = Interop.mkAttr "value" value
 
@@ -3185,7 +3193,7 @@ type rating =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChange(handler: Event -> int -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> int -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
   /// Callback fired when the value changes.
   ///
   /// **Signature:**
@@ -3195,7 +3203,7 @@ type rating =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChange(handler: Event -> float -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> float -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
   /// Callback fired when the value changes.
   ///
   /// **Signature:**
@@ -3205,7 +3213,7 @@ type rating =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChange(handler: int -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
+  static member inline onChange(handler: int -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
   /// Callback fired when the value changes.
   ///
   /// **Signature:**
@@ -3215,7 +3223,7 @@ type rating =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChange(handler: float -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
+  static member inline onChange(handler: float -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
   /// Callback function that is fired when the hover state changes.
   ///
   /// **Signature:**
@@ -3225,7 +3233,7 @@ type rating =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChangeActive(handler: Event -> int -> unit) = Interop.mkAttr "onChangeActive" handler
+  static member inline onChangeActive(handler: Event -> int -> unit) = Interop.mkAttr "onChangeActive" (System.Func<_,_,_> handler)
   /// Callback function that is fired when the hover state changes.
   ///
   /// **Signature:**
@@ -3235,7 +3243,7 @@ type rating =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChangeActive(handler: Event -> float -> unit) = Interop.mkAttr "onChangeActive" handler
+  static member inline onChangeActive(handler: Event -> float -> unit) = Interop.mkAttr "onChangeActive" (System.Func<_,_,_> handler)
   /// Callback function that is fired when the hover state changes.
   ///
   /// **Signature:**
@@ -3245,7 +3253,7 @@ type rating =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChangeActive(handler: int -> unit) = Interop.mkAttr "onChangeActive" (fun e v -> handler v)
+  static member inline onChangeActive(handler: int -> unit) = Interop.mkAttr "onChangeActive" (System.Func<_,_,_> (fun _ v -> handler v))
   /// Callback function that is fired when the hover state changes.
   ///
   /// **Signature:**
@@ -3255,7 +3263,7 @@ type rating =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChangeActive(handler: float -> unit) = Interop.mkAttr "onChangeActive" (fun e v -> handler v)
+  static member inline onChangeActive(handler: float -> unit) = Interop.mkAttr "onChangeActive" (System.Func<_,_,_> (fun _ v -> handler v))
   /// The minimum increment value change allowed.
   static member inline precision(value: int) = Interop.mkAttr "precision" value
   /// Removes all hover effects and pointer events.
@@ -3335,7 +3343,17 @@ type select =
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
   ///
   /// *child:* The react element that was selected when `native` is `false` (default).
-  static member inline onChange(handler: Event -> ReactElement -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> ReactElement -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
+  /// Callback function fired when a menu item is selected.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, child?: object) => void`
+  ///
+  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
+  ///
+  /// *child:* The react element that was selected when `native` is `false` (default).
+  static member inline onChange(handler: 'a -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun (e: Event) _ -> handler !!e.Value))
   /// Callback fired when the component requests to be closed. Use in controlled mode (see open).
   ///
   /// **Signature:**
@@ -3493,7 +3511,7 @@ type slider =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChange(handler: Event -> int -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> int -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
   /// Callback function that is fired when the slider's value changed.
   ///
   /// **Signature:**
@@ -3503,7 +3521,7 @@ type slider =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChange(handler: Event -> float -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> float -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
   /// Callback function that is fired when the slider's value changed.
   ///
   /// **Signature:**
@@ -3513,7 +3531,7 @@ type slider =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChange(handler: int -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
+  static member inline onChange(handler: int -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
   /// Callback function that is fired when the slider's value changed.
   ///
   /// **Signature:**
@@ -3523,7 +3541,7 @@ type slider =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChange(handler: float -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
+  static member inline onChange(handler: float -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
   /// Callback function that is fired when the `mouseup` is triggered.
   ///
   /// **Signature:**
@@ -3533,7 +3551,7 @@ type slider =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChangeCommitted(handler: Event -> int -> unit) = Interop.mkAttr "onChangeCommitted" handler
+  static member inline onChangeCommitted(handler: Event -> int -> unit) = Interop.mkAttr "onChangeCommitted" (System.Func<_,_,_> handler)
   /// Callback function that is fired when the `mouseup` is triggered.
   ///
   /// **Signature:**
@@ -3543,7 +3561,7 @@ type slider =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChangeCommitted(handler: Event -> float -> unit) = Interop.mkAttr "onChangeCommitted" handler
+  static member inline onChangeCommitted(handler: Event -> float -> unit) = Interop.mkAttr "onChangeCommitted" (System.Func<_,_,_> handler)
   /// Callback function that is fired when the `mouseup` is triggered.
   ///
   /// **Signature:**
@@ -3553,7 +3571,7 @@ type slider =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChangeCommitted(handler: int -> unit) = Interop.mkAttr "onChangeCommitted" (fun e v -> handler v)
+  static member inline onChangeCommitted(handler: int -> unit) = Interop.mkAttr "onChangeCommitted" (System.Func<_,_,_> (fun _ v -> handler v))
   /// Callback function that is fired when the `mouseup` is triggered.
   ///
   /// **Signature:**
@@ -3563,7 +3581,7 @@ type slider =
   /// *event:* The event source of the callback
   ///
   /// *value:* The new value
-  static member inline onChangeCommitted(handler: float -> unit) = Interop.mkAttr "onChangeCommitted" (fun e v -> handler v)
+  static member inline onChangeCommitted(handler: float -> unit) = Interop.mkAttr "onChangeCommitted" (System.Func<_,_,_> (fun _ v -> handler v))
   /// The granularity with which the slider can step through values. (A "discrete" slider.) When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
   static member inline step(value: int option) = Interop.mkAttr "step" value
   /// The granularity with which the slider can step through values. (A "discrete" slider.) When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
@@ -3665,7 +3683,7 @@ type snackbar =
   /// *event:* The event source of the callback
   ///
   /// *reason:* Can be:`"timeout"` (`autoHideDuration` expired) or: `"clickaway"`
-  static member inline onClose(handler: Event -> SnackbarCloseReason -> unit) = Interop.mkAttr "onClose" handler
+  static member inline onClose(handler: Event -> SnackbarCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> handler)
   /// Callback fired before the transition is entering.
   static member inline onEnter(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEnter" handler
   /// Callback fired when the transition has entered.
@@ -3764,7 +3782,7 @@ type speedDial =
   /// *event:* The event source of the callback
   ///
   /// *key:* The key pressed
-  static member inline onClose(handler: Event -> string -> unit) = Interop.mkAttr "onClose" handler
+  static member inline onClose(handler: Event -> string -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> handler)
   /// Callback fired when the component requests to be closed.
   ///
   /// **Signature:**
@@ -3774,7 +3792,7 @@ type speedDial =
   /// *event:* The event source of the callback
   ///
   /// *key:* The key pressed
-  static member inline onClose(handler: string -> unit) = Interop.mkAttr "onClose" (fun e s -> handler s)
+  static member inline onClose(handler: string -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> (fun _ v -> handler v))
   /// If `true`, the SpeedDial is open.
   static member inline open'(value: bool) = Interop.mkAttr "open" value
   /// The icon to display in the SpeedDial Floating Action Button when the SpeedDial is open.
@@ -4131,7 +4149,7 @@ type switch =
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.checked`.
   ///
   /// *checked:* The `checked` value of the switch
-  static member inline onChange(handler: Event -> bool -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
   /// Callback fired when the state is changed.
   ///
   /// **Signature:**
@@ -4141,7 +4159,7 @@ type switch =
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.target.checked`.
   ///
   /// *checked:* The `checked` value of the switch
-  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun e b -> handler b)
+  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.Checked)
   /// If `true`, the `input` element will be required.
   static member inline required(value: bool) = Interop.mkAttr "required" value
   /// The input component prop `type`.
@@ -4391,7 +4409,7 @@ type tablePagination =
   /// *event:* The event source of the callback
   ///
   /// *page:* The page selected
-  static member inline onChangePage(handler: Event -> int -> unit) = Interop.mkAttr "onChangePage" handler
+  static member inline onChangePage(handler: Event -> int -> unit) = Interop.mkAttr "onChangePage" (System.Func<_,_,_> handler)
   /// Callback fired when the page is changed.
   ///
   /// **Signature:**
@@ -4401,7 +4419,7 @@ type tablePagination =
   /// *event:* The event source of the callback
   ///
   /// *page:* The page selected
-  static member inline onChangePage(handler: int -> unit) = Interop.mkAttr "onChangePage" (fun e i -> handler i)
+  static member inline onChangePage(handler: int -> unit) = Interop.mkAttr "onChangePage" (System.Func<_,_,_> (fun _ v -> handler v))
   /// Callback fired when the number of rows per page is changed.
   ///
   /// **Signature:**
@@ -4628,7 +4646,7 @@ type textField =
   /// `function(event: object) => void`
   ///
   /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
-  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.target?value)
+  static member inline onChange(handler: string -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.Value)
   /// The short hint displayed in the input before the user enters a value.
   static member inline placeholder(value: string) = Interop.mkAttr "placeholder" value
   /// If `true`, the label is displayed as required and the `input` element` will be required.
@@ -4714,7 +4732,7 @@ type toggleButtonGroup =
   /// *event:* The event source of the callback
   ///
   /// *value:* of the selected buttons. When `exclusive` is true this is a single value; when false an array of selected values. If no value is selected and `exclusive` is true the value is null; when false an empty array.
-  static member inline onChange(handler: Event -> 'toggleButtonValue option -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> 'toggleButtonValue option -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
   /// Callback fired when the value changes.
   ///
   /// **Signature:**
@@ -4724,7 +4742,7 @@ type toggleButtonGroup =
   /// *event:* The event source of the callback
   ///
   /// *value:* of the selected buttons. When `exclusive` is true this is a single value; when false an array of selected values. If no value is selected and `exclusive` is true the value is null; when false an empty array.
-  static member inline onChange(handler: Event -> 'toggleButtonValue [] -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> 'toggleButtonValue [] -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
   /// Callback fired when the value changes.
   ///
   /// **Signature:**
@@ -4734,7 +4752,7 @@ type toggleButtonGroup =
   /// *event:* The event source of the callback
   ///
   /// *value:* of the selected buttons. When `exclusive` is true this is a single value; when false an array of selected values. If no value is selected and `exclusive` is true the value is null; when false an empty array.
-  static member inline onChange(handler: 'toggleButtonValue option -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
+  static member inline onChange(handler: 'toggleButtonValue option -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
   /// Callback fired when the value changes.
   ///
   /// **Signature:**
@@ -4744,7 +4762,7 @@ type toggleButtonGroup =
   /// *event:* The event source of the callback
   ///
   /// *value:* of the selected buttons. When `exclusive` is true this is a single value; when false an array of selected values. If no value is selected and `exclusive` is true the value is null; when false an empty array.
-  static member inline onChange(handler: 'toggleButtonValue [] -> unit) = Interop.mkAttr "onChange" (fun e v -> handler v)
+  static member inline onChange(handler: 'toggleButtonValue [] -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
   /// The currently selected value within the group or an array of selected values when `exclusive` is false.
   static member inline value(value: 'toggleButtonValue option) = Interop.mkAttr "value" value
   /// The currently selected value within the group or an array of selected values when `exclusive` is false.

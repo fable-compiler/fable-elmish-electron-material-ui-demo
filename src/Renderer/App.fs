@@ -138,7 +138,7 @@ let private pageView model dispatch =
   | Badges -> lazyView2 Badges.view model.Badges (BadgesMsg >> dispatch)
   | Dialogs -> lazyView2 Dialogs.view model.Dialogs (DialogsMsg >> dispatch)
   | SaveLoad -> lazyView2 SaveLoad.view model.SaveLoad (SaveLoadMsg >> dispatch)
-  | Selects -> lazyView2 Selects.view model.Selects (SelectsMsg >> dispatch)
+  | Selects -> Selects.SelectsPage (model.Selects, SelectsMsg >> dispatch)
   | Snackbars -> Snackbars.SnackbarPage (model.Snackbars, SnackbarsMsg >> dispatch)
   | StaticAssets ->
       Html.div [

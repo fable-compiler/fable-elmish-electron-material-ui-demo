@@ -19,6 +19,13 @@ let stat (s: string) =
 let preventDefault (e: Event) =
   e.preventDefault ()
 
+/// Returns the input if Some, otherwise returns the empty string. Use this to
+/// indicate "no value" in controlled `value` props that are not allowed to
+/// have `null`, e.g. `select.value`. This is similar to `Option.defaultValue
+/// ""` except that it works for any inner type.
+let emptyStringIfNone x =
+  if x |> unbox<obj> |> isNull then "" |> unbox<'a option> else x
+
 
 [<AutoOpen>]
 module Extensions =

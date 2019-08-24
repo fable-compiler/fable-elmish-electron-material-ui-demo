@@ -3086,16 +3086,6 @@ type radio =
   ///
   /// *checked:* The `checked` value of the switch
   static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
-  /// Callback fired when the state is changed.
-  ///
-  /// **Signature:**
-  ///
-  /// `function(event: object, checked: boolean) => void`
-  ///
-  /// *event:* The event source of the callback. You can pull out the new value by accessing `event.Value`.
-  ///
-  /// *checked:* The `checked` value of the switch
-  static member inline onChange(handler: bool -> unit) = Interop.mkAttr "onChange" (fun (e: Event) -> handler e.Checked)
   /// If `true`, the `input` element will be required.
   static member inline required(value: bool) = Interop.mkAttr "required" value
   /// The input component prop `type`.

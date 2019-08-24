@@ -287,7 +287,7 @@ let generatePage (url: String) =
               sprintf "  static member inline %s(handler: string -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
             ]
 
-        | ("checkbox" | "formControlLabel" | "radio" | "switch"), "onChange", "func" ->
+        | ("checkbox" | "formControlLabel" | "switch"), "onChange", "func" ->
             [
               sprintf "  static member inline %s(handler: Event -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
               sprintf "  static member inline %s(handler: bool -> unit) = Interop.mkAttr \"%s\" (fun (e: Event) -> handler e.Checked)" propNameSafe propName

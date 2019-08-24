@@ -1,9 +1,5 @@
 ﻿module Dialogs
 
-open System
-open Elmish.React
-open Fable.Core
-open Fable.Core.JsInterop
 open Fable.React
 open Feliz
 open Feliz.MaterialUI

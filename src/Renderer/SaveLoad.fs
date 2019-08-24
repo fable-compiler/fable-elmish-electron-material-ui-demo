@@ -165,7 +165,7 @@ let private styles (theme: ITheme) : IStyles list =
 
 
 let private view' (classes: IClasses) model dispatch =
-  form [ OnSubmit (fun e -> e.preventDefault()); Class classes?form ] [
+  form [ OnSubmit preventDefault; Class classes?form ] [
     textField [
       Multiline true
       Rows 4

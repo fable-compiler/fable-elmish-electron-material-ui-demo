@@ -3,6 +3,7 @@ module Utils
 
 open Fable.Core
 open Fable.Core.JS
+open Browser.Types
 
 [<Emit("__static + \"/\" + $0")>]
 let private stat' (s: string) : string = jsNative
@@ -14,6 +15,9 @@ let stat (s: string) =
   #else
   stat' s
   #endif
+
+let preventDefault (e: Event) =
+  e.preventDefault ()
 
 
 [<AutoOpen>]

@@ -83,24 +83,18 @@ let private useStyles = Styles.makeStyles(fun theme ->
 let TextFieldPage = FunctionComponent.Of((fun (model, dispatch) ->
   let c = useStyles ()
   Html.form [
-    prop.onSubmit (fun e -> e.preventDefault())
+    prop.onSubmit preventDefault
     prop.className c.form
     prop.children [
       Mui.textField [
-        textField.classes [
-          classes.textField.root c.textField
-        ]
-        //prop.className c.textField
+        prop.className c.textField
         textField.label "Simple input"
         textField.value model.SimpleText
         textField.onChange (SetSimpleText >> dispatch)
         textField.helperText ["Current value: "; model.SimpleText]
       ]
       Mui.textField [
-        textField.classes [
-          classes.textField.root c.textField
-        ]
-        //prop.className c.textField
+        prop.className c.textField
         textField.label "Validated input"
         textField.required true
         textField.value model.ValidatedTextRaw

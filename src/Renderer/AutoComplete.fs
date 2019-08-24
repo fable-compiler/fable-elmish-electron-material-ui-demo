@@ -76,7 +76,7 @@ let private view' (classes: IClasses) model dispatch =
   div [] [
     typography [ Paragraph true ] [ str "Autocomplete control implemented using downshift, autosuggest-highlight, and popper." ]
     typography [ Paragraph true ] [ str "Downshift behavior configured to emulate free-text entry with autocomplete (does not revert to empty string or selected item)." ]
-    form [ OnSubmit (fun e -> e.preventDefault()) ] [
+    form [ OnSubmit preventDefault ] [
       formControl [ Class classes?formControl ] [
         downshift [
           OnInputValueChange (fun s _ -> SetText s |> dispatch)

@@ -2,6 +2,8 @@
 /// Simple, conforms to Material UI, e.g. no stacking of multiple snackbars.
 /// Also no color override, but that should be easy to implement if desired.
 
+// TODO: could this be simplified by acting as an agent, using e.g. MailboxProcessor?
+
 module Snack
 
 open Elmish

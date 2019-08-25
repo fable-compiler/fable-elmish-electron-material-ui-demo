@@ -361,9 +361,9 @@ type buttonBase =
   /// A ref for imperative actions. It currently only supports `focusVisible()` action.
   static member inline action(handler: IButtonBaseActions -> unit) = Interop.mkAttr "action" handler
   /// Use that prop to pass a ref callback to the native button component.
-  static member inline buttonRef(ref: IRefValue<Element option>) = Interop.mkAttr "buttonRef" ref
+  static member inline buttonRef(ref: IRefValue<HTMLButtonElement option>) = Interop.mkAttr "buttonRef" ref
   /// Use that prop to pass a ref callback to the native button component.
-  static member inline buttonRef(handler: Element -> unit) = Interop.mkAttr "buttonRef" handler
+  static member inline buttonRef(handler: HTMLButtonElement -> unit) = Interop.mkAttr "buttonRef" handler
   /// If `true`, the ripples will be centered. They won't start at the cursor interaction position.
   static member inline centerRipple(value: bool) = Interop.mkAttr "centerRipple" value
   /// The content of the component.
@@ -613,9 +613,9 @@ type checkbox =
   /// [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
   static member inline inputProps(props: IReactProperty list) = Interop.mkAttr "inputProps" (createObj !!props)
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(ref: IRefValue<HTMLInputElement option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
+  static member inline inputRef(handler: HTMLInputElement -> unit) = Interop.mkAttr "inputRef" handler
   /// Callback fired when the state is changed.
   ///
   /// **Signature:**
@@ -1271,9 +1271,9 @@ type filledInput =
   /// [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
   static member inline inputProps(props: IReactProperty list) = Interop.mkAttr "inputProps" (createObj !!props)
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(ref: IRefValue<HTMLInputElement option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
+  static member inline inputRef(handler: HTMLInputElement -> unit) = Interop.mkAttr "inputRef" handler
   /// If `true`, a textarea element will be rendered.
   static member inline multiline(value: bool) = Interop.mkAttr "multiline" value
   /// Name attribute of the `input` element.
@@ -1366,9 +1366,9 @@ type formControlLabel =
   /// If `true`, the control will be disabled.
   static member inline disabled(value: bool) = Interop.mkAttr "disabled" value
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(ref: IRefValue<HTMLInputElement option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
+  static member inline inputRef(handler: HTMLInputElement -> unit) = Interop.mkAttr "inputRef" handler
   /// The text to be used in an enclosing label element.
   static member inline label(value: ReactElement) = Interop.mkAttr "label" value
   /// The text to be used in an enclosing label element.
@@ -1972,9 +1972,9 @@ type input =
   /// [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
   static member inline inputProps(props: IReactProperty list) = Interop.mkAttr "inputProps" (createObj !!props)
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(ref: IRefValue<HTMLInputElement option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
+  static member inline inputRef(handler: HTMLInputElement -> unit) = Interop.mkAttr "inputRef" handler
   /// If `true`, a textarea element will be rendered.
   static member inline multiline(value: bool) = Interop.mkAttr "multiline" value
   /// Name attribute of the `input` element.
@@ -2086,9 +2086,9 @@ type inputBase =
   /// [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
   static member inline inputProps(props: IReactProperty list) = Interop.mkAttr "inputProps" (createObj !!props)
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(ref: IRefValue<HTMLInputElement option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
+  static member inline inputRef(handler: HTMLInputElement -> unit) = Interop.mkAttr "inputRef" handler
   /// If `true`, a textarea element will be rendered.
   static member inline multiline(value: bool) = Interop.mkAttr "multiline" value
   /// Name attribute of the `input` element.
@@ -2783,9 +2783,9 @@ type outlinedInput =
   /// [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
   static member inline inputProps(props: IReactProperty list) = Interop.mkAttr "inputProps" (createObj !!props)
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(ref: IRefValue<HTMLInputElement option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
+  static member inline inputRef(handler: HTMLInputElement -> unit) = Interop.mkAttr "inputRef" handler
   /// The width of the label.
   static member inline labelWidth(value: int) = Interop.mkAttr "labelWidth" value
   /// If `true`, a textarea element will be rendered.
@@ -2861,6 +2861,8 @@ type paper =
 
 
 type popover =
+  /// This is callback prop. It's called by the component on mount. This is useful when you want to trigger an action programmatically. It currently only supports updatePosition() action.
+  static member inline action(ref: IRefValue<IPopoverActions option>) = Interop.mkAttr "action" ref
   /// This is callback prop. It's called by the component on mount. This is useful when you want to trigger an action programmatically. It currently only supports updatePosition() action.
   static member inline action(handler: IPopoverActions -> unit) = Interop.mkAttr "action" handler
   /// This is the DOM element, or a function that returns the DOM element, that may be used to set the position of the popover.
@@ -3105,9 +3107,9 @@ type radio =
   /// [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
   static member inline inputProps(props: IReactProperty list) = Interop.mkAttr "inputProps" (createObj !!props)
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(ref: IRefValue<HTMLInputElement option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
+  static member inline inputRef(handler: HTMLInputElement -> unit) = Interop.mkAttr "inputRef" handler
   /// Name attribute of the `input` element.
   static member inline name(value: string) = Interop.mkAttr "name" value
   /// Callback fired when the state is changed.
@@ -4161,9 +4163,9 @@ type switch =
   /// [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
   static member inline inputProps(props: IReactProperty list) = Interop.mkAttr "inputProps" (createObj !!props)
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(ref: IRefValue<HTMLInputElement option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
+  static member inline inputRef(handler: HTMLInputElement -> unit) = Interop.mkAttr "inputRef" handler
   /// Callback fired when the state is changed.
   ///
   /// **Signature:**
@@ -4517,6 +4519,14 @@ type tabs =
   /// `function(actions: object) => void`
   ///
   /// *actions:* This object contains all possible actions that can be triggered programmatically.
+  static member inline action(ref: IRefValue<ITabsActions option>) = Interop.mkAttr "action" ref
+  /// Callback fired when the component mounts. This is useful when you want to trigger an action programmatically. It currently only supports `updateIndicator()` action.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(actions: object) => void`
+  ///
+  /// *actions:* This object contains all possible actions that can be triggered programmatically.
   static member inline action(handler: ITabsActions -> unit) = Interop.mkAttr "action" handler
   /// If `true`, the tabs will be centered. This property is intended for large views.
   static member inline centered(value: bool) = Interop.mkAttr "centered" value
@@ -4646,9 +4656,9 @@ type textField =
   /// [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
   static member inline inputProps(props: IReactProperty list) = Interop.mkAttr "inputProps" (createObj !!props)
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(ref: IRefValue<Element option>) = Interop.mkAttr "inputRef" ref
+  static member inline inputRef(ref: IRefValue<HTMLInputElement option>) = Interop.mkAttr "inputRef" ref
   /// This prop can be used to pass a ref callback to the `input` element.
-  static member inline inputRef(handler: Element -> unit) = Interop.mkAttr "inputRef" handler
+  static member inline inputRef(handler: HTMLInputElement -> unit) = Interop.mkAttr "inputRef" handler
   /// The label content.
   static member inline label(value: ReactElement) = Interop.mkAttr "label" value
   /// The label content.

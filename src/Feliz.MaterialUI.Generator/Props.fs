@@ -183,11 +183,17 @@ let generatePage (url: String) =
               sprintf "  static member inline %s(handler: IButtonBaseActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
             ]
 
-        | "popover", "action", "func | object" ->  // TODO: what's the func overload? https://github.com/mui-org/material-ui/issues/17136
-            [sprintf "  static member inline %s(handler: IPopoverActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+        | "popover", "action", "func | object" ->
+            [
+              sprintf "  static member inline %s(ref: IRefValue<IPopoverActions option>) = Interop.mkAttr \"%s\" ref" propNameSafe propName
+              sprintf "  static member inline %s(handler: IPopoverActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+            ]
 
         | "tabs", "action", "func" ->
-            [sprintf "  static member inline %s(handler: ITabsActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName]
+            [
+              sprintf "  static member inline %s(ref: IRefValue<ITabsActions option>) = Interop.mkAttr \"%s\" ref" propNameSafe propName
+              sprintf "  static member inline %s(handler: ITabsActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+            ]
 
         | "tablePagination", "rowsPerPageOptions", "array" ->
             [sprintf "  static member inline %s([<ParamArray>] values: int []) = Interop.mkAttr \"%s\" values" propNameSafe propName]
@@ -442,7 +448,20 @@ let generatePage (url: String) =
         | _, pn, ("elementType" | "element type") when pn.EndsWith "Component" ->
             [sprintf "  static member inline %s(value: ReactElementType) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
-        | _, pn, "func | object" when pn.EndsWith "Ref" ->
+        | ("checkbox" | "filledInput" | "formControlLabel" | "input" | "inputBase" | "outlinedInput" | "radio" | "switch" | "textField"), "inputRef", "func | object" ->
+            [
+              sprintf "  static member inline %s(ref: IRefValue<HTMLInputElement option>) = Interop.mkAttr \"%s\" ref" propNameSafe propName
+              sprintf "  static member inline %s(handler: HTMLInputElement -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+            ]
+
+        | "buttonBase", "buttonRef", "func | object" ->
+            [
+              sprintf "  static member inline %s(ref: IRefValue<HTMLButtonElement option>) = Interop.mkAttr \"%s\" ref" propNameSafe propName
+              sprintf "  static member inline %s(handler: HTMLButtonElement -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+            ]
+
+        | "popper", "popperRef", "func | object"
+        | "rootRef", "rootRef", "func | object" ->
             [
               sprintf "  static member inline %s(ref: IRefValue<Element option>) = Interop.mkAttr \"%s\" ref" propNameSafe propName
               sprintf "  static member inline %s(handler: Element -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName

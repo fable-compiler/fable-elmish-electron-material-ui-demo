@@ -6,7 +6,6 @@ open FSharp.Data
 
 (*
 TODO:
-  - test all shortcut event callbacks
   - test ref props and all other IRefValue props
   - test anchorEl props
   - test select.onChange
@@ -263,14 +262,11 @@ let generatePage (url: String) =
               |> paramListAndObjCreator
             [sprintf "  static member %s(%s) = %s |> Interop.mkAttr \"%s\"" propNameSafe paramList objCreator propName]
 
-        | "bottomNavigation", "onChange", "func" ->
+        | ("bottomNavigation" | "tabs"), "onChange", "func" ->
             [
               sprintf "  static member inline %s(handler: Event -> 'a -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName
               sprintf "  static member inline %s(handler: 'a -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
             ]
-
-        | "tabs", "value", "any" ->
-            [sprintf "  static member inline %s(value: 'tabValue) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
         | "toggleButtonGroup", "value", "any" ->
             [
@@ -279,10 +275,7 @@ let generatePage (url: String) =
             ]
 
         | "speedDial", "onClose", "func" ->
-            [
-              sprintf "  static member inline %s(handler: Event -> string -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName
-              sprintf "  static member inline %s(handler: string -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
-            ]
+            [sprintf "  static member inline %s(handler: Event -> string -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName]
 
         | ("checkbox" | "formControlLabel" | "switch"), "onChange", "func" ->
             [
@@ -322,10 +315,8 @@ let generatePage (url: String) =
 
         | "toggleButtonGroup", "onChange", "func" ->
             [
-              sprintf "  static member inline %s(handler: Event -> 'toggleButtonValue option -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName
-              sprintf "  static member inline %s(handler: Event -> 'toggleButtonValue [] -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName
-              sprintf "  static member inline %s(handler: 'toggleButtonValue option -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
-              sprintf "  static member inline %s(handler: 'toggleButtonValue [] -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
+              sprintf "  static member inline %s(handler: Event -> 'a -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName
+              sprintf "  static member inline %s(handler: 'a -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
             ]
 
         | "slider", "step", "number" ->
@@ -351,19 +342,34 @@ let generatePage (url: String) =
             [sprintf "  static member inline %s(value: Styles.ICssUnit) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
         | "dialog", "onClose", "func" ->
-            [sprintf "  static member inline %s(handler: Event -> DialogCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName]
+            [
+              sprintf "  static member inline %s(handler: Event -> DialogCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName
+              sprintf "  static member inline %s(handler: DialogCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
+            ]
 
         | "menu", "onClose", "func" ->
-            [sprintf "  static member inline %s(handler: Event -> MenuCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName]
+            [
+              sprintf "  static member inline %s(handler: Event -> MenuCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName
+              sprintf "  static member inline %s(handler: MenuCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
+            ]
 
         | "modal", "onClose", "func" ->
-            [sprintf "  static member inline %s(handler: Event -> ModalCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName]
+            [
+              sprintf "  static member inline %s(handler: Event -> ModalCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName
+              sprintf "  static member inline %s(handler: ModalCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
+            ]
 
         | "popover", "onClose", "func" ->
-            [sprintf "  static member inline %s(handler: Event -> PopoverCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName]
+            [
+              sprintf "  static member inline %s(handler: Event -> PopoverCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName
+              sprintf "  static member inline %s(handler: PopoverCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
+            ]
 
         | "snackbar", "onClose", "func" ->
-            [sprintf "  static member inline %s(handler: Event -> SnackbarCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName]
+            [
+              sprintf "  static member inline %s(handler: Event -> SnackbarCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName
+              sprintf "  static member inline %s(handler: SnackbarCloseReason -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
+            ]
 
         | ("modal" | "portal"), "onRendered", "func" ->
             []  // deprecated

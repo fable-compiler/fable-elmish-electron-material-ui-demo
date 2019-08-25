@@ -867,6 +867,16 @@ type dialog =
   ///
   /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`
   static member inline onClose(handler: Event -> DialogCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> handler)
+  /// Callback fired when the component requests to be closed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, reason: string) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`
+  static member inline onClose(handler: DialogCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> (fun _ v -> handler v))
   /// Callback fired before the dialog enters.
   static member inline onEnter(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEnter" handler
   /// Callback fired when the dialog has entered.
@@ -2466,6 +2476,16 @@ type menu =
   ///
   /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`, `"tabKeyDown"`
   static member inline onClose(handler: Event -> MenuCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> handler)
+  /// Callback fired when the component requests to be closed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, reason: string) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`, `"tabKeyDown"`
+  static member inline onClose(handler: MenuCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> (fun _ v -> handler v))
   /// Callback fired before the Menu enters.
   static member inline onEnter(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEnter" handler
   /// Callback fired when the Menu has entered.
@@ -2643,6 +2663,16 @@ type modal =
   ///
   /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`
   static member inline onClose(handler: Event -> ModalCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> handler)
+  /// Callback fired when the component requests to be closed. The `reason` parameter can optionally be used to control the response to `onClose`.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, reason: string) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`
+  static member inline onClose(handler: ModalCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> (fun _ v -> handler v))
   /// Callback fired when the escape key is pressed, `disableEscapeKeyDown` is false and the modal is in focus.
   static member inline onEscapeKeyDown(handler: Event -> unit) = Interop.mkAttr "onEscapeKeyDown" handler
   /// If `true`, the modal is open.
@@ -2879,6 +2909,16 @@ type popover =
   ///
   /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`
   static member inline onClose(handler: Event -> PopoverCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> handler)
+  /// Callback fired when the component requests to be closed.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, reason: string) => void`
+  ///
+  /// *event:* The event source of the callback.
+  ///
+  /// *reason:* Can be:`"escapeKeyDown"`, `"backdropClick"`
+  static member inline onClose(handler: PopoverCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> (fun _ v -> handler v))
   /// Callback fired before the component is entering.
   static member inline onEnter(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEnter" handler
   /// Callback fired when the component has entered.
@@ -3668,6 +3708,16 @@ type snackbar =
   ///
   /// *reason:* Can be:`"timeout"` (`autoHideDuration` expired) or: `"clickaway"`
   static member inline onClose(handler: Event -> SnackbarCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> handler)
+  /// Callback fired when the component requests to be closed. Typically `onClose` is used to set state in the parent component, which is used to control the `Snackbar` `open` prop. The `reason` parameter can optionally be used to control the response to `onClose`, for example ignoring `clickaway`.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, reason: string) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *reason:* Can be:`"timeout"` (`autoHideDuration` expired) or: `"clickaway"`
+  static member inline onClose(handler: SnackbarCloseReason -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> (fun _ v -> handler v))
   /// Callback fired before the transition is entering.
   static member inline onEnter(handler: ReactElement -> bool -> unit) = Interop.mkAttr "onEnter" handler
   /// Callback fired when the transition has entered.
@@ -3767,16 +3817,6 @@ type speedDial =
   ///
   /// *key:* The key pressed
   static member inline onClose(handler: Event -> string -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> handler)
-  /// Callback fired when the component requests to be closed.
-  ///
-  /// **Signature:**
-  ///
-  /// `function(event: object, key: string) => void`
-  ///
-  /// *event:* The event source of the callback
-  ///
-  /// *key:* The key pressed
-  static member inline onClose(handler: string -> unit) = Interop.mkAttr "onClose" (System.Func<_,_,_> (fun _ v -> handler v))
   /// If `true`, the SpeedDial is open.
   static member inline open'(value: bool) = Interop.mkAttr "open" value
   /// The icon to display in the SpeedDial Floating Action Button when the SpeedDial is open.
@@ -4507,13 +4547,23 @@ type tabs =
   /// *event:* The event source of the callback
   ///
   /// *value:* We default to the index of the child (number)
-  static member inline onChange(handler: Event -> unit) = Interop.mkAttr "onChange" handler
+  static member inline onChange(handler: Event -> 'a -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
+  /// Callback fired when the value changes.
+  ///
+  /// **Signature:**
+  ///
+  /// `function(event: object, value: any) => void`
+  ///
+  /// *event:* The event source of the callback
+  ///
+  /// *value:* We default to the index of the child (number)
+  static member inline onChange(handler: 'a -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
   /// The component used to render the scroll buttons.
   static member inline ScrollButtonComponent(value: ReactElementType) = Interop.mkAttr "ScrollButtonComponent" value
   /// Props applied to the tab indicator element.
   static member inline TabIndicatorProps(props: IReactProperty list) = Interop.mkAttr "TabIndicatorProps" (createObj !!props)
   /// The value of the currently selected `Tab`. If you don't want any selected `Tab`, you can set this property to `false`.
-  static member inline value(value: 'tabValue) = Interop.mkAttr "value" value
+  static member inline value(value: 'a) = Interop.mkAttr "value" value
 
 module tabs =
 
@@ -4716,7 +4766,7 @@ type toggleButtonGroup =
   /// *event:* The event source of the callback
   ///
   /// *value:* of the selected buttons. When `exclusive` is true this is a single value; when false an array of selected values. If no value is selected and `exclusive` is true the value is null; when false an empty array.
-  static member inline onChange(handler: Event -> 'toggleButtonValue option -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
+  static member inline onChange(handler: Event -> 'a -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
   /// Callback fired when the value changes.
   ///
   /// **Signature:**
@@ -4726,27 +4776,7 @@ type toggleButtonGroup =
   /// *event:* The event source of the callback
   ///
   /// *value:* of the selected buttons. When `exclusive` is true this is a single value; when false an array of selected values. If no value is selected and `exclusive` is true the value is null; when false an empty array.
-  static member inline onChange(handler: Event -> 'toggleButtonValue [] -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
-  /// Callback fired when the value changes.
-  ///
-  /// **Signature:**
-  ///
-  /// `function(event: object, value: object) => void`
-  ///
-  /// *event:* The event source of the callback
-  ///
-  /// *value:* of the selected buttons. When `exclusive` is true this is a single value; when false an array of selected values. If no value is selected and `exclusive` is true the value is null; when false an empty array.
-  static member inline onChange(handler: 'toggleButtonValue option -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
-  /// Callback fired when the value changes.
-  ///
-  /// **Signature:**
-  ///
-  /// `function(event: object, value: object) => void`
-  ///
-  /// *event:* The event source of the callback
-  ///
-  /// *value:* of the selected buttons. When `exclusive` is true this is a single value; when false an array of selected values. If no value is selected and `exclusive` is true the value is null; when false an empty array.
-  static member inline onChange(handler: 'toggleButtonValue [] -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
+  static member inline onChange(handler: 'a -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
   /// The currently selected value within the group or an array of selected values when `exclusive` is false.
   static member inline value(value: 'toggleButtonValue option) = Interop.mkAttr "value" value
   /// The currently selected value within the group or an array of selected values when `exclusive` is false.

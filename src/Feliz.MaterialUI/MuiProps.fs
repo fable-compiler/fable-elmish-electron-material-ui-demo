@@ -222,7 +222,7 @@ type bottomNavigation =
   /// *event:* The event source of the callback
   ///
   /// *value:* We default to the index of the child
-  static member inline onChange(handler: Event -> 'bottomNavigationActionValue -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
+  static member inline onChange(handler: Event -> 'a -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> handler)
   /// Callback fired when the value changes.
   ///
   /// **Signature:**
@@ -232,11 +232,11 @@ type bottomNavigation =
   /// *event:* The event source of the callback
   ///
   /// *value:* We default to the index of the child
-  static member inline onChange(handler: 'bottomNavigationActionValue -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
+  static member inline onChange(handler: 'a -> unit) = Interop.mkAttr "onChange" (System.Func<_,_,_> (fun _ v -> handler v))
   /// If `true`, all `BottomNavigationAction`s will show their labels. By default, only the selected `BottomNavigationAction` will show its label.
   static member inline showLabels(value: bool) = Interop.mkAttr "showLabels" value
   /// The value of the currently selected `BottomNavigationAction`.
-  static member inline value(value: 'bottomNavigationActionValue) = Interop.mkAttr "value" value
+  static member inline value(value: 'a) = Interop.mkAttr "value" value
 
 
 type bottomNavigationAction =

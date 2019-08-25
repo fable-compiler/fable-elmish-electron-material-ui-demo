@@ -265,12 +265,9 @@ let generatePage (url: String) =
 
         | "bottomNavigation", "onChange", "func" ->
             [
-              sprintf "  static member inline %s(handler: Event -> 'bottomNavigationActionValue -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName
-              sprintf "  static member inline %s(handler: 'bottomNavigationActionValue -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
+              sprintf "  static member inline %s(handler: Event -> 'a -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> handler)" propNameSafe propName
+              sprintf "  static member inline %s(handler: 'a -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
             ]
-
-        | "bottomNavigation", "value", "any" ->
-            [sprintf "  static member inline %s(value: 'bottomNavigationActionValue) = Interop.mkAttr \"%s\" value" propNameSafe propName]
 
         | "tabs", "value", "any" ->
             [sprintf "  static member inline %s(value: 'tabValue) = Interop.mkAttr \"%s\" value" propNameSafe propName]

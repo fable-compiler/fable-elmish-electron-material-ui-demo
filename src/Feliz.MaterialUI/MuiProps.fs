@@ -2446,6 +2446,8 @@ type menu =
   static member inline anchorEl(value: Element option) = Interop.mkAttr "anchorEl" value
   /// The DOM element used to set the position of the menu.
   static member inline anchorEl(handler: unit -> Element option) = Interop.mkAttr "anchorEl" handler
+  /// The DOM element used to set the position of the menu.
+  static member inline anchorEl(ref: IRefValue<Element option>) = Interop.mkAttr "anchorEl" (fun () -> ref.current)
   /// If `true` (default), the menu list (possibly a particular item depending on the menu variant) will receive focus on open.
   static member inline autoFocus(value: bool) = Interop.mkAttr "autoFocus" value
   /// Menu contents, normally `MenuItem`s.
@@ -2869,6 +2871,8 @@ type popover =
   static member inline anchorEl(value: Element option) = Interop.mkAttr "anchorEl" value
   /// This is the DOM element, or a function that returns the DOM element, that may be used to set the position of the popover.
   static member inline anchorEl(handler: unit -> Element option) = Interop.mkAttr "anchorEl" handler
+  /// This is the DOM element, or a function that returns the DOM element, that may be used to set the position of the popover.
+  static member inline anchorEl(ref: IRefValue<Element option>) = Interop.mkAttr "anchorEl" (fun () -> ref.current)
   /// This is the position that may be used to set the position of the popover. The coordinates are relative to the application's client area.
   static member anchorPosition(left: int, top: int) = [yield "left" ==> left; yield "top" ==> top] |> createObj |> Interop.mkAttr "anchorPosition"
   /// The content of the component.
@@ -3007,6 +3011,10 @@ type popper =
   ///
   /// The reference element should be an HTML Element instance or a referenceObject: https://popper.js.org/popper-documentation.html#referenceObject.
   static member inline anchorEl(handler: unit -> Element option) = Interop.mkAttr "anchorEl" handler
+  /// This is the reference element, or a function that returns the reference element, that may be used to set the position of the popover. The return value will passed as the reference object of the Popper instance.
+  ///
+  /// The reference element should be an HTML Element instance or a referenceObject: https://popper.js.org/popper-documentation.html#referenceObject.
+  static member inline anchorEl(ref: IRefValue<Element option>) = Interop.mkAttr "anchorEl" (fun () -> ref.current)
   /// Popper render function or node.
   static member inline children(element: ReactElement) = prop.children element
   /// Popper render function or node.

@@ -6,8 +6,6 @@ open FSharp.Data
 
 (*
 TODO:
-  - test ref props and all other IRefValue props
-  - test anchorEl props
   - test select.onChange
   - check if any values should be wrapped in option
   - use internal types instead of MUI for "action" props etc.?
@@ -420,6 +418,7 @@ let generatePage (url: String) =
             [
               sprintf "  static member inline %s(value: Element option) = Interop.mkAttr \"%s\" value" propNameSafe propName
               sprintf "  static member inline %s(handler: unit -> Element option) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(ref: IRefValue<Element option>) = Interop.mkAttr \"%s\" (fun () -> ref.current)" propNameSafe propName
             ]
 
         | "popover", "getContentAnchorEl", "func" ->

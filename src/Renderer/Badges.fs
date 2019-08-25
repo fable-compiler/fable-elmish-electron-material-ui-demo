@@ -5,12 +5,10 @@ open Elmish.React
 open Fable.Core
 open Fable.Core.JsInterop
 open Fable.React
-open Fable.React.Props
-open Fable.MaterialUI
-open Fable.MaterialUI.Core
-open Fable.MaterialUI.Props
 open Fable.MaterialUI.MaterialDesignIcons
 open Fable.MaterialUI.Icons
+open Feliz
+open Feliz.MaterialUI
 
 
 type Model =
@@ -32,57 +30,59 @@ let update msg m =
 // Domain/Elmish above, view below
 
 
-let private styles (theme: ITheme) : IStyles list =
-  [
-    Styles.Custom ("description", [
-      MarginBottom (theme.spacing.unit * 3)
-    ])
-    Styles.Custom ("margin", [
-      MarginRight (theme.spacing.unit * 2)
-    ])
-  ]
-
-
-let private view' (classes: IClasses) model dispatch =
-  div [] [
-    div [ Class classes?description ] [
-      typography [ Paragraph true ] [ str "The badge becomes invisible when count = 0." ]
+let private useStyles = Styles.makeStyles(fun theme ->
+  {|
+    description = asClassName [
+      style.marginBottom (theme.spacing.unit * 3)
     ]
-    div [] [
-      iconButton [ Class classes?margin ] [
-        badge [
-          BadgeProp.Color BadgeColor.Secondary
-          BadgeContent (ofInt model.Count)
-        ] [
-          notificationsIcon []
+    margin = asClassName [
+      style.marginRight (theme.spacing.unit * 2)
+    ]
+  |}
+)
+
+let BadgesPage = FunctionComponent.Of((fun (model, dispatch) ->
+  let c = useStyles ()
+  Html.div [
+    prop.children [
+      Html.div [
+        prop.className c.description
+        prop.children [
+          Mui.typography [
+            typography.paragraph true
+            typography.children "The badge becomes invisible when count = 0."
+          ]
         ]
       ]
-      iconButton [
-        DOMAttr.OnClick (fun _ -> dispatch Decrement)
-        HTMLAttr.Disabled (model.Count <= 0)
-      ] [ minusIcon [] ]
-      iconButton [
-        DOMAttr.OnClick (fun _ -> dispatch Increment)
-      ] [ plusIcon [] ]
+      Html.div [
+        prop.children [
+          Mui.iconButton [
+            prop.className c.margin
+            prop.children [
+              Mui.badge [
+                badge.color.secondary
+                badge.badgeContent model.Count
+                badge.children [
+                  notificationsIcon []
+                ]
+              ]
+            ]
+          ]
+          Mui.iconButton [
+            prop.onClick (fun _ -> dispatch Decrement)
+            iconButton.disabled (model.Count <= 0)
+            iconButton.children [
+              minusIcon []
+            ]
+          ]
+          Mui.iconButton [
+            prop.onClick (fun _ -> dispatch Increment)
+            iconButton.children [
+              plusIcon []
+            ]
+          ]
+        ]
+      ]
     ]
   ]
-
-
-// Workaround for using JSS with Elmish
-// https://github.com/mvsmal/fable-material-ui/issues/4#issuecomment-422781471
-type private IProps =
-  abstract member model: Model with get, set
-  abstract member dispatch: (Msg -> unit) with get, set
-  inherit IClassesProps
-
-type private Component(p) =
-  inherit PureStatelessComponent<IProps>(p)
-  let viewFun (p: IProps) = view' p.classes p.model p.dispatch
-  let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = ReactElementType.create viewWithStyles this.props []
-
-let view (model: Model) (dispatch: Msg -> unit) : ReactElement =
-  let props = jsOptions<IProps>(fun p ->
-    p.model <- model
-    p.dispatch <- dispatch)
-  ofType<Component,_,_> props []
+), "BadgesPage", memoEqualsButFunctions)

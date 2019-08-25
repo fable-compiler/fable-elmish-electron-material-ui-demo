@@ -135,7 +135,7 @@ let private pageView model dispatch =
   // TODO: add typography overload taking only string?
   | Home -> Mui.typography [ typography.children (str "This app contains simple demos showing how certain Material-UI components can be used with Elmish.") ]
   | AutoComplete -> lazyView2 AutoComplete.view model.AutoCompleteDownshift (AutoCompleteMsg >> dispatch)
-  | Badges -> lazyView2 Badges.view model.Badges (BadgesMsg >> dispatch)
+  | Badges -> Badges.BadgesPage(model.Badges, BadgesMsg >> dispatch)
   | Dialogs -> Dialogs.DialogsPage(model.Dialogs, DialogsMsg >> dispatch)
   | SaveLoad -> SaveLoad.SaveLoadPage (model.SaveLoad, SaveLoadMsg >> dispatch)
   | Selects -> Selects.SelectsPage (model.Selects, SelectsMsg >> dispatch)

@@ -8,7 +8,6 @@
     <None Include="paket.references" />
     <Compile Include="Classes.fs" />
     <Compile Include="Styles.fs" />
-    <Compile Include="GeneralProps.fs" />
     <Compile Include="MuiProps.fs" />
     <Compile Include="ThemeOverrides.fs" />
     <Compile Include="Mui.fs" />

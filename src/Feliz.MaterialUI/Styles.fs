@@ -9,7 +9,11 @@ open Feliz
 [<AutoOpen>]
 module Global =
 
-  let inline asClassName (styles: IStyleAttribute list) : IClassName =
+  /// Use with `makeStyles` when returning an (anonymous) record of style
+  /// properties. Pretends that the style list is a string (which it is at
+  /// runtime when returned by the `makeStyles` hook), so that the properties
+  /// can be used in `className` and `classes` props.
+  let inline asString (styles: #seq<IStyleAttribute>) : string =
     unbox styles
 
 [<AutoOpen>]
@@ -65,5 +69,6 @@ type style =
     objectEntries value |> unbox
 
   /// Allows nesting styles, for example for JSS selectors etc.
+  // TODO: rename?
   static member inner (name: string) (styles: IStyleAttribute list) =
     Interop.mkStyle name (createObj !!styles)

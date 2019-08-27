@@ -33,7 +33,7 @@ let update msg m =
 
 let private useStyles = Styles.makeStyles(fun theme ->
   {|
-    formControl = asClassName [
+    formControl = asString [
       style.minWidth (length.px 120)
     ]
   |}

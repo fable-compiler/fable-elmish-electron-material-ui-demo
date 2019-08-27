@@ -1,7 +1,7 @@
 ﻿[<EntryPoint>]
 let main argv =
   //HtmlCache.refreshApiCache()
-  //Classes.generateAll ()
+  Classes.generateAll ()
   Props.generateAll ()
-  //Mui.generateAll ()
+  Mui.generateAll ()
   0

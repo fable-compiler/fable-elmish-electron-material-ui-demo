@@ -23,7 +23,7 @@ let generatePage (url: String) =
     let table = page.Tables.CSS
 
     w.printfn ""
-    w.printfn "  let inline private mk%sClasses (key: string) (value: IClassName) : I%sClasses = unbox (key, value)" componentNamePascalCase componentNamePascalCase
+    w.printfn "  let inline private mk%sClasses (key: string) (value: string) : I%sClasses = unbox (key, value)" componentNamePascalCase componentNamePascalCase
     w.printfn ""
     w.printfn "  [<Erase>]"
     w.printfn "  type %s =" componentNameCamelCase
@@ -44,7 +44,7 @@ let generatePage (url: String) =
       if docString <> "" then
         w.WriteLine docString
 
-      w.printfn """    static member inline %s(value: IClassName) = mk%sClasses "%s" value""" safeName componentNamePascalCase ruleName
+      w.printfn """    static member inline %s(value: string) = mk%sClasses "%s" value""" safeName componentNamePascalCase ruleName
 
   with :? System.Collections.Generic.KeyNotFoundException -> ()
   w.ToString ()
@@ -59,8 +59,6 @@ let generateAll () =
 ////////////////////////////////*)
 
 open Fable.Core
-  
-type IClassName = interface end
   
 /// Override or extend the styles applied to components.
 module classes ="""

@@ -69,10 +69,10 @@ let update msg m =
 
 let private useStyles = Styles.makeStyles(fun theme ->
   {|
-    form = asClassName [
+    form = asString [
       style.flexWrap.wrap
     ]
-    textField = asClassName [
+    textField = asString [
       style.marginLeft theme.spacing.unit
       style.marginRight theme.spacing.unit
       style.width 200

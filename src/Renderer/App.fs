@@ -119,21 +119,18 @@ let private useStyles = Styles.makeStyles(fun theme ->
 let private pageListItem model dispatch page =
   Mui.listItem [
     listItem.button true
-    listItem.divider ((page = Home))  // TODO: double parentheses required, can this be solved in a better way?
+    listItem.divider ((page = Home))
     listItem.selected (model.Page = page)
     prop.key (pageTitle page)
     prop.onClick (fun _ -> Navigate page |> dispatch)
     listItem.children [
-      Mui.listItemText [  // TODO: add overload taking only string, and/or children
-        listItemText.primary(page |> pageTitle |> str)    // TODO: add overload taking only string
-      ]
+      Mui.listItemText (pageTitle page)
     ]
   ]
 
 let private pageView model dispatch =
   match model.Page with
-  // TODO: add typography overload taking only string?
-  | Home -> Mui.typography [ typography.children (str "This app contains simple demos showing how certain Material-UI components can be used with Elmish.") ]
+  | Home -> Mui.typography "This app contains simple demos showing how certain Material-UI components can be used with Elmish."
   | AutoComplete -> lazyView2 AutoComplete.view model.AutoCompleteDownshift (AutoCompleteMsg >> dispatch)
   | Badges -> Badges.BadgesPage(model.Badges, BadgesMsg >> dispatch)
   | Dialogs -> Dialogs.DialogsPage(model.Dialogs, DialogsMsg >> dispatch)

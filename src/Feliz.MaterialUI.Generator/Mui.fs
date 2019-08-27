@@ -7,8 +7,6 @@ open FSharp.Data
 
 let outFile = @"..\..\..\..\Feliz.MaterialUI\Mui.fs"
 
-// TODO: Also generate helpful overloads for common child types (e.g. Typography with string, DialogContentText with string, etc.)
-
 let generatePage (url: String) =
   use w = new StringWriter()
   let html = ComponentApiPage.Load(url).Html
@@ -33,7 +31,32 @@ let generatePage (url: String) =
 
   w.WriteLine docString
   w.printfn "  static member inline %s props = createElement (importDefault \"%s\") props" componentName importPath
+
+  match componentName with
+  | "dialogContentText"
+  | "dialogTitle"
+  | "formHelperText"
+  | "formLabel"
+  | "inputLabel"
+  | "listSubheader"
+  | "stepLabel"
+  | "tableCell"
+  | "typography" ->
+      w.printfn ""
+      w.WriteLine docString
+      w.printfn "  static member inline %s (text: string) = createElement (importDefault \"%s\") [ prop.children (Html.text text) ]" componentName importPath
+  | "icon" ->
+      w.printfn ""
+      w.WriteLine docString
+      w.printfn "  static member inline %s (name: string) = createElement (importDefault \"%s\") [ prop.children (Html.text name) ]" componentName importPath
+  | "listItemText" ->
+      w.printfn ""
+      w.WriteLine docString
+      w.printfn "  static member inline %s (primary: string) = createElement (importDefault \"%s\") [ listItemText.primary primary ]" componentName importPath
+  | _ -> ()
+
   w.ToString()
+
 
 let generateAll () =
   Console.WriteLine("\n\nGENERATING COMPONENTS\n")

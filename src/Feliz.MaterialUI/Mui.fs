@@ -156,8 +156,18 @@ type Mui =
 
   /// The `ref` is forwarded to the root element.
   ///
+  /// Any other props supplied will be provided to the root element ([Typography](https://material-ui.com/api/typography/)).
+  static member inline dialogContentText (text: string) = createElement (importDefault "@material-ui/core/DialogContentText") [ prop.children (Html.text text) ]
+
+  /// The `ref` is forwarded to the root element.
+  ///
   /// Any other props supplied will be provided to the root element (native element).
   static member inline dialogTitle props = createElement (importDefault "@material-ui/core/DialogTitle") props
+
+  /// The `ref` is forwarded to the root element.
+  ///
+  /// Any other props supplied will be provided to the root element (native element).
+  static member inline dialogTitle (text: string) = createElement (importDefault "@material-ui/core/DialogTitle") [ prop.children (Html.text text) ]
 
   /// The `ref` is forwarded to the root element.
   ///
@@ -227,7 +237,17 @@ type Mui =
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
+  static member inline formHelperText (text: string) = createElement (importDefault "@material-ui/core/FormHelperText") [ prop.children (Html.text text) ]
+
+  /// The `ref` is forwarded to the root element.
+  ///
+  /// Any other props supplied will be provided to the root element (native element).
   static member inline formLabel props = createElement (importDefault "@material-ui/core/FormLabel") props
+
+  /// The `ref` is forwarded to the root element.
+  ///
+  /// Any other props supplied will be provided to the root element (native element).
+  static member inline formLabel (text: string) = createElement (importDefault "@material-ui/core/FormLabel") [ prop.children (Html.text text) ]
 
   /// The `ref` is forwarded to the root element.
   ///
@@ -266,6 +286,11 @@ type Mui =
 
   /// The `ref` is forwarded to the root element.
   ///
+  /// Any other props supplied will be provided to the root element (native element).
+  static member inline icon (name: string) = createElement (importDefault "@material-ui/core/Icon") [ prop.children (Html.text name) ]
+
+  /// The `ref` is forwarded to the root element.
+  ///
   /// Any other props supplied will be provided to the root element ([ButtonBase](https://material-ui.com/api/button-base/)).
   static member inline iconButton props = createElement (importDefault "@material-ui/core/IconButton") props
 
@@ -288,6 +313,11 @@ type Mui =
   ///
   /// Any other props supplied will be provided to the root element ([FormLabel](https://material-ui.com/api/form-label/)).
   static member inline inputLabel props = createElement (importDefault "@material-ui/core/InputLabel") props
+
+  /// The `ref` is forwarded to the root element.
+  ///
+  /// Any other props supplied will be provided to the root element ([FormLabel](https://material-ui.com/api/form-label/)).
+  static member inline inputLabel (text: string) = createElement (importDefault "@material-ui/core/InputLabel") [ prop.children (Html.text text) ]
 
   /// The `ref` is forwarded to the root element.
   ///
@@ -332,7 +362,17 @@ type Mui =
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
+  static member inline listItemText (primary: string) = createElement (importDefault "@material-ui/core/ListItemText") [ listItemText.primary primary ]
+
+  /// The `ref` is forwarded to the root element.
+  ///
+  /// Any other props supplied will be provided to the root element (native element).
   static member inline listSubheader props = createElement (importDefault "@material-ui/core/ListSubheader") props
+
+  /// The `ref` is forwarded to the root element.
+  ///
+  /// Any other props supplied will be provided to the root element (native element).
+  static member inline listSubheader (text: string) = createElement (importDefault "@material-ui/core/ListSubheader") [ prop.children (Html.text text) ]
 
   /// The `ref` is forwarded to the root element.
   ///
@@ -485,6 +525,11 @@ type Mui =
 
   /// The `ref` is forwarded to the root element.
   ///
+  /// Any other props supplied will be provided to the root element (native element).
+  static member inline stepLabel (text: string) = createElement (importDefault "@material-ui/core/StepLabel") [ prop.children (Html.text text) ]
+
+  /// The `ref` is forwarded to the root element.
+  ///
   /// Any other props supplied will be provided to the root element ([Paper](https://material-ui.com/api/paper/)).
   static member inline stepper props = createElement (importDefault "@material-ui/core/Stepper") props
 
@@ -522,6 +567,11 @@ type Mui =
   ///
   /// Any other props supplied will be provided to the root element (native element).
   static member inline tableCell props = createElement (importDefault "@material-ui/core/TableCell") props
+
+  /// The `ref` is forwarded to the root element.
+  ///
+  /// Any other props supplied will be provided to the root element (native element).
+  static member inline tableCell (text: string) = createElement (importDefault "@material-ui/core/TableCell") [ prop.children (Html.text text) ]
 
   /// The `ref` is forwarded to the root element.
   ///
@@ -602,6 +652,11 @@ type Mui =
   ///
   /// Any other props supplied will be provided to the root element (native element).
   static member inline typography props = createElement (importDefault "@material-ui/core/Typography") props
+
+  /// The `ref` is forwarded to the root element.
+  ///
+  /// Any other props supplied will be provided to the root element (native element).
+  static member inline typography (text: string) = createElement (importDefault "@material-ui/core/Typography") [ prop.children (Html.text text) ]
 
   /// The `ref` is forwarded to the root element.
   ///

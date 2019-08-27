@@ -46,7 +46,7 @@ let private selectItem e =
     menuItem.children [
       Html.div [
         prop.children [
-          Mui.typography [ prop.text e.Name ]
+          Mui.typography e.Name
           Mui.typography [
             typography.variant.caption
             prop.text e.Description
@@ -66,7 +66,7 @@ let SelectsPage = FunctionComponent.Of((fun (model, dispatch: Elmish.Dispatch<Ms
         formControl.required true
         formControl.error model.SelectedId.IsNone
         formControl.children [
-          Mui.inputLabel [ inputLabel.children "Entity" ]
+          Mui.inputLabel "Entity"
           Mui.select [
             select.value (emptyStringIfNone model.SelectedId)
             select.onChange (SelectEntity >> dispatch)
@@ -77,9 +77,8 @@ let SelectsPage = FunctionComponent.Of((fun (model, dispatch: Elmish.Dispatch<Ms
               |> ofList
             ]
           ]
-          Mui.formHelperText [
-            formHelperText.children (if model.SelectedId.IsNone then "Please select a value" else "Value OK")
-          ]
+          Mui.formHelperText
+            (if model.SelectedId.IsNone then "Please select a value" else "Value OK")
         ]
       ]
     ]

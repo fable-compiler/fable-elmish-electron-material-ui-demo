@@ -53,14 +53,10 @@ let private AlertDialog = FunctionComponent.Of((fun(model, dispatch) ->
     dialog.open' (model.CurrentDialog = Some Alert)
     dialog.onClose (fun _ _ -> dispatch AbortDialog)
     dialog.children [
-      Mui.dialogTitle [
-        dialogTitle.children "Do you agree?"
-      ]
+      Mui.dialogTitle "Do you agree?"
       Mui.dialogContent [
         dialogContent.children [
-          Mui.dialogContentText [
-            dialogContentText.children "Please indicate whether you agree."
-          ]
+          Mui.dialogContentText "Please indicate whether you agree."
         ]
       ]
       Mui.dialogActions [
@@ -87,9 +83,7 @@ let private SelectDialog = FunctionComponent.Of((fun(model, dispatch) ->
     dialog.open' (model.CurrentDialog = Some Select)
     dialog.onClose (fun _ _ -> dispatch AbortDialog)
     dialog.children [
-      Mui.dialogTitle [
-        dialogTitle.children "Choose an option?"
-      ]
+      Mui.dialogTitle "Choose an option"
       Mui.list [
         list.children [
           model.AvailableSelectValues |> List.map (fun value ->
@@ -98,9 +92,7 @@ let private SelectDialog = FunctionComponent.Of((fun(model, dispatch) ->
               prop.onClick (fun _ -> SetSelectResponse value |> dispatch)
               prop.key value
               listItem.children [
-                Mui.listItemText [
-                  listItemText.children value
-                ]
+                Mui.listItemText value
               ]
             ]
           ) |> ofList
@@ -116,14 +108,10 @@ let private FormDialog = FunctionComponent.Of((fun(model, dispatch) ->
     dialog.open' (model.CurrentDialog = Some Form)
     dialog.onClose (fun _ _ -> dispatch AbortDialog)
     dialog.children [
-      Mui.dialogTitle [
-        dialogTitle.children "Write your response"
-      ]
+      Mui.dialogTitle "Write your response"
       Mui.dialogContent [
         dialogContent.children [
-          Mui.dialogContentText [
-            dialogContentText.children "Please enter your response in the form below."
-          ]
+          Mui.dialogContentText "Please enter your response in the form below."
           Mui.textField [
             textField.autoFocus true
             textField.margin.dense

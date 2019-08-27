@@ -13,6 +13,12 @@ open Fable.MaterialUI.Core
 open Fable.MaterialUI.Props
 
 
+// NOTE: This is not yet converted to Feliz due to incompatibility with
+// Fable.Import.Downshift. Might have a go at creating Feliz-compatible bindings
+// for downshift-hooks when useAutocomplete is released:
+// https://github.com/silviuavram/downshift-hooks
+
+
 type Country =
   { Id: Guid
     Name: string

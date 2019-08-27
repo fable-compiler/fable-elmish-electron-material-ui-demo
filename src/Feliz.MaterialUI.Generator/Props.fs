@@ -4,13 +4,7 @@ open System
 open System.IO
 open FSharp.Data
 
-(*
-TODO:
-  - test select.onChange
-  - check if any values should be wrapped in option
-  - use internal types instead of MUI for "action" props etc.?
-  - unsure if component
-*)
+// TODO: use internal types instead of MUI for "action" props etc.?
 
 let outFile = @"..\..\..\..\Feliz.MaterialUI\MuiProps.fs"
 
@@ -323,8 +317,10 @@ let generatePage (url: String) =
               sprintf "  static member inline %s(handler: 'a -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
             ]
 
-        | "slider", "step", "number" ->
+        | "slider", "step", "number" ->  // TODO: overload resolution fails if just None is passed. https://github.com/Zaid-Ajaj/Feliz/issues/39
             [
+              sprintf "  static member inline %s(value: int) = Interop.mkAttr \"%s\" value" propNameSafe propName
+              sprintf "  static member inline %s(value: float) = Interop.mkAttr \"%s\" value" propNameSafe propName
               sprintf "  static member inline %s(value: int option) = Interop.mkAttr \"%s\" value" propNameSafe propName
               sprintf "  static member inline %s(value: float option) = Interop.mkAttr \"%s\" value" propNameSafe propName
             ]

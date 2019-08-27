@@ -3617,6 +3617,10 @@ type slider =
   /// *value:* The new value
   static member inline onChangeCommitted(handler: float -> unit) = Interop.mkAttr "onChangeCommitted" (System.Func<_,_,_> (fun _ v -> handler v))
   /// The granularity with which the slider can step through values. (A "discrete" slider.) When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
+  static member inline step(value: int) = Interop.mkAttr "step" value
+  /// The granularity with which the slider can step through values. (A "discrete" slider.) When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
+  static member inline step(value: float) = Interop.mkAttr "step" value
+  /// The granularity with which the slider can step through values. (A "discrete" slider.) When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
   static member inline step(value: int option) = Interop.mkAttr "step" value
   /// The granularity with which the slider can step through values. (A "discrete" slider.) When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
   static member inline step(value: float option) = Interop.mkAttr "step" value

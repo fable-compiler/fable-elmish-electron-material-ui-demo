@@ -9,8 +9,6 @@ let outFile = @"..\..\..\..\Feliz.MaterialUI\Mui.fs"
 
 // TODO: Also generate helpful overloads for common child types (e.g. Typography with string, DialogContentText with string, etc.)
 
-// TODO: some items are from @material-ui/lab
-
 let generatePage (url: String) =
   use w = new StringWriter()
   let html = ComponentApiPage.Load(url).Html
@@ -34,7 +32,7 @@ let generatePage (url: String) =
   let docString = noteNodes1 @ noteNodes2 |> docElementsToMarkdown |> getDocString 2
 
   w.WriteLine docString
-  w.printfn "  static member inline %s = createElement (importDefault \"%s\")" componentName importPath
+  w.printfn "  static member inline %s props = createElement (importDefault \"%s\") props" componentName importPath
   w.ToString()
 
 let generateAll () =

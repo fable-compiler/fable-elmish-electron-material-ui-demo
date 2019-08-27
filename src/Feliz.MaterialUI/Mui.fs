@@ -26,585 +26,585 @@ type Mui =
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Paper](https://material-ui.com/api/paper/)).
-  static member inline appBar = createElement (importDefault "@material-ui/core/AppBar")
+  static member inline appBar props = createElement (importDefault "@material-ui/core/AppBar") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline avatar = createElement (importDefault "@material-ui/core/Avatar")
+  static member inline avatar props = createElement (importDefault "@material-ui/core/Avatar") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline backdrop = createElement (importDefault "@material-ui/core/Backdrop")
+  static member inline backdrop props = createElement (importDefault "@material-ui/core/Backdrop") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline badge = createElement (importDefault "@material-ui/core/Badge")
+  static member inline badge props = createElement (importDefault "@material-ui/core/Badge") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline bottomNavigation = createElement (importDefault "@material-ui/core/BottomNavigation")
+  static member inline bottomNavigation props = createElement (importDefault "@material-ui/core/BottomNavigation") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([ButtonBase](https://material-ui.com/api/button-base/)).
-  static member inline bottomNavigationAction = createElement (importDefault "@material-ui/core/BottomNavigationAction")
+  static member inline bottomNavigationAction props = createElement (importDefault "@material-ui/core/BottomNavigationAction") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline breadcrumbs = createElement (importDefault "@material-ui/core/Breadcrumbs")
+  static member inline breadcrumbs props = createElement (importDefault "@material-ui/core/Breadcrumbs") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([ButtonBase](https://material-ui.com/api/button-base/)).
-  static member inline button = createElement (importDefault "@material-ui/core/Button")
+  static member inline button props = createElement (importDefault "@material-ui/core/Button") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline buttonBase = createElement (importDefault "@material-ui/core/ButtonBase")
+  static member inline buttonBase props = createElement (importDefault "@material-ui/core/ButtonBase") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline buttonGroup = createElement (importDefault "@material-ui/core/ButtonGroup")
+  static member inline buttonGroup props = createElement (importDefault "@material-ui/core/ButtonGroup") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Paper](https://material-ui.com/api/paper/)).
-  static member inline card = createElement (importDefault "@material-ui/core/Card")
+  static member inline card props = createElement (importDefault "@material-ui/core/Card") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([ButtonBase](https://material-ui.com/api/button-base/)).
-  static member inline cardActionArea = createElement (importDefault "@material-ui/core/CardActionArea")
+  static member inline cardActionArea props = createElement (importDefault "@material-ui/core/CardActionArea") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline cardActions = createElement (importDefault "@material-ui/core/CardActions")
+  static member inline cardActions props = createElement (importDefault "@material-ui/core/CardActions") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline cardContent = createElement (importDefault "@material-ui/core/CardContent")
+  static member inline cardContent props = createElement (importDefault "@material-ui/core/CardContent") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline cardHeader = createElement (importDefault "@material-ui/core/CardHeader")
+  static member inline cardHeader props = createElement (importDefault "@material-ui/core/CardHeader") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline cardMedia = createElement (importDefault "@material-ui/core/CardMedia")
+  static member inline cardMedia props = createElement (importDefault "@material-ui/core/CardMedia") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([IconButton](https://material-ui.com/api/icon-button/)).
-  static member inline checkbox = createElement (importDefault "@material-ui/core/Checkbox")
+  static member inline checkbox props = createElement (importDefault "@material-ui/core/Checkbox") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline chip = createElement (importDefault "@material-ui/core/Chip")
+  static member inline chip props = createElement (importDefault "@material-ui/core/Chip") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline circularProgress = createElement (importDefault "@material-ui/core/CircularProgress")
+  static member inline circularProgress props = createElement (importDefault "@material-ui/core/CircularProgress") props
 
   /// The component cannot hold a ref.
-  static member inline clickAwayListener = createElement (importDefault "@material-ui/core/ClickAwayListener")
+  static member inline clickAwayListener props = createElement (importDefault "@material-ui/core/ClickAwayListener") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Transition](https://reactcommunity.org/react-transition-group/transition/#Transition-props)).
-  static member inline collapse = createElement (importDefault "@material-ui/core/Collapse")
+  static member inline collapse props = createElement (importDefault "@material-ui/core/Collapse") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline container = createElement (importDefault "@material-ui/core/Container")
+  static member inline container props = createElement (importDefault "@material-ui/core/Container") props
 
   /// The component cannot hold a ref.
-  static member inline cssBaseline = createElement (importDefault "@material-ui/core/CssBaseline")
+  static member inline cssBaseline props = createElement (importDefault "@material-ui/core/CssBaseline") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Modal](https://material-ui.com/api/modal/)).
-  static member inline dialog = createElement (importDefault "@material-ui/core/Dialog")
+  static member inline dialog props = createElement (importDefault "@material-ui/core/Dialog") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline dialogActions = createElement (importDefault "@material-ui/core/DialogActions")
+  static member inline dialogActions props = createElement (importDefault "@material-ui/core/DialogActions") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline dialogContent = createElement (importDefault "@material-ui/core/DialogContent")
+  static member inline dialogContent props = createElement (importDefault "@material-ui/core/DialogContent") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Typography](https://material-ui.com/api/typography/)).
-  static member inline dialogContentText = createElement (importDefault "@material-ui/core/DialogContentText")
+  static member inline dialogContentText props = createElement (importDefault "@material-ui/core/DialogContentText") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline dialogTitle = createElement (importDefault "@material-ui/core/DialogTitle")
+  static member inline dialogTitle props = createElement (importDefault "@material-ui/core/DialogTitle") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline divider = createElement (importDefault "@material-ui/core/Divider")
+  static member inline divider props = createElement (importDefault "@material-ui/core/Divider") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline drawer = createElement (importDefault "@material-ui/core/Drawer")
+  static member inline drawer props = createElement (importDefault "@material-ui/core/Drawer") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Paper](https://material-ui.com/api/paper/)).
-  static member inline expansionPanel = createElement (importDefault "@material-ui/core/ExpansionPanel")
+  static member inline expansionPanel props = createElement (importDefault "@material-ui/core/ExpansionPanel") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline expansionPanelActions = createElement (importDefault "@material-ui/core/ExpansionPanelActions")
+  static member inline expansionPanelActions props = createElement (importDefault "@material-ui/core/ExpansionPanelActions") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline expansionPanelDetails = createElement (importDefault "@material-ui/core/ExpansionPanelDetails")
+  static member inline expansionPanelDetails props = createElement (importDefault "@material-ui/core/ExpansionPanelDetails") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([ButtonBase](https://material-ui.com/api/button-base/)).
-  static member inline expansionPanelSummary = createElement (importDefault "@material-ui/core/ExpansionPanelSummary")
+  static member inline expansionPanelSummary props = createElement (importDefault "@material-ui/core/ExpansionPanelSummary") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([ButtonBase](https://material-ui.com/api/button-base/)).
-  static member inline fab = createElement (importDefault "@material-ui/core/Fab")
+  static member inline fab props = createElement (importDefault "@material-ui/core/Fab") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Transition](https://reactcommunity.org/react-transition-group/transition/#Transition-props)).
-  static member inline fade = createElement (importDefault "@material-ui/core/Fade")
+  static member inline fade props = createElement (importDefault "@material-ui/core/Fade") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([InputBase](https://material-ui.com/api/input-base/)).
-  static member inline filledInput = createElement (importDefault "@material-ui/core/FilledInput")
+  static member inline filledInput props = createElement (importDefault "@material-ui/core/FilledInput") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline formControl = createElement (importDefault "@material-ui/core/FormControl")
+  static member inline formControl props = createElement (importDefault "@material-ui/core/FormControl") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline formControlLabel = createElement (importDefault "@material-ui/core/FormControlLabel")
+  static member inline formControlLabel props = createElement (importDefault "@material-ui/core/FormControlLabel") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline formGroup = createElement (importDefault "@material-ui/core/FormGroup")
+  static member inline formGroup props = createElement (importDefault "@material-ui/core/FormGroup") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline formHelperText = createElement (importDefault "@material-ui/core/FormHelperText")
+  static member inline formHelperText props = createElement (importDefault "@material-ui/core/FormHelperText") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline formLabel = createElement (importDefault "@material-ui/core/FormLabel")
+  static member inline formLabel props = createElement (importDefault "@material-ui/core/FormLabel") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline grid = createElement (importDefault "@material-ui/core/Grid")
+  static member inline grid props = createElement (importDefault "@material-ui/core/Grid") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline gridList = createElement (importDefault "@material-ui/core/GridList")
+  static member inline gridList props = createElement (importDefault "@material-ui/core/GridList") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline gridListTile = createElement (importDefault "@material-ui/core/GridListTile")
+  static member inline gridListTile props = createElement (importDefault "@material-ui/core/GridListTile") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline gridListTileBar = createElement (importDefault "@material-ui/core/GridListTileBar")
+  static member inline gridListTileBar props = createElement (importDefault "@material-ui/core/GridListTileBar") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Transition](https://reactcommunity.org/react-transition-group/transition/#Transition-props)).
-  static member inline grow = createElement (importDefault "@material-ui/core/Grow")
+  static member inline grow props = createElement (importDefault "@material-ui/core/Grow") props
 
   /// The component cannot hold a ref.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline hidden = createElement (importDefault "@material-ui/core/Hidden")
+  static member inline hidden props = createElement (importDefault "@material-ui/core/Hidden") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline icon = createElement (importDefault "@material-ui/core/Icon")
+  static member inline icon props = createElement (importDefault "@material-ui/core/Icon") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([ButtonBase](https://material-ui.com/api/button-base/)).
-  static member inline iconButton = createElement (importDefault "@material-ui/core/IconButton")
+  static member inline iconButton props = createElement (importDefault "@material-ui/core/IconButton") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([InputBase](https://material-ui.com/api/input-base/)).
-  static member inline input = createElement (importDefault "@material-ui/core/Input")
+  static member inline input props = createElement (importDefault "@material-ui/core/Input") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline inputAdornment = createElement (importDefault "@material-ui/core/InputAdornment")
+  static member inline inputAdornment props = createElement (importDefault "@material-ui/core/InputAdornment") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline inputBase = createElement (importDefault "@material-ui/core/InputBase")
+  static member inline inputBase props = createElement (importDefault "@material-ui/core/InputBase") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([FormLabel](https://material-ui.com/api/form-label/)).
-  static member inline inputLabel = createElement (importDefault "@material-ui/core/InputLabel")
+  static member inline inputLabel props = createElement (importDefault "@material-ui/core/InputLabel") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline linearProgress = createElement (importDefault "@material-ui/core/LinearProgress")
+  static member inline linearProgress props = createElement (importDefault "@material-ui/core/LinearProgress") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Typography](https://material-ui.com/api/typography/)).
-  static member inline link = createElement (importDefault "@material-ui/core/Link")
+  static member inline link props = createElement (importDefault "@material-ui/core/Link") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline list = createElement (importDefault "@material-ui/core/List")
+  static member inline list props = createElement (importDefault "@material-ui/core/List") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline listItem = createElement (importDefault "@material-ui/core/ListItem")
+  static member inline listItem props = createElement (importDefault "@material-ui/core/ListItem") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline listItemAvatar = createElement (importDefault "@material-ui/core/ListItemAvatar")
+  static member inline listItemAvatar props = createElement (importDefault "@material-ui/core/ListItemAvatar") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline listItemIcon = createElement (importDefault "@material-ui/core/ListItemIcon")
+  static member inline listItemIcon props = createElement (importDefault "@material-ui/core/ListItemIcon") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline listItemSecondaryAction = createElement (importDefault "@material-ui/core/ListItemSecondaryAction")
+  static member inline listItemSecondaryAction props = createElement (importDefault "@material-ui/core/ListItemSecondaryAction") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline listItemText = createElement (importDefault "@material-ui/core/ListItemText")
+  static member inline listItemText props = createElement (importDefault "@material-ui/core/ListItemText") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline listSubheader = createElement (importDefault "@material-ui/core/ListSubheader")
+  static member inline listSubheader props = createElement (importDefault "@material-ui/core/ListSubheader") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Popover](https://material-ui.com/api/popover/)).
-  static member inline menu = createElement (importDefault "@material-ui/core/Menu")
+  static member inline menu props = createElement (importDefault "@material-ui/core/Menu") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([ListItem](https://material-ui.com/api/list-item/)).
-  static member inline menuItem = createElement (importDefault "@material-ui/core/MenuItem")
+  static member inline menuItem props = createElement (importDefault "@material-ui/core/MenuItem") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([List](https://material-ui.com/api/list/)).
-  static member inline menuList = createElement (importDefault "@material-ui/core/MenuList")
+  static member inline menuList props = createElement (importDefault "@material-ui/core/MenuList") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Paper](https://material-ui.com/api/paper/)).
-  static member inline mobileStepper = createElement (importDefault "@material-ui/core/MobileStepper")
+  static member inline mobileStepper props = createElement (importDefault "@material-ui/core/MobileStepper") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline modal = createElement (importDefault "@material-ui/core/Modal")
+  static member inline modal props = createElement (importDefault "@material-ui/core/Modal") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Input](https://material-ui.com/api/input/)).
-  static member inline nativeSelect = createElement (importDefault "@material-ui/core/NativeSelect")
+  static member inline nativeSelect props = createElement (importDefault "@material-ui/core/NativeSelect") props
 
   /// The component cannot hold a ref.
-  static member inline noSsr = createElement (importDefault "@material-ui/core/NoSsr")
+  static member inline noSsr props = createElement (importDefault "@material-ui/core/NoSsr") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([InputBase](https://material-ui.com/api/input-base/)).
-  static member inline outlinedInput = createElement (importDefault "@material-ui/core/OutlinedInput")
+  static member inline outlinedInput props = createElement (importDefault "@material-ui/core/OutlinedInput") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline paper = createElement (importDefault "@material-ui/core/Paper")
+  static member inline paper props = createElement (importDefault "@material-ui/core/Paper") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Modal](https://material-ui.com/api/modal/)).
-  static member inline popover = createElement (importDefault "@material-ui/core/Popover")
+  static member inline popover props = createElement (importDefault "@material-ui/core/Popover") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline popper = createElement (importDefault "@material-ui/core/Popper")
+  static member inline popper props = createElement (importDefault "@material-ui/core/Popper") props
 
   /// The component cannot hold a ref.
-  static member inline portal = createElement (importDefault "@material-ui/core/Portal")
+  static member inline portal props = createElement (importDefault "@material-ui/core/Portal") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([IconButton](https://material-ui.com/api/icon-button/)).
-  static member inline radio = createElement (importDefault "@material-ui/core/Radio")
+  static member inline radio props = createElement (importDefault "@material-ui/core/Radio") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([FormGroup](https://material-ui.com/api/form-group/)).
-  static member inline radioGroup = createElement (importDefault "@material-ui/core/RadioGroup")
+  static member inline radioGroup props = createElement (importDefault "@material-ui/core/RadioGroup") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline rating = createElement (importDefault "@material-ui/lab/Rating")
+  static member inline rating props = createElement (importDefault "@material-ui/lab/Rating") props
 
   /// The component cannot hold a ref.
-  static member inline rootRef = createElement (importDefault "@material-ui/core/RootRef")
+  static member inline rootRef props = createElement (importDefault "@material-ui/core/RootRef") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Input](https://material-ui.com/api/input/)).
-  static member inline select = createElement (importDefault "@material-ui/core/Select")
+  static member inline select props = createElement (importDefault "@material-ui/core/Select") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline skeleton = createElement (importDefault "@material-ui/lab/Skeleton")
+  static member inline skeleton props = createElement (importDefault "@material-ui/lab/Skeleton") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Transition](https://reactcommunity.org/react-transition-group/transition/#Transition-props)).
-  static member inline slide = createElement (importDefault "@material-ui/core/Slide")
+  static member inline slide props = createElement (importDefault "@material-ui/core/Slide") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline slider = createElement (importDefault "@material-ui/core/Slider")
+  static member inline slider props = createElement (importDefault "@material-ui/core/Slider") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline snackbar = createElement (importDefault "@material-ui/core/Snackbar")
+  static member inline snackbar props = createElement (importDefault "@material-ui/core/Snackbar") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Paper](https://material-ui.com/api/paper/)).
-  static member inline snackbarContent = createElement (importDefault "@material-ui/core/SnackbarContent")
+  static member inline snackbarContent props = createElement (importDefault "@material-ui/core/SnackbarContent") props
 
   /// The component cannot hold a ref.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline speedDial = createElement (importDefault "@material-ui/lab/SpeedDial")
+  static member inline speedDial props = createElement (importDefault "@material-ui/lab/SpeedDial") props
 
   /// The component cannot hold a ref.
   ///
   /// Any other props supplied will be provided to the root element ([Tooltip](https://material-ui.com/api/tooltip/)).
-  static member inline speedDialAction = createElement (importDefault "@material-ui/lab/SpeedDialAction")
+  static member inline speedDialAction props = createElement (importDefault "@material-ui/lab/SpeedDialAction") props
 
   /// The component cannot hold a ref.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline speedDialIcon = createElement (importDefault "@material-ui/lab/SpeedDialIcon")
+  static member inline speedDialIcon props = createElement (importDefault "@material-ui/lab/SpeedDialIcon") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline step = createElement (importDefault "@material-ui/core/Step")
+  static member inline step props = createElement (importDefault "@material-ui/core/Step") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([ButtonBase](https://material-ui.com/api/button-base/)).
-  static member inline stepButton = createElement (importDefault "@material-ui/core/StepButton")
+  static member inline stepButton props = createElement (importDefault "@material-ui/core/StepButton") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline stepConnector = createElement (importDefault "@material-ui/core/StepConnector")
+  static member inline stepConnector props = createElement (importDefault "@material-ui/core/StepConnector") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline stepContent = createElement (importDefault "@material-ui/core/StepContent")
+  static member inline stepContent props = createElement (importDefault "@material-ui/core/StepContent") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline stepIcon = createElement (importDefault "@material-ui/core/StepIcon")
+  static member inline stepIcon props = createElement (importDefault "@material-ui/core/StepIcon") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline stepLabel = createElement (importDefault "@material-ui/core/StepLabel")
+  static member inline stepLabel props = createElement (importDefault "@material-ui/core/StepLabel") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Paper](https://material-ui.com/api/paper/)).
-  static member inline stepper = createElement (importDefault "@material-ui/core/Stepper")
+  static member inline stepper props = createElement (importDefault "@material-ui/core/Stepper") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline svgIcon = createElement (importDefault "@material-ui/core/SvgIcon")
+  static member inline svgIcon props = createElement (importDefault "@material-ui/core/SvgIcon") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Drawer](https://material-ui.com/api/drawer/)).
-  static member inline swipeableDrawer = createElement (importDefault "@material-ui/core/SwipeableDrawer")
+  static member inline swipeableDrawer props = createElement (importDefault "@material-ui/core/SwipeableDrawer") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([IconButton](https://material-ui.com/api/icon-button/)).
-  static member inline switch = createElement (importDefault "@material-ui/core/Switch")
+  static member inline switch props = createElement (importDefault "@material-ui/core/Switch") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([ButtonBase](https://material-ui.com/api/button-base/)).
-  static member inline tab = createElement (importDefault "@material-ui/core/Tab")
+  static member inline tab props = createElement (importDefault "@material-ui/core/Tab") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline table = createElement (importDefault "@material-ui/core/Table")
+  static member inline table props = createElement (importDefault "@material-ui/core/Table") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline tableBody = createElement (importDefault "@material-ui/core/TableBody")
+  static member inline tableBody props = createElement (importDefault "@material-ui/core/TableBody") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline tableCell = createElement (importDefault "@material-ui/core/TableCell")
+  static member inline tableCell props = createElement (importDefault "@material-ui/core/TableCell") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline tableFooter = createElement (importDefault "@material-ui/core/TableFooter")
+  static member inline tableFooter props = createElement (importDefault "@material-ui/core/TableFooter") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline tableHead = createElement (importDefault "@material-ui/core/TableHead")
+  static member inline tableHead props = createElement (importDefault "@material-ui/core/TableHead") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([TableCell](https://material-ui.com/api/table-cell/)).
-  static member inline tablePagination = createElement (importDefault "@material-ui/core/TablePagination")
+  static member inline tablePagination props = createElement (importDefault "@material-ui/core/TablePagination") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline tableRow = createElement (importDefault "@material-ui/core/TableRow")
+  static member inline tableRow props = createElement (importDefault "@material-ui/core/TableRow") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([ButtonBase](https://material-ui.com/api/button-base/)).
-  static member inline tableSortLabel = createElement (importDefault "@material-ui/core/TableSortLabel")
+  static member inline tableSortLabel props = createElement (importDefault "@material-ui/core/TableSortLabel") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline tabs = createElement (importDefault "@material-ui/core/Tabs")
+  static member inline tabs props = createElement (importDefault "@material-ui/core/Tabs") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline textareaAutosize = createElement (importDefault "@material-ui/core/TextareaAutosize")
+  static member inline textareaAutosize props = createElement (importDefault "@material-ui/core/TextareaAutosize") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([FormControl](https://material-ui.com/api/form-control/)).
-  static member inline textField = createElement (importDefault "@material-ui/core/TextField")
+  static member inline textField props = createElement (importDefault "@material-ui/core/TextField") props
 
   /// The component cannot hold a ref.
   ///
   /// Any other props supplied will be provided to the root element ([ButtonBase](https://material-ui.com/api/button-base/)).
-  static member inline toggleButton = createElement (importDefault "@material-ui/lab/ToggleButton")
+  static member inline toggleButton props = createElement (importDefault "@material-ui/lab/ToggleButton") props
 
   /// The component cannot hold a ref.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline toggleButtonGroup = createElement (importDefault "@material-ui/lab/ToggleButtonGroup")
+  static member inline toggleButtonGroup props = createElement (importDefault "@material-ui/lab/ToggleButtonGroup") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline toolbar = createElement (importDefault "@material-ui/core/Toolbar")
+  static member inline toolbar props = createElement (importDefault "@material-ui/core/Toolbar") props
 
   /// The component cannot hold a ref.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline tooltip = createElement (importDefault "@material-ui/core/Tooltip")
+  static member inline tooltip props = createElement (importDefault "@material-ui/core/Tooltip") props
 
   /// The `ref` is attached to an Imperative Handle. Have a look at the [implementation of the component](https://github.com/mui-org/material-ui/blob/master/packages/material-ui/src/ButtonBase/TouchRipple.js) for more detail.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline touchRipple = createElement (importDefault "@material-ui/core/ButtonBase/TouchRipple.js/TouchRipple")
+  static member inline touchRipple props = createElement (importDefault "@material-ui/core/ButtonBase/TouchRipple.js/TouchRipple") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline treeItem = createElement (importDefault "@material-ui/lab/TreeItem")
+  static member inline treeItem props = createElement (importDefault "@material-ui/lab/TreeItem") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline treeView = createElement (importDefault "@material-ui/lab/TreeView")
+  static member inline treeView props = createElement (importDefault "@material-ui/lab/TreeView") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element (native element).
-  static member inline typography = createElement (importDefault "@material-ui/core/Typography")
+  static member inline typography props = createElement (importDefault "@material-ui/core/Typography") props
 
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Transition](https://reactcommunity.org/react-transition-group/transition/#Transition-props)).
-  static member inline zoom = createElement (importDefault "@material-ui/core/Zoom")
+  static member inline zoom props = createElement (importDefault "@material-ui/core/Zoom") props
 

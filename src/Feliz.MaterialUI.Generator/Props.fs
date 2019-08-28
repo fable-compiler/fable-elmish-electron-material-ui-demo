@@ -87,11 +87,7 @@ let generatePage (url: String) =
       // Probably an enum prop
       hasEnumProps <- true
 
-      wEnum.printfn ""
-      let docString = getDocString 2 markdownDoc
-      if docString <> "" then
-        wEnum.WriteLine docString
-      wEnum.printfn "  type %s =" propNameSafe
+      use wEnumThisProp = new StringWriter()
 
       let enumValues =
         if componentNameCamelCase = "hidden" && propName = "only" && propType = "'xs' | 'sm' | 'md' | 'lg' | 'xl' | Array<'xs' | 'sm' | 'md' | 'lg' | 'xl'>" then
@@ -107,43 +103,43 @@ let generatePage (url: String) =
       for value in enumValues do
 
         if value = "number" then
-          wEnum.printfn "    static member inline value(value: int) = Interop.mkAttr \"%s\" value" propName
+          wEnumThisProp.printfn "    static member inline value(value: int) = Interop.mkAttr \"%s\" value" propName
 
         elif value = "{ enter?: number, exit?: number }" then
           let paramList, objCreator =
             [ "enter", "int", true;
               "exit", "int", true ]
             |> paramListAndObjCreator
-          wEnum.printfn "    static member inline value(%s) = %s |> Interop.mkAttr \"%s\"" paramList objCreator propName
+          wEnumThisProp.printfn "    static member inline value(%s) = %s |> Interop.mkAttr \"%s\"" paramList objCreator propName
 
         elif value = "HIDDEN_ONLY_ARRAY" then
-          wEnum.printfn "    static member inline values([<ParamArray>] sizes: string []) = Interop.mkAttr \"%s\" sizes" propName
+          wEnumThisProp.printfn "    static member inline values([<ParamArray>] sizes: string []) = Interop.mkAttr \"%s\" sizes" propName
 
         elif value = "SNACKBAR_ANCHORORIGIN" then
-          wEnum.printfn "    static member inline topLeft = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = \"left\" |}" propName
-          wEnum.printfn "    static member inline topCenter = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = \"center\" |}" propName
-          wEnum.printfn "    static member inline topRight = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = \"right\" |}" propName
-          wEnum.printfn "    static member inline bottomLeft = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = \"left\" |}" propName
-          wEnum.printfn "    static member inline bottomCenter = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = \"center\" |}" propName
-          wEnum.printfn "    static member inline bottomRight = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = \"right\" |}" propName
+          wEnumThisProp.printfn "    static member inline topLeft = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = \"left\" |}" propName
+          wEnumThisProp.printfn "    static member inline topCenter = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = \"center\" |}" propName
+          wEnumThisProp.printfn "    static member inline topRight = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = \"right\" |}" propName
+          wEnumThisProp.printfn "    static member inline bottomLeft = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = \"left\" |}" propName
+          wEnumThisProp.printfn "    static member inline bottomCenter = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = \"center\" |}" propName
+          wEnumThisProp.printfn "    static member inline bottomRight = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = \"right\" |}" propName
 
         elif value = "POPOVER_ANCHORORIGIN_TRANSFORMORIGIN" then
-          wEnum.printfn "    static member inline topLeft = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = \"left\" |}" propName
-          wEnum.printfn "    static member inline topCenter = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = \"center\" |}" propName
-          wEnum.printfn "    static member inline topRight = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = \"right\" |}" propName
-          wEnum.printfn "    static member inline centerLeft = Interop.mkAttr \"%s\" {| vertical = \"center\"; horizontal = \"left\" |}" propName
-          wEnum.printfn "    static member inline centerCenter = Interop.mkAttr \"%s\" {| vertical = \"center\"; horizontal = \"center\" |}" propName
-          wEnum.printfn "    static member inline centerRight = Interop.mkAttr \"%s\" {| vertical = \"center\"; horizontal = \"right\" |}" propName
-          wEnum.printfn "    static member inline bottomLeft = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = \"left\" |}" propName
-          wEnum.printfn "    static member inline bottomCenter = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = \"center\" |}" propName
-          wEnum.printfn "    static member inline bottomRight = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = \"right\" |}" propName
-          wEnum.printfn "    static member inline custom(horizontal: int, vertical: int) = Interop.mkAttr \"%s\" {| vertical = vertical; horizontal = horizontal |}" propName
-          wEnum.printfn "    static member inline topCustom(horizontal: int) = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = horizontal |}" propName
-          wEnum.printfn "    static member inline centerCustom(horizontal: int) = Interop.mkAttr \"%s\" {| vertical = \"center\"; horizontal = horizontal |}" propName
-          wEnum.printfn "    static member inline bottomCustom(horizontal: int) = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = horizontal |}" propName
-          wEnum.printfn "    static member inline customLeft(vertical: int) = Interop.mkAttr \"%s\" {| vertical = vertical; horizontal = \"left\" |}" propName
-          wEnum.printfn "    static member inline customCenter(vertical: int) = Interop.mkAttr \"%s\" {| vertical = vertical; horizontal = \"center\" |}" propName
-          wEnum.printfn "    static member inline customRight(vertical: int) = Interop.mkAttr \"%s\" {| vertical = vertical; horizontal = \"right\" |}" propName
+          wEnumThisProp.printfn "    static member inline topLeft = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = \"left\" |}" propName
+          wEnumThisProp.printfn "    static member inline topCenter = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = \"center\" |}" propName
+          wEnumThisProp.printfn "    static member inline topRight = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = \"right\" |}" propName
+          wEnumThisProp.printfn "    static member inline centerLeft = Interop.mkAttr \"%s\" {| vertical = \"center\"; horizontal = \"left\" |}" propName
+          wEnumThisProp.printfn "    static member inline centerCenter = Interop.mkAttr \"%s\" {| vertical = \"center\"; horizontal = \"center\" |}" propName
+          wEnumThisProp.printfn "    static member inline centerRight = Interop.mkAttr \"%s\" {| vertical = \"center\"; horizontal = \"right\" |}" propName
+          wEnumThisProp.printfn "    static member inline bottomLeft = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = \"left\" |}" propName
+          wEnumThisProp.printfn "    static member inline bottomCenter = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = \"center\" |}" propName
+          wEnumThisProp.printfn "    static member inline bottomRight = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = \"right\" |}" propName
+          wEnumThisProp.printfn "    static member inline custom(horizontal: int, vertical: int) = Interop.mkAttr \"%s\" {| vertical = vertical; horizontal = horizontal |}" propName
+          wEnumThisProp.printfn "    static member inline topCustom(horizontal: int) = Interop.mkAttr \"%s\" {| vertical = \"top\"; horizontal = horizontal |}" propName
+          wEnumThisProp.printfn "    static member inline centerCustom(horizontal: int) = Interop.mkAttr \"%s\" {| vertical = \"center\"; horizontal = horizontal |}" propName
+          wEnumThisProp.printfn "    static member inline bottomCustom(horizontal: int) = Interop.mkAttr \"%s\" {| vertical = \"bottom\"; horizontal = horizontal |}" propName
+          wEnumThisProp.printfn "    static member inline customLeft(vertical: int) = Interop.mkAttr \"%s\" {| vertical = vertical; horizontal = \"left\" |}" propName
+          wEnumThisProp.printfn "    static member inline customCenter(vertical: int) = Interop.mkAttr \"%s\" {| vertical = vertical; horizontal = \"center\" |}" propName
+          wEnumThisProp.printfn "    static member inline customRight(vertical: int) = Interop.mkAttr \"%s\" {| vertical = vertical; horizontal = \"right\" |}" propName
 
         else
           let fSharpValue =
@@ -154,7 +150,16 @@ let generatePage (url: String) =
               // Probably literal, e.g. bool or int
               value
           let valueSafeName = value.Trim('\'') |> appendApostropheToReservedKeywords |> kebabCaseToCamelCase |> prefixUnderscoreToNumbers
-          wEnum.printfn "    static member inline %s = Interop.mkAttr \"%s\" %s" valueSafeName propName fSharpValue
+          wEnumThisProp.printfn "    static member inline %s = Interop.mkAttr \"%s\" %s" valueSafeName propName fSharpValue
+
+      wEnum.printfn ""
+      let docString = getDocString 2 markdownDoc
+      if docString <> "" then
+        wEnum.WriteLine docString
+      if wEnumThisProp.ToString() |> hasNonInlineMembers |> not then
+        wEnum.printfn "  [<Erase>]"
+      wEnum.printfn "  type %s =" propNameSafe
+      wEnum.Write (wEnumThisProp.ToString())
 
 
     else
@@ -541,6 +546,8 @@ let generatePage (url: String) =
   use w = new StringWriter()
 
   if hasGeneralProps then
+    if wGeneral.ToString() |> hasNonInlineMembers |> not then
+      w.printfn "[<Erase>]"
     w.printfn "type %s =" componentNameCamelCase
     w.WriteLine(wGeneral.ToString())
   if hasEnumProps then

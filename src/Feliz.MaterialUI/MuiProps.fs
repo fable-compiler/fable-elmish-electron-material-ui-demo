@@ -39,6 +39,7 @@ type SnackbarCloseReason =
   | Clickaway
 
 
+[<Erase>]
 type appBar =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -58,6 +59,7 @@ type appBar =
 module appBar =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline default' = Interop.mkAttr "color" "default"
     static member inline inherit' = Interop.mkAttr "color" "inherit"
@@ -65,6 +67,7 @@ module appBar =
     static member inline secondary = Interop.mkAttr "color" "secondary"
 
   /// The positioning type. The behavior of the different options is described [in the MDN web docs](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Positioning). Note: `sticky` is not universally supported and will fall back to `static` when unavailable.
+  [<Erase>]
   type position =
     static member inline absolute = Interop.mkAttr "position" "absolute"
     static member inline fixed' = Interop.mkAttr "position" "fixed"
@@ -73,6 +76,7 @@ module appBar =
     static member inline sticky = Interop.mkAttr "position" "sticky"
 
 
+[<Erase>]
 type avatar =
   /// Used in combination with `src` or `srcSet` to provide an alt attribute for the rendered `img` element.
   static member inline alt(value: string) = Interop.mkAttr "alt" value
@@ -141,6 +145,7 @@ type backdrop =
   static member transitionDuration(?appear: int, ?enter: int, ?exit: int) = [if appear.IsSome then yield "appear" ==> appear.Value; if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "transitionDuration"
 
 
+[<Erase>]
 type badge =
   /// The content rendered within the badge.
   static member inline badgeContent(value: ReactElement) = Interop.mkAttr "badgeContent" value
@@ -182,6 +187,7 @@ type badge =
 module badge =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline default' = Interop.mkAttr "color" "default"
     static member inline error = Interop.mkAttr "color" "error"
@@ -189,11 +195,13 @@ module badge =
     static member inline secondary = Interop.mkAttr "color" "secondary"
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline dot = Interop.mkAttr "variant" "dot"
     static member inline standard = Interop.mkAttr "variant" "standard"
 
 
+[<Erase>]
 type bottomNavigation =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -239,6 +247,7 @@ type bottomNavigation =
   static member inline value(value: 'a) = Interop.mkAttr "value" value
 
 
+[<Erase>]
 type bottomNavigationAction =
   /// Override or extend the styles applied to the component. Use `classes.bottomNavigationAction` to specify class names.
   static member inline classes(classNames: classes.IBottomNavigationActionClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
@@ -262,6 +271,7 @@ type bottomNavigationAction =
   static member inline value(value: 'a) = Interop.mkAttr "value" value
 
 
+[<Erase>]
 type breadcrumbs =
   /// The breadcrumb children.
   static member inline children(element: ReactElement) = prop.children element
@@ -301,6 +311,7 @@ type breadcrumbs =
   static member inline separator(value: float) = Interop.mkAttr "separator" value
 
 
+[<Erase>]
 type button =
   /// The content of the button.
   static member inline children(element: ReactElement) = prop.children element
@@ -336,6 +347,7 @@ type button =
 module button =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline default' = Interop.mkAttr "color" "default"
     static member inline inherit' = Interop.mkAttr "color" "inherit"
@@ -343,18 +355,21 @@ module button =
     static member inline secondary = Interop.mkAttr "color" "secondary"
 
   /// The size of the button. `small` is equivalent to the dense button styling.
+  [<Erase>]
   type size =
     static member inline small = Interop.mkAttr "size" "small"
     static member inline medium = Interop.mkAttr "size" "medium"
     static member inline large = Interop.mkAttr "size" "large"
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline text = Interop.mkAttr "variant" "text"
     static member inline outlined = Interop.mkAttr "variant" "outlined"
     static member inline contained = Interop.mkAttr "variant" "contained"
 
 
+[<Erase>]
 type buttonBase =
   /// A ref for imperative actions. It currently only supports `focusVisible()` action.
   static member inline action(ref: IRefValue<IButtonBaseActions option>) = Interop.mkAttr "action" ref
@@ -408,12 +423,14 @@ type buttonBase =
 module buttonBase =
 
   /// Used to control the button's purpose. This prop passes the value to the `type` attribute of the native button component.
+  [<Erase>]
   type type' =
     static member inline submit = Interop.mkAttr "type" "submit"
     static member inline reset = Interop.mkAttr "type" "reset"
     static member inline button = Interop.mkAttr "type" "button"
 
 
+[<Erase>]
 type buttonGroup =
   /// The content of the button group.
   static member inline children(element: ReactElement) = prop.children element
@@ -445,6 +462,7 @@ type buttonGroup =
 module buttonGroup =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline default' = Interop.mkAttr "color" "default"
     static member inline inherit' = Interop.mkAttr "color" "inherit"
@@ -452,17 +470,20 @@ module buttonGroup =
     static member inline secondary = Interop.mkAttr "color" "secondary"
 
   /// The size of the button. `small` is equivalent to the dense button styling.
+  [<Erase>]
   type size =
     static member inline small = Interop.mkAttr "size" "small"
     static member inline medium = Interop.mkAttr "size" "medium"
     static member inline large = Interop.mkAttr "size" "large"
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline outlined = Interop.mkAttr "variant" "outlined"
     static member inline contained = Interop.mkAttr "variant" "contained"
 
 
+[<Erase>]
 type card =
   /// Override or extend the styles applied to the component. Use `classes.card` to specify class names.
   static member inline classes(classNames: classes.ICardClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
@@ -470,6 +491,7 @@ type card =
   static member inline raised(value: bool) = Interop.mkAttr "raised" value
 
 
+[<Erase>]
 type cardActionArea =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -487,6 +509,7 @@ type cardActionArea =
   static member inline classes(classNames: classes.ICardActionAreaClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
 
 
+[<Erase>]
 type cardActions =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -506,6 +529,7 @@ type cardActions =
   static member inline disableSpacing(value: bool) = Interop.mkAttr "disableSpacing" value
 
 
+[<Erase>]
 type cardContent =
   /// Override or extend the styles applied to the component. Use `classes.cardContent` to specify class names.
   static member inline classes(classNames: classes.ICardContentClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
@@ -515,6 +539,7 @@ type cardContent =
   static member inline component'(value: ReactElementType) = Interop.mkAttr "component" value
 
 
+[<Erase>]
 type cardHeader =
   /// The action to display in the card header.
   static member inline action(value: ReactElement) = Interop.mkAttr "action" value
@@ -578,6 +603,7 @@ type cardHeader =
   static member inline titleTypographyProps(props: IReactProperty list) = Interop.mkAttr "titleTypographyProps" (createObj !!props)
 
 
+[<Erase>]
 type cardMedia =
   /// Override or extend the styles applied to the component. Use `classes.cardMedia` to specify class names.
   static member inline classes(classNames: classes.ICardMediaClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
@@ -591,6 +617,7 @@ type cardMedia =
   static member inline src(value: string) = Interop.mkAttr "src" value
 
 
+[<Erase>]
 type checkbox =
   /// If `true`, the component is checked.
   static member inline checked'(value: bool) = Interop.mkAttr "checked" value
@@ -646,12 +673,14 @@ type checkbox =
 module checkbox =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline primary = Interop.mkAttr "color" "primary"
     static member inline secondary = Interop.mkAttr "color" "secondary"
     static member inline default' = Interop.mkAttr "color" "default"
 
 
+[<Erase>]
 type chip =
   /// Avatar element.
   static member inline avatar(value: ReactElement) = Interop.mkAttr "avatar" value
@@ -685,22 +714,26 @@ type chip =
 module chip =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline default' = Interop.mkAttr "color" "default"
     static member inline primary = Interop.mkAttr "color" "primary"
     static member inline secondary = Interop.mkAttr "color" "secondary"
 
   /// The size of the chip.
+  [<Erase>]
   type size =
     static member inline small = Interop.mkAttr "size" "small"
     static member inline medium = Interop.mkAttr "size" "medium"
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline default' = Interop.mkAttr "variant" "default"
     static member inline outlined = Interop.mkAttr "variant" "outlined"
 
 
+[<Erase>]
 type circularProgress =
   /// Override or extend the styles applied to the component. Use `classes.circularProgress` to specify class names.
   static member inline classes(classNames: classes.ICircularProgressClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
@@ -718,18 +751,21 @@ type circularProgress =
 module circularProgress =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline primary = Interop.mkAttr "color" "primary"
     static member inline secondary = Interop.mkAttr "color" "secondary"
     static member inline inherit' = Interop.mkAttr "color" "inherit"
 
   /// The variant to use. Use indeterminate when there is no progress value.
+  [<Erase>]
   type variant =
     static member inline determinate = Interop.mkAttr "variant" "determinate"
     static member inline indeterminate = Interop.mkAttr "variant" "indeterminate"
     static member inline static' = Interop.mkAttr "variant" "static"
 
 
+[<Erase>]
 type clickAwayListener =
   /// The wrapped element.
   ///
@@ -741,6 +777,7 @@ type clickAwayListener =
 module clickAwayListener =
 
   /// The mouse event to listen to. You can disable the listener by providing `false`.
+  [<Erase>]
   type mouseEvent =
     static member inline onClick = Interop.mkAttr "mouseEvent" "onClick"
     static member inline onMouseDown = Interop.mkAttr "mouseEvent" "onMouseDown"
@@ -748,12 +785,14 @@ module clickAwayListener =
     static member inline false' = Interop.mkAttr "mouseEvent" false
 
   /// The touch event to listen to. You can disable the listener by providing `false`.
+  [<Erase>]
   type touchEvent =
     static member inline onTouchStart = Interop.mkAttr "touchEvent" "onTouchStart"
     static member inline onTouchEnd = Interop.mkAttr "touchEvent" "onTouchEnd"
     static member inline false' = Interop.mkAttr "touchEvent" false
 
 
+[<Erase>]
 type collapse =
   /// The content node to be collapsed.
   static member inline children(element: ReactElement) = prop.children element
@@ -783,12 +822,14 @@ module collapse =
   /// The duration for the transition, in milliseconds.
   ///
   /// Set to 'auto' to automatically calculate transition time based on height.
+  [<Erase>]
   type timeout =
     static member inline value(value: int) = Interop.mkAttr "timeout" value
     static member inline value(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "timeout"
     static member inline auto = Interop.mkAttr "timeout" "auto"
 
 
+[<Erase>]
 type container =
   static member inline children(element: ReactElement) = prop.children element
   static member inline children(elements: ReactElement seq) = prop.children elements
@@ -808,6 +849,7 @@ type container =
 module container =
 
   /// Determine the max-width of the container. The container width grows with the size of the screen. Set to `false` to disable `maxWidth`.
+  [<Erase>]
   type maxWidth =
     static member inline xs = Interop.mkAttr "maxWidth" "xs"
     static member inline sm = Interop.mkAttr "maxWidth" "sm"
@@ -817,6 +859,7 @@ module container =
     static member inline false' = Interop.mkAttr "maxWidth" false
 
 
+[<Erase>]
 type cssBaseline =
   /// You can wrap a node.
   static member inline children(element: ReactElement) = prop.children element
@@ -909,6 +952,7 @@ type dialog =
 module dialog =
 
   /// Determine the max-width of the dialog. The dialog width grows with the size of the screen. Set to `false` to disable `maxWidth`.
+  [<Erase>]
   type maxWidth =
     static member inline xs = Interop.mkAttr "maxWidth" "xs"
     static member inline sm = Interop.mkAttr "maxWidth" "sm"
@@ -918,11 +962,13 @@ module dialog =
     static member inline false' = Interop.mkAttr "maxWidth" false
 
   /// Determine the container for scrolling the dialog.
+  [<Erase>]
   type scroll =
     static member inline body = Interop.mkAttr "scroll" "body"
     static member inline paper = Interop.mkAttr "scroll" "paper"
 
 
+[<Erase>]
 type dialogActions =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -942,6 +988,7 @@ type dialogActions =
   static member inline disableSpacing(value: bool) = Interop.mkAttr "disableSpacing" value
 
 
+[<Erase>]
 type dialogContent =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -961,6 +1008,7 @@ type dialogContent =
   static member inline dividers(value: bool) = Interop.mkAttr "dividers" value
 
 
+[<Erase>]
 type dialogContentText =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -978,6 +1026,7 @@ type dialogContentText =
   static member inline classes(classNames: classes.IDialogContentTextClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
 
 
+[<Erase>]
 type dialogTitle =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -997,6 +1046,7 @@ type dialogTitle =
   static member inline disableTypography(value: bool) = Interop.mkAttr "disableTypography" value
 
 
+[<Erase>]
 type divider =
   /// Absolutely position the element.
   static member inline absolute(value: bool) = Interop.mkAttr "absolute" value
@@ -1012,11 +1062,13 @@ type divider =
 module divider =
 
   /// The divider orientation.
+  [<Erase>]
   type orientation =
     static member inline horizontal = Interop.mkAttr "orientation" "horizontal"
     static member inline vertical = Interop.mkAttr "orientation" "vertical"
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline fullWidth = Interop.mkAttr "variant" "fullWidth"
     static member inline inset = Interop.mkAttr "variant" "inset"
@@ -1064,6 +1116,7 @@ type drawer =
 module drawer =
 
   /// Side from which the drawer will appear.
+  [<Erase>]
   type anchor =
     static member inline left = Interop.mkAttr "anchor" "left"
     static member inline top = Interop.mkAttr "anchor" "top"
@@ -1071,12 +1124,14 @@ module drawer =
     static member inline bottom = Interop.mkAttr "anchor" "bottom"
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline permanent = Interop.mkAttr "variant" "permanent"
     static member inline persistent = Interop.mkAttr "variant" "persistent"
     static member inline temporary = Interop.mkAttr "variant" "temporary"
 
 
+[<Erase>]
 type expansionPanel =
   /// The content of the expansion panel.
   static member inline children(element: ReactElement) = prop.children element
@@ -1124,6 +1179,7 @@ type expansionPanel =
   static member inline TransitionProps(props: IReactProperty list) = Interop.mkAttr "TransitionProps" (createObj !!props)
 
 
+[<Erase>]
 type expansionPanelActions =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -1143,6 +1199,7 @@ type expansionPanelActions =
   static member inline disableSpacing(value: bool) = Interop.mkAttr "disableSpacing" value
 
 
+[<Erase>]
 type expansionPanelDetails =
   /// The content of the expansion panel details.
   static member inline children(element: ReactElement) = prop.children element
@@ -1160,6 +1217,7 @@ type expansionPanelDetails =
   static member inline classes(classNames: classes.IExpansionPanelDetailsClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
 
 
+[<Erase>]
 type expansionPanelSummary =
   /// The content of the expansion panel summary.
   static member inline children(element: ReactElement) = prop.children element
@@ -1181,6 +1239,7 @@ type expansionPanelSummary =
   static member inline IconButtonProps(props: IReactProperty list) = Interop.mkAttr "IconButtonProps" (createObj !!props)
 
 
+[<Erase>]
 type fab =
   /// The content of the button.
   static member inline children(element: ReactElement) = prop.children element
@@ -1212,6 +1271,7 @@ type fab =
 module fab =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline default' = Interop.mkAttr "color" "default"
     static member inline inherit' = Interop.mkAttr "color" "inherit"
@@ -1219,12 +1279,14 @@ module fab =
     static member inline secondary = Interop.mkAttr "color" "secondary"
 
   /// The size of the button. `small` is equivalent to the dense button styling.
+  [<Erase>]
   type size =
     static member inline small = Interop.mkAttr "size" "small"
     static member inline medium = Interop.mkAttr "size" "medium"
     static member inline large = Interop.mkAttr "size" "large"
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline round = Interop.mkAttr "variant" "round"
     static member inline extended = Interop.mkAttr "variant" "extended"
@@ -1241,6 +1303,7 @@ type fade =
   static member timeout(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "timeout"
 
 
+[<Erase>]
 type filledInput =
   /// This prop helps users to fill forms faster, especially on mobile devices. The name can be confusing, as it's more like an autofill. You can learn more about it [following the specification](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill).
   static member inline autoComplete(value: string) = Interop.mkAttr "autoComplete" value
@@ -1314,11 +1377,13 @@ type filledInput =
 module filledInput =
 
   /// If `dense`, will adjust vertical spacing. This is normally obtained via context from FormControl.
+  [<Erase>]
   type margin =
     static member inline dense = Interop.mkAttr "margin" "dense"
     static member inline none = Interop.mkAttr "margin" "none"
 
 
+[<Erase>]
 type formControl =
   /// The contents of the form control.
   static member inline children(element: ReactElement) = prop.children element
@@ -1344,18 +1409,21 @@ type formControl =
 module formControl =
 
   /// If `dense` or `normal`, will adjust vertical spacing of this and contained components.
+  [<Erase>]
   type margin =
     static member inline none = Interop.mkAttr "margin" "none"
     static member inline dense = Interop.mkAttr "margin" "dense"
     static member inline normal = Interop.mkAttr "margin" "normal"
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline standard = Interop.mkAttr "variant" "standard"
     static member inline outlined = Interop.mkAttr "variant" "outlined"
     static member inline filled = Interop.mkAttr "variant" "filled"
 
 
+[<Erase>]
 type formControlLabel =
   /// If `true`, the component appears selected.
   static member inline checked'(value: bool) = Interop.mkAttr "checked" value
@@ -1408,6 +1476,7 @@ type formControlLabel =
 module formControlLabel =
 
   /// The position of the label.
+  [<Erase>]
   type labelPlacement =
     static member inline end' = Interop.mkAttr "labelPlacement" "end"
     static member inline start = Interop.mkAttr "labelPlacement" "start"
@@ -1415,6 +1484,7 @@ module formControlLabel =
     static member inline bottom = Interop.mkAttr "labelPlacement" "bottom"
 
 
+[<Erase>]
 type formGroup =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -1434,6 +1504,7 @@ type formGroup =
   static member inline row(value: bool) = Interop.mkAttr "row" value
 
 
+[<Erase>]
 type formHelperText =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -1467,16 +1538,19 @@ type formHelperText =
 module formHelperText =
 
   /// If `dense`, will adjust vertical spacing. This is normally obtained via context from FormControl.
+  [<Erase>]
   type margin =
     static member inline dense = Interop.mkAttr "margin" "dense"
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline standard = Interop.mkAttr "variant" "standard"
     static member inline outlined = Interop.mkAttr "variant" "outlined"
     static member inline filled = Interop.mkAttr "variant" "filled"
 
 
+[<Erase>]
 type formLabel =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -1508,6 +1582,7 @@ type formLabel =
   static member inline required(value: bool) = Interop.mkAttr "required" value
 
 
+[<Erase>]
 type grid =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -1537,6 +1612,7 @@ type grid =
 module grid =
 
   /// Defines the `align-content` style property. It's applied for all screen sizes.
+  [<Erase>]
   type alignContent =
     static member inline stretch = Interop.mkAttr "alignContent" "stretch"
     static member inline center = Interop.mkAttr "alignContent" "center"
@@ -1546,6 +1622,7 @@ module grid =
     static member inline spaceAround = Interop.mkAttr "alignContent" "space-around"
 
   /// Defines the `align-items` style property. It's applied for all screen sizes.
+  [<Erase>]
   type alignItems =
     static member inline flexStart = Interop.mkAttr "alignItems" "flex-start"
     static member inline center = Interop.mkAttr "alignItems" "center"
@@ -1554,6 +1631,7 @@ module grid =
     static member inline baseline = Interop.mkAttr "alignItems" "baseline"
 
   /// Defines the `flex-direction` style property. It is applied for all screen sizes.
+  [<Erase>]
   type direction =
     static member inline row = Interop.mkAttr "direction" "row"
     static member inline rowReverse = Interop.mkAttr "direction" "row-reverse"
@@ -1561,6 +1639,7 @@ module grid =
     static member inline columnReverse = Interop.mkAttr "direction" "column-reverse"
 
   /// Defines the `justify-content` style property. It is applied for all screen sizes.
+  [<Erase>]
   type justify =
     static member inline flexStart = Interop.mkAttr "justify" "flex-start"
     static member inline center = Interop.mkAttr "justify" "center"
@@ -1570,6 +1649,7 @@ module grid =
     static member inline spaceEvenly = Interop.mkAttr "justify" "space-evenly"
 
   /// Defines the number of grids the component is going to use. It's applied for the `lg` breakpoint and wider screens if not overridden.
+  [<Erase>]
   type lg =
     static member inline false' = Interop.mkAttr "lg" false
     static member inline auto = Interop.mkAttr "lg" "auto"
@@ -1588,6 +1668,7 @@ module grid =
     static member inline _12 = Interop.mkAttr "lg" 12
 
   /// Defines the number of grids the component is going to use. It's applied for the `md` breakpoint and wider screens if not overridden.
+  [<Erase>]
   type md =
     static member inline false' = Interop.mkAttr "md" false
     static member inline auto = Interop.mkAttr "md" "auto"
@@ -1606,6 +1687,7 @@ module grid =
     static member inline _12 = Interop.mkAttr "md" 12
 
   /// Defines the number of grids the component is going to use. It's applied for the `sm` breakpoint and wider screens if not overridden.
+  [<Erase>]
   type sm =
     static member inline false' = Interop.mkAttr "sm" false
     static member inline auto = Interop.mkAttr "sm" "auto"
@@ -1624,6 +1706,7 @@ module grid =
     static member inline _12 = Interop.mkAttr "sm" 12
 
   /// Defines the space between the type `item` component. It can only be used on a type `container` component.
+  [<Erase>]
   type spacing =
     static member inline _0 = Interop.mkAttr "spacing" 0
     static member inline _1 = Interop.mkAttr "spacing" 1
@@ -1638,12 +1721,14 @@ module grid =
     static member inline _10 = Interop.mkAttr "spacing" 10
 
   /// Defines the `flex-wrap` style property. It's applied for all screen sizes.
+  [<Erase>]
   type wrap =
     static member inline nowrap = Interop.mkAttr "wrap" "nowrap"
     static member inline wrap = Interop.mkAttr "wrap" "wrap"
     static member inline wrapReverse = Interop.mkAttr "wrap" "wrap-reverse"
 
   /// Defines the number of grids the component is going to use. It's applied for the `xl` breakpoint and wider screens.
+  [<Erase>]
   type xl =
     static member inline false' = Interop.mkAttr "xl" false
     static member inline auto = Interop.mkAttr "xl" "auto"
@@ -1662,6 +1747,7 @@ module grid =
     static member inline _12 = Interop.mkAttr "xl" 12
 
   /// Defines the number of grids the component is going to use. It's applied for all the screen sizes with the lowest priority.
+  [<Erase>]
   type xs =
     static member inline false' = Interop.mkAttr "xs" false
     static member inline auto = Interop.mkAttr "xs" "auto"
@@ -1680,6 +1766,7 @@ module grid =
     static member inline _12 = Interop.mkAttr "xs" 12
 
 
+[<Erase>]
 type gridList =
   /// Grid Tiles that will be in Grid List.
   static member inline children(element: ReactElement) = prop.children element
@@ -1707,11 +1794,13 @@ type gridList =
 module gridList =
 
   /// Number of px for one cell height. You can set `'auto'` if you want to let the children determine the height.
+  [<Erase>]
   type cellHeight =
     static member inline value(value: int) = Interop.mkAttr "cellHeight" value
     static member inline auto = Interop.mkAttr "cellHeight" "auto"
 
 
+[<Erase>]
 type gridListTile =
   /// Theoretically you can pass any node as children, but the main use case is to pass an img, in which case GridListTile takes care of making the image "cover" available space (similar to `background-size: cover` or to `object-fit: cover`).
   static member inline children(element: ReactElement) = prop.children element
@@ -1737,6 +1826,7 @@ type gridListTile =
   static member inline rows(value: int) = Interop.mkAttr "rows" value
 
 
+[<Erase>]
 type gridListTileBar =
   /// An IconButton element to be used as secondary action target (primary action target is the tile itself).
   static member inline actionIcon(element: ReactElement) = Interop.mkAttr "actionIcon" element
@@ -1770,16 +1860,19 @@ type gridListTileBar =
 module gridListTileBar =
 
   /// Position of secondary action IconButton.
+  [<Erase>]
   type actionPosition =
     static member inline left = Interop.mkAttr "actionPosition" "left"
     static member inline right = Interop.mkAttr "actionPosition" "right"
 
   /// Position of the title bar.
+  [<Erase>]
   type titlePosition =
     static member inline top = Interop.mkAttr "titlePosition" "top"
     static member inline bottom = Interop.mkAttr "titlePosition" "bottom"
 
 
+[<Erase>]
 type grow =
   /// A single child content element.
   static member inline children(value: ReactElement) = Interop.mkAttr "children" value
@@ -1791,12 +1884,14 @@ module grow =
   /// The duration for the transition, in milliseconds.
   ///
   /// Set to 'auto' to automatically calculate transition time based on height.
+  [<Erase>]
   type timeout =
     static member inline value(value: int) = Interop.mkAttr "timeout" value
     static member inline value(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "timeout"
     static member inline auto = Interop.mkAttr "timeout" "auto"
 
 
+[<Erase>]
 type hidden =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -1834,6 +1929,7 @@ type hidden =
 module hidden =
 
   /// Specify which implementation to use. 'js' is the default, 'css' works better for server-side rendering.
+  [<Erase>]
   type implementation =
     static member inline js = Interop.mkAttr "implementation" "js"
     static member inline css = Interop.mkAttr "implementation" "css"
@@ -1843,6 +1939,7 @@ module hidden =
   /// As `window.innerWidth` is unavailable on the server, we default to rendering an empty component during the first mount. You might want to use an heuristic to approximate the screen width of the client browser screen width.
   ///
   /// For instance, you could be using the user-agent or the client-hints. https://caniuse.com/#search=client%20hint
+  [<Erase>]
   type initialWidth =
     static member inline xs = Interop.mkAttr "initialWidth" "xs"
     static member inline sm = Interop.mkAttr "initialWidth" "sm"
@@ -1851,6 +1948,7 @@ module hidden =
     static member inline xl = Interop.mkAttr "initialWidth" "xl"
 
   /// Hide the given breakpoint(s).
+  [<Erase>]
   type only =
     static member inline xs = Interop.mkAttr "only" "xs"
     static member inline sm = Interop.mkAttr "only" "sm"
@@ -1860,6 +1958,7 @@ module hidden =
     static member inline values([<ParamArray>] sizes: string []) = Interop.mkAttr "only" sizes
 
 
+[<Erase>]
 type icon =
   /// The name of the icon font ligature.
   static member inline children(element: ReactElement) = prop.children element
@@ -1883,6 +1982,7 @@ type icon =
 module icon =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline inherit' = Interop.mkAttr "color" "inherit"
     static member inline primary = Interop.mkAttr "color" "primary"
@@ -1892,6 +1992,7 @@ module icon =
     static member inline disabled = Interop.mkAttr "color" "disabled"
 
   /// The fontSize applied to the icon. Defaults to 24px, but can be configure to inherit font size.
+  [<Erase>]
   type fontSize =
     static member inline inherit' = Interop.mkAttr "fontSize" "inherit"
     static member inline default' = Interop.mkAttr "fontSize" "default"
@@ -1899,6 +2000,7 @@ module icon =
     static member inline large = Interop.mkAttr "fontSize" "large"
 
 
+[<Erase>]
 type iconButton =
   /// The icon element.
   static member inline children(element: ReactElement) = prop.children element
@@ -1924,6 +2026,7 @@ type iconButton =
 module iconButton =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline default' = Interop.mkAttr "color" "default"
     static member inline inherit' = Interop.mkAttr "color" "inherit"
@@ -1931,17 +2034,20 @@ module iconButton =
     static member inline secondary = Interop.mkAttr "color" "secondary"
 
   /// If given, uses a negative margin to counteract the padding on one side (this is often helpful for aligning the left or right side of the icon with content above or below, without ruining the border size and shape).
+  [<Erase>]
   type edge =
     static member inline start = Interop.mkAttr "edge" "start"
     static member inline end' = Interop.mkAttr "edge" "end"
     static member inline false' = Interop.mkAttr "edge" false
 
   /// The size of the button. `small` is equivalent to the dense button styling.
+  [<Erase>]
   type size =
     static member inline small = Interop.mkAttr "size" "small"
     static member inline medium = Interop.mkAttr "size" "medium"
 
 
+[<Erase>]
 type input =
   /// This prop helps users to fill forms faster, especially on mobile devices. The name can be confusing, as it's more like an autofill. You can learn more about it [following the specification](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill).
   static member inline autoComplete(value: string) = Interop.mkAttr "autoComplete" value
@@ -2015,11 +2121,13 @@ type input =
 module input =
 
   /// If `dense`, will adjust vertical spacing. This is normally obtained via context from FormControl.
+  [<Erase>]
   type margin =
     static member inline dense = Interop.mkAttr "margin" "dense"
     static member inline none = Interop.mkAttr "margin" "none"
 
 
+[<Erase>]
 type inputAdornment =
   /// The content of the component, normally an `IconButton` or string.
   static member inline children(element: ReactElement) = prop.children element
@@ -2047,17 +2155,20 @@ type inputAdornment =
 module inputAdornment =
 
   /// The position this adornment should appear relative to the `Input`.
+  [<Erase>]
   type position =
     static member inline start = Interop.mkAttr "position" "start"
     static member inline end' = Interop.mkAttr "position" "end"
 
   /// The variant to use. Note: If you are using the `TextField` component or the `FormControl` component you do not have to set this manually.
+  [<Erase>]
   type variant =
     static member inline standard = Interop.mkAttr "variant" "standard"
     static member inline outlined = Interop.mkAttr "variant" "outlined"
     static member inline filled = Interop.mkAttr "variant" "filled"
 
 
+[<Erase>]
 type inputBase =
   /// This prop helps users to fill forms faster, especially on mobile devices. The name can be confusing, as it's more like an autofill. You can learn more about it [following the specification](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill).
   static member inline autoComplete(value: string) = Interop.mkAttr "autoComplete" value
@@ -2131,11 +2242,13 @@ type inputBase =
 module inputBase =
 
   /// If `dense`, will adjust vertical spacing. This is normally obtained via context from FormControl.
+  [<Erase>]
   type margin =
     static member inline dense = Interop.mkAttr "margin" "dense"
     static member inline none = Interop.mkAttr "margin" "none"
 
 
+[<Erase>]
 type inputLabel =
   /// The contents of the `InputLabel`.
   static member inline children(element: ReactElement) = prop.children element
@@ -2167,16 +2280,19 @@ type inputLabel =
 module inputLabel =
 
   /// If `dense`, will adjust vertical spacing. This is normally obtained via context from FormControl.
+  [<Erase>]
   type margin =
     static member inline dense = Interop.mkAttr "margin" "dense"
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline standard = Interop.mkAttr "variant" "standard"
     static member inline outlined = Interop.mkAttr "variant" "outlined"
     static member inline filled = Interop.mkAttr "variant" "filled"
 
 
+[<Erase>]
 type linearProgress =
   /// Override or extend the styles applied to the component. Use `classes.linearProgress` to specify class names.
   static member inline classes(classNames: classes.ILinearProgressClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
@@ -2188,11 +2304,13 @@ type linearProgress =
 module linearProgress =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline primary = Interop.mkAttr "color" "primary"
     static member inline secondary = Interop.mkAttr "color" "secondary"
 
   /// The variant to use. Use indeterminate or query when there is no progress value.
+  [<Erase>]
   type variant =
     static member inline determinate = Interop.mkAttr "variant" "determinate"
     static member inline indeterminate = Interop.mkAttr "variant" "indeterminate"
@@ -2200,6 +2318,7 @@ module linearProgress =
     static member inline query = Interop.mkAttr "variant" "query"
 
 
+[<Erase>]
 type link =
   /// The content of the link.
   static member inline children(element: ReactElement) = prop.children element
@@ -2227,6 +2346,7 @@ type link =
 module link =
 
   /// The color of the link.
+  [<Erase>]
   type color =
     static member inline default' = Interop.mkAttr "color" "default"
     static member inline error = Interop.mkAttr "color" "error"
@@ -2237,12 +2357,14 @@ module link =
     static member inline textSecondary = Interop.mkAttr "color" "textSecondary"
 
   /// Controls when the link should have an underline.
+  [<Erase>]
   type underline =
     static member inline none = Interop.mkAttr "underline" "none"
     static member inline hover = Interop.mkAttr "underline" "hover"
     static member inline always = Interop.mkAttr "underline" "always"
 
 
+[<Erase>]
 type list =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -2280,6 +2402,7 @@ type list =
   static member inline subheader(value: float) = Interop.mkAttr "subheader" value
 
 
+[<Erase>]
 type listItem =
   /// If `true`, the list item will be focused during the first mount. Focus will also be triggered if the value changes from false to true.
   static member inline autoFocus(value: bool) = Interop.mkAttr "autoFocus" value
@@ -2321,11 +2444,13 @@ type listItem =
 module listItem =
 
   /// Defines the `align-items` style property.
+  [<Erase>]
   type alignItems =
     static member inline flexStart = Interop.mkAttr "alignItems" "flex-start"
     static member inline center = Interop.mkAttr "alignItems" "center"
 
 
+[<Erase>]
 type listItemAvatar =
   /// The content of the component – normally `Avatar`.
   static member inline children(value: ReactElement) = Interop.mkAttr "children" value
@@ -2333,6 +2458,7 @@ type listItemAvatar =
   static member inline classes(classNames: classes.IListItemAvatarClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
 
 
+[<Erase>]
 type listItemIcon =
   /// The content of the component, normally `Icon`, `SvgIcon`, or a `@material-ui/icons` SVG icon element.
   static member inline children(value: ReactElement) = Interop.mkAttr "children" value
@@ -2340,6 +2466,7 @@ type listItemIcon =
   static member inline classes(classNames: classes.IListItemIconClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
 
 
+[<Erase>]
 type listItemSecondaryAction =
   /// The content of the component, normally an `IconButton` or selection control.
   static member inline children(element: ReactElement) = prop.children element
@@ -2357,6 +2484,7 @@ type listItemSecondaryAction =
   static member inline classes(classNames: classes.IListItemSecondaryActionClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
 
 
+[<Erase>]
 type listItemText =
   /// Alias for the `primary` property.
   static member inline children(element: ReactElement) = prop.children element
@@ -2406,6 +2534,7 @@ type listItemText =
   static member inline secondaryTypographyProps(props: IReactProperty list) = Interop.mkAttr "secondaryTypographyProps" (createObj !!props)
 
 
+[<Erase>]
 type listSubheader =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -2435,12 +2564,14 @@ type listSubheader =
 module listSubheader =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline default' = Interop.mkAttr "color" "default"
     static member inline primary = Interop.mkAttr "color" "primary"
     static member inline inherit' = Interop.mkAttr "color" "inherit"
 
 
+[<Erase>]
 type menu =
   /// The DOM element used to set the position of the menu.
   static member inline anchorEl(value: Element option) = Interop.mkAttr "anchorEl" value
@@ -2508,17 +2639,20 @@ type menu =
 module menu =
 
   /// The length of the transition in `ms`, or 'auto'
+  [<Erase>]
   type transitionDuration =
     static member inline value(value: int) = Interop.mkAttr "transitionDuration" value
     static member inline value(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "transitionDuration"
     static member inline auto = Interop.mkAttr "transitionDuration" "auto"
 
   /// The variant to use. Use `menu` to prevent selected items from impacting the initial focus and the vertical alignment relative to the anchor element.
+  [<Erase>]
   type variant =
     static member inline menu = Interop.mkAttr "variant" "menu"
     static member inline selectedMenu = Interop.mkAttr "variant" "selectedMenu"
 
 
+[<Erase>]
 type menuItem =
   /// Menu item contents.
   static member inline children(element: ReactElement) = prop.children element
@@ -2544,6 +2678,7 @@ type menuItem =
   static member inline disableGutters(value: bool) = Interop.mkAttr "disableGutters" value
 
 
+[<Erase>]
 type menuList =
   /// If `true`, the list will be focused during the first mount. Focus will also be triggered if the value changes from false to true.
   static member inline autoFocus(value: bool) = Interop.mkAttr "autoFocus" value
@@ -2563,6 +2698,7 @@ type menuList =
   static member inline disableListWrap(value: bool) = Interop.mkAttr "disableListWrap" value
 
 
+[<Erase>]
 type mobileStepper =
   /// Set the active step (zero based index). Defines which dot is highlighted when the variant is 'dots'.
   static member inline activeStep(value: int) = Interop.mkAttr "activeStep" value
@@ -2600,18 +2736,21 @@ type mobileStepper =
 module mobileStepper =
 
   /// Set the positioning type.
+  [<Erase>]
   type position =
     static member inline bottom = Interop.mkAttr "position" "bottom"
     static member inline top = Interop.mkAttr "position" "top"
     static member inline static' = Interop.mkAttr "position" "static"
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline text = Interop.mkAttr "variant" "text"
     static member inline dots = Interop.mkAttr "variant" "dots"
     static member inline progress = Interop.mkAttr "variant" "progress"
 
 
+[<Erase>]
 type modal =
   /// A backdrop component. This prop enables custom backdrop rendering.
   static member inline BackdropComponent(value: ReactElementType) = Interop.mkAttr "BackdropComponent" value
@@ -2681,6 +2820,7 @@ type modal =
   static member inline open'(value: bool) = Interop.mkAttr "open" value
 
 
+[<Erase>]
 type nativeSelect =
   /// The option elements to populate the select with. Can be some `<option>` elements.
   static member inline children(element: ReactElement) = prop.children element
@@ -2724,12 +2864,14 @@ type nativeSelect =
 module nativeSelect =
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline standard = Interop.mkAttr "variant" "standard"
     static member inline outlined = Interop.mkAttr "variant" "outlined"
     static member inline filled = Interop.mkAttr "variant" "filled"
 
 
+[<Erase>]
 type noSsr =
   /// You can wrap a node.
   static member inline children(element: ReactElement) = prop.children element
@@ -2759,6 +2901,7 @@ type noSsr =
   static member inline fallback(value: float) = Interop.mkAttr "fallback" value
 
 
+[<Erase>]
 type outlinedInput =
   /// This prop helps users to fill forms faster, especially on mobile devices. The name can be confusing, as it's more like an autofill. You can learn more about it [following the specification](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill).
   static member inline autoComplete(value: string) = Interop.mkAttr "autoComplete" value
@@ -2832,11 +2975,13 @@ type outlinedInput =
 module outlinedInput =
 
   /// If `dense`, will adjust vertical spacing. This is normally obtained via context from FormControl.
+  [<Erase>]
   type margin =
     static member inline dense = Interop.mkAttr "margin" "dense"
     static member inline none = Interop.mkAttr "margin" "none"
 
 
+[<Erase>]
 type paper =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -2951,6 +3096,7 @@ module popover =
   /// This is the point on the anchor where the popover's `anchorEl` will attach to. This is not used when the anchorReference is 'anchorPosition'.
   ///
   /// Options: vertical: [top, center, bottom]; horizontal: [left, center, right].
+  [<Erase>]
   type anchorOrigin =
     static member inline topLeft = Interop.mkAttr "anchorOrigin" {| vertical = "top"; horizontal = "left" |}
     static member inline topCenter = Interop.mkAttr "anchorOrigin" {| vertical = "top"; horizontal = "center" |}
@@ -2969,6 +3115,7 @@ module popover =
     static member inline customCenter(vertical: int) = Interop.mkAttr "anchorOrigin" {| vertical = vertical; horizontal = "center" |}
     static member inline customRight(vertical: int) = Interop.mkAttr "anchorOrigin" {| vertical = vertical; horizontal = "right" |}
 
+  [<Erase>]
   type anchorReference =
     static member inline anchorEl = Interop.mkAttr "anchorReference" "anchorEl"
     static member inline anchorPosition = Interop.mkAttr "anchorReference" "anchorPosition"
@@ -2977,6 +3124,7 @@ module popover =
   /// This is the point on the popover which will attach to the anchor's origin.
   ///
   /// Options: vertical: [top, center, bottom, x(px)]; horizontal: [left, center, right, x(px)].
+  [<Erase>]
   type transformOrigin =
     static member inline topLeft = Interop.mkAttr "transformOrigin" {| vertical = "top"; horizontal = "left" |}
     static member inline topCenter = Interop.mkAttr "transformOrigin" {| vertical = "top"; horizontal = "center" |}
@@ -2996,12 +3144,14 @@ module popover =
     static member inline customRight(vertical: int) = Interop.mkAttr "transformOrigin" {| vertical = vertical; horizontal = "right" |}
 
   /// Set to 'auto' to automatically calculate transition time based on height.
+  [<Erase>]
   type transitionDuration =
     static member inline value(value: int) = Interop.mkAttr "transitionDuration" value
     static member inline value(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "transitionDuration"
     static member inline auto = Interop.mkAttr "transitionDuration" "auto"
 
 
+[<Erase>]
 type popper =
   /// This is the reference element, or a function that returns the reference element, that may be used to set the position of the popover. The return value will passed as the reference object of the Popper instance.
   ///
@@ -3057,6 +3207,7 @@ type popper =
 module popper =
 
   /// Popper placement.
+  [<Erase>]
   type placement =
     static member inline bottomEnd = Interop.mkAttr "placement" "bottom-end"
     static member inline bottomStart = Interop.mkAttr "placement" "bottom-start"
@@ -3072,6 +3223,7 @@ module popper =
     static member inline top = Interop.mkAttr "placement" "top"
 
 
+[<Erase>]
 type portal =
   /// The children to render into the `container`.
   static member inline children(element: ReactElement) = prop.children element
@@ -3097,6 +3249,7 @@ type portal =
   static member inline disablePortal(value: bool) = Interop.mkAttr "disablePortal" value
 
 
+[<Erase>]
 type radio =
   /// If `true`, the component is checked.
   static member inline checked'(value: bool) = Interop.mkAttr "checked" value
@@ -3140,12 +3293,14 @@ type radio =
 module radio =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline primary = Interop.mkAttr "color" "primary"
     static member inline secondary = Interop.mkAttr "color" "secondary"
     static member inline default' = Interop.mkAttr "color" "default"
 
 
+[<Erase>]
 type radioGroup =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -3187,6 +3342,7 @@ type radioGroup =
   static member inline value(value: string) = Interop.mkAttr "value" value
 
 
+[<Erase>]
 type rating =
   /// Override or extend the styles applied to the component. Use `classes.rating` to specify class names.
   static member inline classes(classNames: classes.IRatingClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
@@ -3308,12 +3464,14 @@ type rating =
 module rating =
 
   /// The size of the rating.
+  [<Erase>]
   type size =
     static member inline small = Interop.mkAttr "size" "small"
     static member inline medium = Interop.mkAttr "size" "medium"
     static member inline large = Interop.mkAttr "size" "large"
 
 
+[<Erase>]
 type rootRef =
   /// The wrapped element.
   static member inline children(value: ReactElement) = Interop.mkAttr "children" value
@@ -3323,6 +3481,7 @@ type rootRef =
   static member inline rootRef(handler: Element -> unit) = Interop.mkAttr "rootRef" handler
 
 
+[<Erase>]
 type select =
   /// If true, the width of the popover will automatically be set according to the items inside the menu, otherwise it will be at least the width of the select input.
   static member inline autoWidth(value: bool) = Interop.mkAttr "autoWidth" value
@@ -3422,12 +3581,14 @@ type select =
 module select =
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline standard = Interop.mkAttr "variant" "standard"
     static member inline outlined = Interop.mkAttr "variant" "outlined"
     static member inline filled = Interop.mkAttr "variant" "filled"
 
 
+[<Erase>]
 type skeleton =
   /// Override or extend the styles applied to the component. Use `classes.skeleton` to specify class names.
   static member inline classes(classNames: classes.ISkeletonClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
@@ -3449,6 +3610,7 @@ type skeleton =
 module skeleton =
 
   /// The type of content that will be rendered.
+  [<Erase>]
   type variant =
     static member inline text = Interop.mkAttr "variant" "text"
     static member inline rect = Interop.mkAttr "variant" "rect"
@@ -3470,6 +3632,7 @@ type slide =
 module slide =
 
   /// Direction the child node will enter from.
+  [<Erase>]
   type direction =
     static member inline left = Interop.mkAttr "direction" "left"
     static member inline right = Interop.mkAttr "direction" "right"
@@ -3477,6 +3640,7 @@ module slide =
     static member inline down = Interop.mkAttr "direction" "down"
 
 
+[<Erase>]
 type slider =
   /// The label of the slider.
   static member inline ariaLabel(value: string) = Interop.mkAttr "aria-label" value
@@ -3658,6 +3822,7 @@ type slider =
 module slider =
 
   /// The slider orientation.
+  [<Erase>]
   type orientation =
     static member inline horizontal = Interop.mkAttr "orientation" "horizontal"
     static member inline vertical = Interop.mkAttr "orientation" "vertical"
@@ -3665,6 +3830,7 @@ module slider =
   /// Controls when the value label is displayed:
   ///
   /// - `auto` the value label will display when the thumb is hovered or focused. - `on` will display persistently. - `off` will never display.
+  [<Erase>]
   type valueLabelDisplay =
     static member inline on = Interop.mkAttr "valueLabelDisplay" "on"
     static member inline auto = Interop.mkAttr "valueLabelDisplay" "auto"
@@ -3760,6 +3926,7 @@ type snackbar =
 module snackbar =
 
   /// The anchor of the `Snackbar`.
+  [<Erase>]
   type anchorOrigin =
     static member inline topLeft = Interop.mkAttr "anchorOrigin" {| vertical = "top"; horizontal = "left" |}
     static member inline topCenter = Interop.mkAttr "anchorOrigin" {| vertical = "top"; horizontal = "center" |}
@@ -3769,6 +3936,7 @@ module snackbar =
     static member inline bottomRight = Interop.mkAttr "anchorOrigin" {| vertical = "bottom"; horizontal = "right" |}
 
 
+[<Erase>]
 type snackbarContent =
   /// The action to display.
   static member inline action(value: ReactElement) = Interop.mkAttr "action" value
@@ -3847,6 +4015,7 @@ type speedDial =
 module speedDial =
 
   /// The direction the actions open relative to the floating action button.
+  [<Erase>]
   type direction =
     static member inline up = Interop.mkAttr "direction" "up"
     static member inline down = Interop.mkAttr "direction" "down"
@@ -3854,6 +4023,7 @@ module speedDial =
     static member inline right = Interop.mkAttr "direction" "right"
 
 
+[<Erase>]
 type speedDialAction =
   /// Props applied to the [`Button`](https://material-ui.com/api/button/) component.
   static member inline ButtonProps(props: IReactProperty list) = Interop.mkAttr "ButtonProps" (createObj !!props)
@@ -3883,6 +4053,7 @@ type speedDialAction =
 module speedDialAction =
 
   /// Placement of the tooltip.
+  [<Erase>]
   type tooltipPlacement =
     static member inline bottomEnd = Interop.mkAttr "tooltipPlacement" "bottom-end"
     static member inline bottomStart = Interop.mkAttr "tooltipPlacement" "bottom-start"
@@ -3898,6 +4069,7 @@ module speedDialAction =
     static member inline top = Interop.mkAttr "tooltipPlacement" "top"
 
 
+[<Erase>]
 type speedDialIcon =
   /// Override or extend the styles applied to the component. Use `classes.speedDialIcon` to specify class names.
   static member inline classes(classNames: classes.ISpeedDialIconClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
@@ -3907,6 +4079,7 @@ type speedDialIcon =
   static member inline openIcon(element: ReactElement) = Interop.mkAttr "openIcon" element
 
 
+[<Erase>]
 type step =
   /// Sets the step as active. Is passed to child components.
   static member inline active(value: bool) = Interop.mkAttr "active" value
@@ -3930,6 +4103,7 @@ type step =
   static member inline disabled(value: bool) = Interop.mkAttr "disabled" value
 
 
+[<Erase>]
 type stepButton =
   /// Can be a `StepLabel` or a node to place inside `StepLabel` as children.
   static member inline children(element: ReactElement) = prop.children element
@@ -3961,11 +4135,13 @@ type stepButton =
   static member inline optional(value: float) = Interop.mkAttr "optional" value
 
 
+[<Erase>]
 type stepConnector =
   /// Override or extend the styles applied to the component. Use `classes.stepConnector` to specify class names.
   static member inline classes(classNames: classes.IStepConnectorClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
 
 
+[<Erase>]
 type stepContent =
   /// Step content.
   static member inline children(element: ReactElement) = prop.children element
@@ -3991,12 +4167,14 @@ module stepContent =
   /// Adjust the duration of the content expand transition. Passed as a prop to the transition component.
   ///
   /// Set to 'auto' to automatically calculate transition time based on height.
+  [<Erase>]
   type transitionDuration =
     static member inline value(value: int) = Interop.mkAttr "transitionDuration" value
     static member inline value(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "transitionDuration"
     static member inline auto = Interop.mkAttr "transitionDuration" "auto"
 
 
+[<Erase>]
 type stepIcon =
   /// Whether this step is active.
   static member inline active(value: bool) = Interop.mkAttr "active" value
@@ -4010,6 +4188,7 @@ type stepIcon =
   static member inline icon(element: ReactElement) = Interop.mkAttr "icon" element
 
 
+[<Erase>]
 type stepLabel =
   /// In most cases will simply be a string containing a title for the label.
   static member inline children(element: ReactElement) = prop.children element
@@ -4049,6 +4228,7 @@ type stepLabel =
   static member inline StepIconProps(props: IReactProperty list) = Interop.mkAttr "StepIconProps" (createObj !!props)
 
 
+[<Erase>]
 type stepper =
   /// Set the active step (zero based index).
   static member inline activeStep(value: int) = Interop.mkAttr "activeStep" value
@@ -4066,11 +4246,13 @@ type stepper =
 module stepper =
 
   /// The stepper orientation (layout flow direction).
+  [<Erase>]
   type orientation =
     static member inline horizontal = Interop.mkAttr "orientation" "horizontal"
     static member inline vertical = Interop.mkAttr "orientation" "vertical"
 
 
+[<Erase>]
 type svgIcon =
   /// Node passed into the SVG element.
   static member inline children(element: ReactElement) = prop.children element
@@ -4102,6 +4284,7 @@ type svgIcon =
 module svgIcon =
 
   /// The color of the component. You can use the `htmlColor` prop to apply a color attribute to the SVG element.
+  [<Erase>]
   type color =
     static member inline inherit' = Interop.mkAttr "color" "inherit"
     static member inline primary = Interop.mkAttr "color" "primary"
@@ -4111,6 +4294,7 @@ module svgIcon =
     static member inline disabled = Interop.mkAttr "color" "disabled"
 
   /// The fontSize applied to the icon. Defaults to 24px, but can be configure to inherit font size.
+  [<Erase>]
   type fontSize =
     static member inline inherit' = Interop.mkAttr "fontSize" "inherit"
     static member inline default' = Interop.mkAttr "fontSize" "default"
@@ -4157,6 +4341,7 @@ type swipeableDrawer =
   static member transitionDuration(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "transitionDuration"
 
 
+[<Erase>]
 type switch =
   /// If `true`, the component is checked.
   static member inline checked'(value: bool) = Interop.mkAttr "checked" value
@@ -4208,23 +4393,27 @@ type switch =
 module switch =
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline primary = Interop.mkAttr "color" "primary"
     static member inline secondary = Interop.mkAttr "color" "secondary"
     static member inline default' = Interop.mkAttr "color" "default"
 
   /// If given, uses a negative margin to counteract the padding on one side (this is often helpful for aligning the left or right side of the icon with content above or below, without ruining the border size and shape).
+  [<Erase>]
   type edge =
     static member inline start = Interop.mkAttr "edge" "start"
     static member inline end' = Interop.mkAttr "edge" "end"
     static member inline false' = Interop.mkAttr "edge" false
 
   /// The size of the switch. `small` is equivalent to the dense switch styling.
+  [<Erase>]
   type size =
     static member inline small = Interop.mkAttr "size" "small"
     static member inline medium = Interop.mkAttr "size" "medium"
 
 
+[<Erase>]
 type tab =
   /// Override or extend the styles applied to the component. Use `classes.tab` to specify class names.
   static member inline classes(classNames: classes.ITabClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
@@ -4254,6 +4443,7 @@ type tab =
   static member inline wrapped(value: bool) = Interop.mkAttr "wrapped" value
 
 
+[<Erase>]
 type table =
   /// The content of the table, normally `TableHead` and `TableBody`.
   static member inline children(element: ReactElement) = prop.children element
@@ -4277,17 +4467,20 @@ type table =
 module table =
 
   /// Allows TableCells to inherit padding of the Table.
+  [<Erase>]
   type padding =
     static member inline default' = Interop.mkAttr "padding" "default"
     static member inline checkbox = Interop.mkAttr "padding" "checkbox"
     static member inline none = Interop.mkAttr "padding" "none"
 
   /// Allows TableCells to inherit size of the Table.
+  [<Erase>]
   type size =
     static member inline small = Interop.mkAttr "size" "small"
     static member inline medium = Interop.mkAttr "size" "medium"
 
 
+[<Erase>]
 type tableBody =
   /// The content of the component, normally `TableRow`.
   static member inline children(element: ReactElement) = prop.children element
@@ -4309,6 +4502,7 @@ type tableBody =
   static member inline component'(value: ReactElementType) = Interop.mkAttr "component" value
 
 
+[<Erase>]
 type tableCell =
   /// The table cell contents.
   static member inline children(element: ReactElement) = prop.children element
@@ -4336,6 +4530,7 @@ module tableCell =
   /// Set the text-align on the table cell content.
   ///
   /// Monetary or generally number fields **should be right aligned** as that allows you to add them up quickly in your head without having to worry about decimals.
+  [<Erase>]
   type align =
     static member inline inherit' = Interop.mkAttr "align" "inherit"
     static member inline left = Interop.mkAttr "align" "left"
@@ -4344,29 +4539,34 @@ module tableCell =
     static member inline justify = Interop.mkAttr "align" "justify"
 
   /// Sets the padding applied to the cell. By default, the Table parent component set the value (`default`).
+  [<Erase>]
   type padding =
     static member inline default' = Interop.mkAttr "padding" "default"
     static member inline checkbox = Interop.mkAttr "padding" "checkbox"
     static member inline none = Interop.mkAttr "padding" "none"
 
   /// Specify the size of the cell. By default, the Table parent component set the value (`medium`).
+  [<Erase>]
   type size =
     static member inline small = Interop.mkAttr "size" "small"
     static member inline medium = Interop.mkAttr "size" "medium"
 
   /// Set aria-sort direction.
+  [<Erase>]
   type sortDirection =
     static member inline asc = Interop.mkAttr "sortDirection" "asc"
     static member inline desc = Interop.mkAttr "sortDirection" "desc"
     static member inline false' = Interop.mkAttr "sortDirection" false
 
   /// Specify the cell type. By default, the TableHead, TableBody or TableFooter parent component set the value.
+  [<Erase>]
   type variant =
     static member inline head = Interop.mkAttr "variant" "head"
     static member inline body = Interop.mkAttr "variant" "body"
     static member inline footer = Interop.mkAttr "variant" "footer"
 
 
+[<Erase>]
 type tableFooter =
   /// The content of the component, normally `TableRow`.
   static member inline children(element: ReactElement) = prop.children element
@@ -4388,6 +4588,7 @@ type tableFooter =
   static member inline component'(value: ReactElementType) = Interop.mkAttr "component" value
 
 
+[<Erase>]
 type tableHead =
   /// The content of the component, normally `TableRow`.
   static member inline children(element: ReactElement) = prop.children element
@@ -4476,6 +4677,7 @@ type tablePagination =
   static member inline SelectProps(props: IReactProperty list) = Interop.mkAttr "SelectProps" (createObj !!props)
 
 
+[<Erase>]
 type tableRow =
   /// Should be valid `<tr>` children such as `TableCell`.
   static member inline children(element: ReactElement) = prop.children element
@@ -4493,6 +4695,7 @@ type tableRow =
   static member inline selected(value: bool) = Interop.mkAttr "selected" value
 
 
+[<Erase>]
 type tableSortLabel =
   /// If `true`, the label will have the active styling (should be true for the sorted column).
   static member inline active(value: bool) = Interop.mkAttr "active" value
@@ -4518,11 +4721,13 @@ type tableSortLabel =
 module tableSortLabel =
 
   /// The current sort direction.
+  [<Erase>]
   type direction =
     static member inline asc = Interop.mkAttr "direction" "asc"
     static member inline desc = Interop.mkAttr "direction" "desc"
 
 
+[<Erase>]
 type tabs =
   /// Callback fired when the component mounts. This is useful when you want to trigger an action programmatically. It currently only supports `updateIndicator()` action.
   ///
@@ -4590,11 +4795,13 @@ type tabs =
 module tabs =
 
   /// Determines the color of the indicator.
+  [<Erase>]
   type indicatorColor =
     static member inline secondary = Interop.mkAttr "indicatorColor" "secondary"
     static member inline primary = Interop.mkAttr "indicatorColor" "primary"
 
   /// The tabs orientation (layout flow direction).
+  [<Erase>]
   type orientation =
     static member inline horizontal = Interop.mkAttr "orientation" "horizontal"
     static member inline vertical = Interop.mkAttr "orientation" "vertical"
@@ -4602,6 +4809,7 @@ module tabs =
   /// Determine behavior of scroll buttons when tabs are set to scroll:
   ///
   /// - `auto` will only present them when not all the items are visible. - `desktop` will only present them on medium and larger viewports. - `on` will always present them. - `off` will never present them.
+  [<Erase>]
   type scrollButtons =
     static member inline auto = Interop.mkAttr "scrollButtons" "auto"
     static member inline desktop = Interop.mkAttr "scrollButtons" "desktop"
@@ -4609,6 +4817,7 @@ module tabs =
     static member inline off = Interop.mkAttr "scrollButtons" "off"
 
   /// Determines the color of the `Tab`.
+  [<Erase>]
   type textColor =
     static member inline secondary = Interop.mkAttr "textColor" "secondary"
     static member inline primary = Interop.mkAttr "textColor" "primary"
@@ -4617,12 +4826,14 @@ module tabs =
   /// Determines additional display behavior of the tabs:
   ///
   ///  - `scrollable` will invoke scrolling properties and allow for horizontally scrolling (or swiping) of the tab bar. -`fullWidth` will make the tabs grow to use all the available space, which should be used for small views, like on mobile. - `standard` will render the default state.
+  [<Erase>]
   type variant =
     static member inline standard = Interop.mkAttr "variant" "standard"
     static member inline scrollable = Interop.mkAttr "variant" "scrollable"
     static member inline fullWidth = Interop.mkAttr "variant" "fullWidth"
 
 
+[<Erase>]
 type textareaAutosize =
   /// Minimum number of rows to display.
   static member inline rows(value: int) = Interop.mkAttr "rows" value
@@ -4630,6 +4841,7 @@ type textareaAutosize =
   static member inline rowsMax(value: int) = Interop.mkAttr "rowsMax" value
 
 
+[<Erase>]
 type textField =
   /// This prop helps users to fill forms faster, especially on mobile devices. The name can be confusing, as it's more like an autofill. You can learn more about it [following the specification](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill).
   static member inline autoComplete(value: string) = Interop.mkAttr "autoComplete" value
@@ -4723,18 +4935,21 @@ type textField =
 module textField =
 
   /// If `dense` or `normal`, will adjust vertical spacing of this and contained components.
+  [<Erase>]
   type margin =
     static member inline none = Interop.mkAttr "margin" "none"
     static member inline dense = Interop.mkAttr "margin" "dense"
     static member inline normal = Interop.mkAttr "margin" "normal"
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline standard = Interop.mkAttr "variant" "standard"
     static member inline outlined = Interop.mkAttr "variant" "outlined"
     static member inline filled = Interop.mkAttr "variant" "filled"
 
 
+[<Erase>]
 type toggleButton =
   /// The content of the button.
   static member inline children(element: ReactElement) = prop.children element
@@ -4762,6 +4977,7 @@ type toggleButton =
   static member inline value(value: 'a) = Interop.mkAttr "value" value
 
 
+[<Erase>]
 type toggleButtonGroup =
   /// The content of the button.
   static member inline children(element: ReactElement) = prop.children element
@@ -4807,12 +5023,14 @@ type toggleButtonGroup =
 module toggleButtonGroup =
 
   /// The size of the buttons.
+  [<Erase>]
   type size =
     static member inline small = Interop.mkAttr "size" "small"
     static member inline medium = Interop.mkAttr "size" "medium"
     static member inline large = Interop.mkAttr "size" "large"
 
 
+[<Erase>]
 type toolbar =
   /// Toolbar children, usually a mixture of `IconButton`, `Button` and `Typography`.
   static member inline children(element: ReactElement) = prop.children element
@@ -4838,11 +5056,13 @@ type toolbar =
 module toolbar =
 
   /// The variant to use.
+  [<Erase>]
   type variant =
     static member inline regular = Interop.mkAttr "variant" "regular"
     static member inline dense = Interop.mkAttr "variant" "dense"
 
 
+[<Erase>]
 type tooltip =
   /// Tooltip reference element.
   ///
@@ -4908,6 +5128,7 @@ type tooltip =
 module tooltip =
 
   /// Tooltip placement.
+  [<Erase>]
   type placement =
     static member inline bottomEnd = Interop.mkAttr "placement" "bottom-end"
     static member inline bottomStart = Interop.mkAttr "placement" "bottom-start"
@@ -4923,6 +5144,7 @@ module tooltip =
     static member inline top = Interop.mkAttr "placement" "top"
 
 
+[<Erase>]
 type touchRipple =
   /// If `true`, the ripple starts at the center of the component rather than at the point of interaction.
   static member inline center(value: bool) = Interop.mkAttr "center" value
@@ -4930,6 +5152,7 @@ type touchRipple =
   static member inline classes(classNames: classes.ITouchRippleClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
 
 
+[<Erase>]
 type treeItem =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -4971,6 +5194,7 @@ type treeItem =
   static member inline TransitionComponent(value: ReactElementType) = Interop.mkAttr "TransitionComponent" value
 
 
+[<Erase>]
 type treeView =
   /// The content of the component.
   static member inline children(element: ReactElement) = prop.children element
@@ -5039,6 +5263,7 @@ type typography =
 module typography =
 
   /// Set the text-align on the component.
+  [<Erase>]
   type align =
     static member inline inherit' = Interop.mkAttr "align" "inherit"
     static member inline left = Interop.mkAttr "align" "left"
@@ -5047,6 +5272,7 @@ module typography =
     static member inline justify = Interop.mkAttr "align" "justify"
 
   /// The color of the component.
+  [<Erase>]
   type color =
     static member inline initial = Interop.mkAttr "color" "initial"
     static member inline inherit' = Interop.mkAttr "color" "inherit"
@@ -5057,12 +5283,14 @@ module typography =
     static member inline error = Interop.mkAttr "color" "error"
 
   /// Controls the display type
+  [<Erase>]
   type display =
     static member inline initial = Interop.mkAttr "display" "initial"
     static member inline block = Interop.mkAttr "display" "block"
     static member inline inline' = Interop.mkAttr "display" "inline"
 
   /// Applies the theme typography styles.
+  [<Erase>]
   type variant =
     static member inline h1 = Interop.mkAttr "variant" "h1"
     static member inline h2 = Interop.mkAttr "variant" "h2"

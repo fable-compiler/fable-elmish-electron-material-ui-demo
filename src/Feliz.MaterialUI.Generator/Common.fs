@@ -2,6 +2,7 @@
 module Common
 
 open System.IO
+open System.Text.RegularExpressions
 open FSharp.Data
 open ReverseMarkdown
 
@@ -39,6 +40,10 @@ let kebabCaseToCamelCase (s: string) =
     )
     pieces |> String.concat ""
   else s
+
+
+let hasNonInlineMembers s =
+  Regex.IsMatch(s, "static member (?!inline )")
 
 
 let private markdownConverter =

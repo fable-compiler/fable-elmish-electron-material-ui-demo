@@ -4,9 +4,7 @@ open Fable.Core
 open Fable.Core.JsInterop
 open Feliz
 
-// TODO: EraseAttribute on types?
-
-[<AutoOpen>]
+[<AutoOpen; Erase>]
 module Global =
 
   /// Use with `makeStyles` when returning an (anonymous) record of style
@@ -48,7 +46,8 @@ type Styles =
 
 [<AutoOpen>]
 module Extensions =
-  // Implement as extension to give lower priority
+
+  // Implemented as extension to give lower priority
   type Styles with
 
     /// Link a style sheet with a function component using the hook pattern.
@@ -60,15 +59,17 @@ module Extensions =
       |> import "makeStyles" "@material-ui/core/styles"
 
 
+[<Erase>]
 type style =
 
   /// Converts the items in the object to a list of StyleAttribute so they can
   /// be used alongside other styles. Use yield! to combine these in a list of
   /// other styles.
-  static member spread(value: obj) : IStyleAttribute [] =
+  // TODO: Find better solution?
+  static member inline spread(value: obj) : IStyleAttribute [] =
     objectEntries value |> unbox
 
   /// Allows nesting styles, for example for JSS selectors etc.
   // TODO: rename?
-  static member inner (name: string) (styles: IStyleAttribute list) =
+  static member inline inner (name: string) (styles: IStyleAttribute list) =
     Interop.mkStyle name (createObj !!styles)

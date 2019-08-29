@@ -4,6 +4,11 @@ open System
 open System.IO
 open FSharp.Data
 
+// TODO: some props are both enum and free-form:
+//   collapse.timeout, grid.xs/sm/md/lg/xl, gridList.cellHeight, grow.timeout,
+//   hidden.only, menu.transitionduration, popover.anchorOrigin?, stepContent.transitionDuration,
+// The free-form variants should be normal (non-enum) props
+
 let outFile = @"..\..\..\..\Feliz.MaterialUI\MuiProps.fs"
 
 let paramListAndObjCreator paramData =

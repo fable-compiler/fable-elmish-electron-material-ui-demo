@@ -1,6 +1,7 @@
 ﻿namespace Feliz.MaterialUI
 
 open Fable.Core
+open Fable.Core.JsInterop
 open Feliz
 open Feliz.Styles
 
@@ -226,7 +227,9 @@ type Theme =
   [<Emit("$0.spacing = $1")>]
   member __.setSpacing(f: int -> ICssUnit) : unit = jsNative
   member inline this.setOverrides (overrides: IOverrideStyleSheet list) =
-    this.overrides <- overrides |> unbox |> Fable.Core.JsInterop.createObj
+    this.overrides <- overrides |> unbox |> createObj
+  member inline this.setProps (props: IThemeProps list) =
+    this.props <- props |> unbox |> createObj
 
 type MakeStylesOptions =
   /// The default theme to use if a theme isn't supplied through a Theme

@@ -4,15 +4,25 @@ open Fable.Core
 open Fable.Core.JsInterop
 open Feliz
 
-[<AutoOpen; Erase>]
+[<AutoOpen>]
 module Global =
 
-  /// Use with `makeStyles` when returning an (anonymous) record of style
-  /// properties. Pretends that the style list is a string (which it is at
-  /// runtime when returned by the `makeStyles` hook), so that the properties
-  /// can be used in `className` and `classes` props.
-  let inline asString (styles: #seq<IStyleAttribute>) : string =
-    unbox styles
+  // TODO: Remove these and simply add 'a overload to className and classes?
+
+  /// Use with `makeStyles` etc. when returning an (anonymous) record of style
+  /// properties or functions. Simply unboxes the input to `string` (which it is
+  /// at runtime when returned by the JSS styling solution), so that the
+  /// properties can be used in `className` and `classes` props.
+  let inline styleList (x: #seq<IStyleAttribute>) =
+    unbox<string> x
+
+  /// Use with `makeStyles` etc. when returning an (anonymous) record of style
+  /// properties or functions. Simply unboxes the input to `string` (which it is
+  /// at runtime when returned by the JSS styling solution), so that the
+  /// properties can be used in `className` and `classes` props.
+  let inline styleFun (x: 'props -> #seq<IStyleAttribute>) =
+    unbox<string> x
+
 
 [<AutoOpen>]
 module private StyleHelpers =
@@ -30,44 +40,49 @@ module private StyleHelpers =
   /// transformed by the specified function.
   let objMap (f: 'a -> 'b) (o: 'c) : obj = jsNative
 
-  [<Emit("Object.entries($0)")>]
-  /// Transforms a plain JS object to key-value pairs.
-  let objectEntries (x: 'a) : (string * obj) [] = jsNative
 
 type Styles =
 
-  /// Link a style sheet with a function component using the hook pattern.
+  /// This hook links a style sheet with a function component.
+  ///
+  /// The Material-UI documentation often calls this returned hook `useStyles`.
+  /// It accepts one argument: the properties that will be used for
+  /// "interpolation" in the style sheet. Use unit `()` if you don't need it.
   ///
   /// Note that the object returned by the hook has the same properties as the
   /// object returned by getStyles, but every prop is a string.
-  static member makeStyles(getStyles: Fable.MaterialUI.Themes.ITheme -> 'a) : (unit -> 'a) =
+  static member makeStyles
+      ( getStyles: Theme -> 'a
+      ) : ('props -> 'a) =
     (getStyles >> objMap (unbox >> createObj))
     |> import "makeStyles" "@material-ui/core/styles"
 
-[<AutoOpen>]
-module Extensions =
+  static member createMuiTheme (theme: Theme) : Theme =
+    theme |> import "createMuiTheme" "@material-ui/core/styles"
 
-  // Implemented as extension to give lower priority
-  type Styles with
+  /// This hook links a style sheet with a function component.
+  ///
+  /// The Material-UI documentation often calls this returned hook `useStyles`.
+  /// It accepts one argument: the properties that will be used for
+  /// "interpolation" in the style sheet. Use unit `()` if you don't need it.
+  ///
+  /// Note that the object returned by the hook has the same properties as the
+  /// object returned by getStyles, but every prop is a string.
+  static member makeStyles
+      ( getStyles: Theme -> 'a,
+        options: MakeStylesOptions
+      ) : ('props -> 'a) =
+    (getStyles >> objMap (unbox >> createObj), options)
+    |> import "makeStyles" "@material-ui/core/styles"
 
-    /// Link a style sheet with a function component using the hook pattern.
-    ///
-    /// Note that the object returned by the hook has the same properties as the
-    /// object returned by getStyles, but every prop is a string.
-    static member makeStyles(styles: 'a) : (unit -> 'a) =
-      styles |> objMap (unbox >> createObj)
-      |> import "makeStyles" "@material-ui/core/styles"
+  /// This hook returns the theme object so it can be used inside a function
+  /// component.
+  static member useTheme() : Theme =
+    import "useTheme" "@material-ui/core/styles" ()
 
 
 [<Erase>]
 type style =
-
-  /// Converts the items in the object to a list of StyleAttribute so they can
-  /// be used alongside other styles. Use yield! to combine these in a list of
-  /// other styles.
-  // TODO: Find better solution?
-  static member inline spread(value: obj) : IStyleAttribute [] =
-    objectEntries value |> unbox
 
   /// Allows nesting styles, for example for JSS selectors etc.
   // TODO: rename?

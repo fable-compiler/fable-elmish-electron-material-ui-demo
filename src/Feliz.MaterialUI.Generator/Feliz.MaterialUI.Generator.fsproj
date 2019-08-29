@@ -9,6 +9,7 @@
     <Compile Include="Common.fs" />
     <Compile Include="HtmlCache.fs" />
     <Compile Include="Classes.fs" />
+    <Compile Include="ThemeOverrides.fs" />
     <Compile Include="Props.fs" />
     <Compile Include="Mui.fs" />
     <Compile Include="Program.fs" />

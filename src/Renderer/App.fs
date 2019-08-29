@@ -92,25 +92,25 @@ let update msg m =
 let private useStyles = Styles.makeStyles(fun theme ->
   let drawerWidth = 240
   {|
-    root = asString [
+    root = styleList [
       style.display.flex
     ]
-    appBar = asString [
+    appBar = styleList [
       style.zIndex (theme.zIndex.drawer + 1)
     ]
-    drawer = asString [
+    drawer = styleList [
       style.width (length.px drawerWidth)
       style.flexShrink 0
     ]
-    drawerPaper = asString [
+    drawerPaper = styleList [
       style.width (length.px drawerWidth)
     ]
-    content = asString [
+    content = styleList [
       style.flexGrow 1
-      style.padding (theme.spacing.unit * 3)
+      style.padding (theme.spacing 3)
     ]
-    toolbar = asString [
-      yield! style.spread theme.mixins.toolbar
+    toolbar = styleList [
+      yield! theme.mixins.toolbarStyles
     ]
   |}
 )

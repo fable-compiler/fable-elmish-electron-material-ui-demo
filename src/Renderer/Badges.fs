@@ -32,11 +32,11 @@ let update msg m =
 
 let private useStyles = Styles.makeStyles(fun theme ->
   {|
-    description = asString [
-      style.marginBottom (theme.spacing.unit * 3)
+    description = styleList [
+      style.marginBottom (theme.spacing 3)
     ]
-    margin = asString [
-      style.marginRight (theme.spacing.unit * 2)
+    margin = styleList [
+      style.marginRight (theme.spacing 2)
     ]
   |}
 )

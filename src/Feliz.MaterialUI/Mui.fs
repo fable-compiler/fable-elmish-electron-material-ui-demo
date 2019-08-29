@@ -23,6 +23,8 @@ module MuiHelpers =
 [<Erase>]
 type Mui =
 
+  static member inline muiThemeProvider props = createElement (importDefault "@material-ui/core/styles/MuiThemeProvider") props
+
   /// The `ref` is forwarded to the root element.
   ///
   /// Any other props supplied will be provided to the root element ([Paper](https://material-ui.com/api/paper/)).

@@ -69,12 +69,12 @@ let update msg m =
 
 let private useStyles = Styles.makeStyles(fun theme ->
   {|
-    form = asString [
+    form = styleList [
       style.flexWrap.wrap
     ]
-    textField = asString [
-      style.marginLeft theme.spacing.unit
-      style.marginRight theme.spacing.unit
+    textField = styleList [
+      style.marginLeft (theme.spacing 1)
+      style.marginRight (theme.spacing 1)
       style.width 200
     ]
   |}

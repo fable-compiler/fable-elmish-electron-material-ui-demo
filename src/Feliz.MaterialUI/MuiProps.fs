@@ -8,7 +8,6 @@ open System
 open Browser.Types
 open Fable.Core
 open Fable.Core.JsInterop
-open Fable.MaterialUI
 open Fable.React
 open Feliz
 
@@ -37,6 +36,16 @@ type PopoverCloseReason =
 type SnackbarCloseReason =
   | Timeout
   | Clickaway
+
+
+[<Erase>]
+type muiThemeProvider =
+  /// Your component tree.
+  static member inline children(elements: ReactElement seq) = prop.children elements
+  /// A theme object. You can provide a function to extend the outer theme.
+  static member inline theme(theme: Theme) = Interop.mkAttr "theme" theme
+  /// A theme object. You can provide a function to extend the outer theme.
+  static member inline theme(extendTheme: Theme -> Theme) = Interop.mkAttr "theme" extendTheme
 
 
 [<Erase>]
@@ -372,9 +381,9 @@ module button =
 [<Erase>]
 type buttonBase =
   /// A ref for imperative actions. It currently only supports `focusVisible()` action.
-  static member inline action(ref: IRefValue<IButtonBaseActions option>) = Interop.mkAttr "action" ref
+  static member inline action(ref: IRefValue<ButtonBaseActions option>) = Interop.mkAttr "action" ref
   /// A ref for imperative actions. It currently only supports `focusVisible()` action.
-  static member inline action(handler: IButtonBaseActions -> unit) = Interop.mkAttr "action" handler
+  static member inline action(handler: ButtonBaseActions -> unit) = Interop.mkAttr "action" handler
   /// Use that prop to pass a ref callback to the native button component.
   static member inline buttonRef(ref: IRefValue<HTMLButtonElement option>) = Interop.mkAttr "buttonRef" ref
   /// Use that prop to pass a ref callback to the native button component.
@@ -3009,9 +3018,9 @@ type paper =
 
 type popover =
   /// This is callback prop. It's called by the component on mount. This is useful when you want to trigger an action programmatically. It currently only supports updatePosition() action.
-  static member inline action(ref: IRefValue<IPopoverActions option>) = Interop.mkAttr "action" ref
+  static member inline action(ref: IRefValue<PopoverActions option>) = Interop.mkAttr "action" ref
   /// This is callback prop. It's called by the component on mount. This is useful when you want to trigger an action programmatically. It currently only supports updatePosition() action.
-  static member inline action(handler: IPopoverActions -> unit) = Interop.mkAttr "action" handler
+  static member inline action(handler: PopoverActions -> unit) = Interop.mkAttr "action" handler
   /// This is the DOM element, or a function that returns the DOM element, that may be used to set the position of the popover.
   static member inline anchorEl(value: Element option) = Interop.mkAttr "anchorEl" value
   /// This is the DOM element, or a function that returns the DOM element, that may be used to set the position of the popover.
@@ -4736,7 +4745,7 @@ type tabs =
   /// `function(actions: object) => void`
   ///
   /// *actions:* This object contains all possible actions that can be triggered programmatically.
-  static member inline action(ref: IRefValue<ITabsActions option>) = Interop.mkAttr "action" ref
+  static member inline action(ref: IRefValue<TabsActions option>) = Interop.mkAttr "action" ref
   /// Callback fired when the component mounts. This is useful when you want to trigger an action programmatically. It currently only supports `updateIndicator()` action.
   ///
   /// **Signature:**
@@ -4744,7 +4753,7 @@ type tabs =
   /// `function(actions: object) => void`
   ///
   /// *actions:* This object contains all possible actions that can be triggered programmatically.
-  static member inline action(handler: ITabsActions -> unit) = Interop.mkAttr "action" handler
+  static member inline action(handler: TabsActions -> unit) = Interop.mkAttr "action" handler
   /// If `true`, the tabs will be centered. This property is intended for large views.
   static member inline centered(value: bool) = Interop.mkAttr "centered" value
   /// The content of the component.

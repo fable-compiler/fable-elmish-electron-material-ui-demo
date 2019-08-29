@@ -4,8 +4,6 @@ open System
 open System.IO
 open FSharp.Data
 
-// TODO: use internal types instead of MUI for "action" props etc.?
-
 let outFile = @"..\..\..\..\Feliz.MaterialUI\MuiProps.fs"
 
 let paramListAndObjCreator paramData =
@@ -176,20 +174,20 @@ let generatePage (url: String) =
 
         | "buttonBase", "action", "func | object" ->
             [
-              sprintf "  static member inline %s(ref: IRefValue<IButtonBaseActions option>) = Interop.mkAttr \"%s\" ref" propNameSafe propName
-              sprintf "  static member inline %s(handler: IButtonBaseActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(ref: IRefValue<ButtonBaseActions option>) = Interop.mkAttr \"%s\" ref" propNameSafe propName
+              sprintf "  static member inline %s(handler: ButtonBaseActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
             ]
 
         | "popover", "action", "func | object" ->
             [
-              sprintf "  static member inline %s(ref: IRefValue<IPopoverActions option>) = Interop.mkAttr \"%s\" ref" propNameSafe propName
-              sprintf "  static member inline %s(handler: IPopoverActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(ref: IRefValue<PopoverActions option>) = Interop.mkAttr \"%s\" ref" propNameSafe propName
+              sprintf "  static member inline %s(handler: PopoverActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
             ]
 
         | "tabs", "action", "func" ->
             [
-              sprintf "  static member inline %s(ref: IRefValue<ITabsActions option>) = Interop.mkAttr \"%s\" ref" propNameSafe propName
-              sprintf "  static member inline %s(handler: ITabsActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
+              sprintf "  static member inline %s(ref: IRefValue<TabsActions option>) = Interop.mkAttr \"%s\" ref" propNameSafe propName
+              sprintf "  static member inline %s(handler: TabsActions -> unit) = Interop.mkAttr \"%s\" handler" propNameSafe propName
             ]
 
         | "tablePagination", "rowsPerPageOptions", "array" ->
@@ -569,7 +567,6 @@ open System
 open Browser.Types
 open Fable.Core
 open Fable.Core.JsInterop
-open Fable.MaterialUI
 open Fable.React
 open Feliz
 
@@ -598,6 +595,16 @@ type PopoverCloseReason =
 type SnackbarCloseReason =
   | Timeout
   | Clickaway
+
+
+[<Erase>]
+type muiThemeProvider =
+  /// Your component tree.
+  static member inline children(elements: ReactElement seq) = prop.children elements
+  /// A theme object. You can provide a function to extend the outer theme.
+  static member inline theme(theme: Theme) = Interop.mkAttr "theme" theme
+  /// A theme object. You can provide a function to extend the outer theme.
+  static member inline theme(extendTheme: Theme -> Theme) = Interop.mkAttr "theme" extendTheme
 
 """
 

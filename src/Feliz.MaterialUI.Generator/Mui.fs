@@ -85,6 +85,8 @@ module MuiHelpers =
 
 [<Erase>]
 type Mui =
+
+  static member inline muiThemeProvider props = createElement (importDefault "@material-ui/core/styles/MuiThemeProvider") props
 """)
 
   HtmlCache.getCachedPages () |> Array.map (fun path ->

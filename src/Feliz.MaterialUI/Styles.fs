@@ -57,9 +57,6 @@ type Styles =
     (getStyles >> objMap (unbox >> createObj))
     |> import "makeStyles" "@material-ui/core/styles"
 
-  static member createMuiTheme (theme: Theme) : Theme =
-    theme |> import "createMuiTheme" "@material-ui/core/styles"
-
   /// This hook links a style sheet with a function component.
   ///
   /// The Material-UI documentation often calls this returned hook `useStyles`.
@@ -79,6 +76,11 @@ type Styles =
   /// component.
   static member useTheme() : Theme =
     import "useTheme" "@material-ui/core/styles" ()
+
+  /// Generate a theme base on the configured incomplete theme object.
+  static member createMuiTheme (configure: Theme -> unit) : Theme =
+    let theme = jsOptions configure
+    theme |> import "createMuiTheme" "@material-ui/core/styles"
 
 
 [<Erase>]

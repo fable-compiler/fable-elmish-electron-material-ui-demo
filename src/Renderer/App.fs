@@ -94,6 +94,7 @@ let private useStyles = Styles.makeStyles(fun theme ->
   {|
     root = styleList [
       style.display.flex
+      style.userSelect.none
     ]
     appBar = styleList [
       style.zIndex (theme.zIndex.drawer + 1)
@@ -117,37 +118,40 @@ let private useStyles = Styles.makeStyles(fun theme ->
 
 
 // Not used, but shows how to use style and prop overrides. The returned theme
-// value can for example be used as the `theme` prop of `Mui.muiThemeProvider`.
+// can for example be used as the `theme` prop of `Mui.muiThemeProvider`.
 let theme = Styles.createMuiTheme(fun t ->
 
   // Globally override component styles
   t.setOverrides [
     overrides.muiButtonBase [
       overrides.muiButtonBase.root [
-        style.fontWeight 900
         style.color.red
-      ]
-      overrides.muiButtonBase.disabled [
-        style.backgroundColor.azure
+        style.inner "&$disabled" [
+          style.backgroundColor.aquaMarine
+        ]
       ]
     ]
     overrides.muiAvatar [
       overrides.muiAvatar.img [
         style.borderWidth 10
         style.borderColor.black
+        style.borderStyle.solid
       ]
     ]
   ]
 
   // Globally override component props
   t.setProps [
+    themeProps.muiListItemText [
+      listItemText.primaryTypographyProps [
+        typography.variant.caption
+      ]
+    ]
     themeProps.muiButtonBase [
       buttonBase.disableTouchRipple true
-      buttonBase.disabled true
     ]
-    themeProps.muiPaper [
-      paper.elevation 24
-      paper.square true
+    themeProps.muiDialog [
+      dialog.fullScreen true
     ]
   ]
 )
@@ -192,50 +196,44 @@ let private pageView model dispatch =
 
 let RootView = FunctionComponent.Of((fun (model, dispatch) ->
   let c = useStyles ()
-  Mui.muiThemeProvider [
-    // Uncomment to see effects of theme override
-    // muiThemeProvider.theme theme
-    muiThemeProvider.children [
-      Html.div [
-        prop.className c.root
+  Html.div [
+    prop.className c.root
+    prop.children [
+      Mui.cssBaseline []
+      Mui.appBar [
+        prop.className c.appBar
+        appBar.position.fixed'
+        appBar.children [
+          Mui.toolbar [
+            toolbar.children [
+              Mui.typography [
+                typography.variant.h6
+                typography.color.inherit'
+                prop.text (pageTitle model.Page)
+              ]
+            ]
+          ]
+        ]
+      ]
+      Mui.drawer [
+        prop.className c.drawer
+        drawer.variant.permanent
+        drawer.classes [
+          classes.drawer.paper c.drawerPaper
+        ]
+        drawer.children [
+          Html.div [ prop.className c.toolbar ]
+          Mui.list [
+            list.component' "nav"
+            list.children (Page.All |> List.map (pageListItem model dispatch) |> ofList)
+          ]
+        ]
+      ]
+      Html.main [
+        prop.className c.content
         prop.children [
-          Mui.cssBaseline []
-          Mui.appBar [
-            prop.className c.appBar
-            appBar.position.fixed'
-            appBar.children [
-              Mui.toolbar [
-                toolbar.children [
-                  Mui.typography [
-                    typography.variant.h6
-                    typography.color.inherit'
-                    prop.text (pageTitle model.Page)
-                  ]
-                ]
-              ]
-            ]
-          ]
-          Mui.drawer [
-            prop.className c.drawer
-            drawer.variant.permanent
-            drawer.classes [
-              classes.drawer.paper c.drawerPaper
-            ]
-            drawer.children [
-              Html.div [ prop.className c.toolbar ]
-              Mui.list [
-                list.component' "nav"
-                list.children (Page.All |> List.map (pageListItem model dispatch) |> ofList)
-              ]
-            ]
-          ]
-          Html.main [
-            prop.className c.content
-            prop.children [
-              Html.div [ prop.className c.toolbar ]
-              pageView model dispatch
-            ]
-          ]
+          Html.div [ prop.className c.toolbar ]
+          pageView model dispatch
         ]
       ]
     ]

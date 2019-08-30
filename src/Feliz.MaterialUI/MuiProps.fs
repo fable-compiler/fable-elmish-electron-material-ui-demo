@@ -801,7 +801,6 @@ module clickAwayListener =
     static member inline false' = Interop.mkAttr "touchEvent" false
 
 
-[<Erase>]
 type collapse =
   /// The content node to be collapsed.
   static member inline children(element: ReactElement) = prop.children element
@@ -825,6 +824,14 @@ type collapse =
   static member inline component'(value: ReactElementType) = Interop.mkAttr "component" value
   /// If `true`, the component will transition in.
   static member inline in'(value: bool) = Interop.mkAttr "in" value
+  /// The duration for the transition, in milliseconds.
+  ///
+  /// Set to 'auto' to automatically calculate transition time based on height.
+  static member inline timeout(value: int) = Interop.mkAttr "timeout" value
+  /// The duration for the transition, in milliseconds.
+  ///
+  /// Set to 'auto' to automatically calculate transition time based on height.
+  static member timeout(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "timeout"
 
 module collapse =
 
@@ -833,8 +840,6 @@ module collapse =
   /// Set to 'auto' to automatically calculate transition time based on height.
   [<Erase>]
   type timeout =
-    static member inline value(value: int) = Interop.mkAttr "timeout" value
-    static member inline value(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "timeout"
     static member inline auto = Interop.mkAttr "timeout" "auto"
 
 
@@ -1777,6 +1782,8 @@ module grid =
 
 [<Erase>]
 type gridList =
+  /// Number of px for one cell height. You can set `'auto'` if you want to let the children determine the height.
+  static member inline cellHeight(value: int) = Interop.mkAttr "cellHeight" value
   /// Grid Tiles that will be in Grid List.
   static member inline children(element: ReactElement) = prop.children element
   /// Grid Tiles that will be in Grid List.
@@ -1805,7 +1812,6 @@ module gridList =
   /// Number of px for one cell height. You can set `'auto'` if you want to let the children determine the height.
   [<Erase>]
   type cellHeight =
-    static member inline value(value: int) = Interop.mkAttr "cellHeight" value
     static member inline auto = Interop.mkAttr "cellHeight" "auto"
 
 
@@ -1881,12 +1887,19 @@ module gridListTileBar =
     static member inline bottom = Interop.mkAttr "titlePosition" "bottom"
 
 
-[<Erase>]
 type grow =
   /// A single child content element.
   static member inline children(value: ReactElement) = Interop.mkAttr "children" value
   /// If `true`, show the component; triggers the enter or exit animation.
   static member inline in'(value: bool) = Interop.mkAttr "in" value
+  /// The duration for the transition, in milliseconds.
+  ///
+  /// Set to 'auto' to automatically calculate transition time based on height.
+  static member inline timeout(value: int) = Interop.mkAttr "timeout" value
+  /// The duration for the transition, in milliseconds.
+  ///
+  /// Set to 'auto' to automatically calculate transition time based on height.
+  static member timeout(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "timeout"
 
 module grow =
 
@@ -1895,8 +1908,6 @@ module grow =
   /// Set to 'auto' to automatically calculate transition time based on height.
   [<Erase>]
   type timeout =
-    static member inline value(value: int) = Interop.mkAttr "timeout" value
-    static member inline value(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "timeout"
     static member inline auto = Interop.mkAttr "timeout" "auto"
 
 
@@ -1922,6 +1933,8 @@ type hidden =
   static member inline mdDown(value: bool) = Interop.mkAttr "mdDown" value
   /// If true, screens this size and up will be hidden.
   static member inline mdUp(value: bool) = Interop.mkAttr "mdUp" value
+  /// Hide the given breakpoint(s).
+  static member inline only([<ParamArray>] values: BreakpointKey []) = Interop.mkAttr "only" values
   /// If true, screens this size and down will be hidden.
   static member inline smDown(value: bool) = Interop.mkAttr "smDown" value
   /// If true, screens this size and up will be hidden.
@@ -1964,7 +1977,6 @@ module hidden =
     static member inline md = Interop.mkAttr "only" "md"
     static member inline lg = Interop.mkAttr "only" "lg"
     static member inline xl = Interop.mkAttr "only" "xl"
-    static member inline values([<ParamArray>] sizes: string []) = Interop.mkAttr "only" sizes
 
 
 [<Erase>]
@@ -2580,7 +2592,6 @@ module listSubheader =
     static member inline inherit' = Interop.mkAttr "color" "inherit"
 
 
-[<Erase>]
 type menu =
   /// The DOM element used to set the position of the menu.
   static member inline anchorEl(value: Element option) = Interop.mkAttr "anchorEl" value
@@ -2644,14 +2655,16 @@ type menu =
   static member inline open'(value: bool) = Interop.mkAttr "open" value
   /// `classes` prop applied to the [`Popover`](https://material-ui.com/api/popover/) element.
   static member inline PopoverClasses(classNames: classes.IPopoverClasses list) = Interop.mkAttr "PopoverClasses" (createObj !!classNames)
+  /// The length of the transition in `ms`, or 'auto'
+  static member inline transitionDuration(value: int) = Interop.mkAttr "transitionDuration" value
+  /// The length of the transition in `ms`, or 'auto'
+  static member transitionDuration(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "transitionDuration"
 
 module menu =
 
   /// The length of the transition in `ms`, or 'auto'
   [<Erase>]
   type transitionDuration =
-    static member inline value(value: int) = Interop.mkAttr "transitionDuration" value
-    static member inline value(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "transitionDuration"
     static member inline auto = Interop.mkAttr "transitionDuration" "auto"
 
   /// The variant to use. Use `menu` to prevent selected items from impacting the initial focus and the vertical alignment relative to the anchor element.
@@ -3097,6 +3110,10 @@ type popover =
   static member inline PaperProps(props: IReactProperty list) = Interop.mkAttr "PaperProps" (createObj !!props)
   /// The component used for the transition.
   static member inline TransitionComponent(value: ReactElementType) = Interop.mkAttr "TransitionComponent" value
+  /// Set to 'auto' to automatically calculate transition time based on height.
+  static member inline transitionDuration(value: int) = Interop.mkAttr "transitionDuration" value
+  /// Set to 'auto' to automatically calculate transition time based on height.
+  static member transitionDuration(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "transitionDuration"
   /// Props applied to the `Transition` element.
   static member inline TransitionProps(props: IReactProperty list) = Interop.mkAttr "TransitionProps" (createObj !!props)
 
@@ -3155,8 +3172,6 @@ module popover =
   /// Set to 'auto' to automatically calculate transition time based on height.
   [<Erase>]
   type transitionDuration =
-    static member inline value(value: int) = Interop.mkAttr "transitionDuration" value
-    static member inline value(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "transitionDuration"
     static member inline auto = Interop.mkAttr "transitionDuration" "auto"
 
 
@@ -4150,7 +4165,6 @@ type stepConnector =
   static member inline classes(classNames: classes.IStepConnectorClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
 
 
-[<Erase>]
 type stepContent =
   /// Step content.
   static member inline children(element: ReactElement) = prop.children element
@@ -4168,6 +4182,14 @@ type stepContent =
   static member inline classes(classNames: classes.IStepContentClasses list) : IReactProperty = Interop.mkAttr "classes" (createObj !!classNames)
   /// The component used for the transition.
   static member inline TransitionComponent(value: ReactElementType) = Interop.mkAttr "TransitionComponent" value
+  /// Adjust the duration of the content expand transition. Passed as a prop to the transition component.
+  ///
+  /// Set to 'auto' to automatically calculate transition time based on height.
+  static member inline transitionDuration(value: int) = Interop.mkAttr "transitionDuration" value
+  /// Adjust the duration of the content expand transition. Passed as a prop to the transition component.
+  ///
+  /// Set to 'auto' to automatically calculate transition time based on height.
+  static member transitionDuration(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "transitionDuration"
   /// Props applied to the `Transition` element.
   static member inline TransitionProps(props: IReactProperty list) = Interop.mkAttr "TransitionProps" (createObj !!props)
 
@@ -4178,8 +4200,6 @@ module stepContent =
   /// Set to 'auto' to automatically calculate transition time based on height.
   [<Erase>]
   type transitionDuration =
-    static member inline value(value: int) = Interop.mkAttr "transitionDuration" value
-    static member inline value(?enter: int, ?exit: int) = [if enter.IsSome then yield "enter" ==> enter.Value; if exit.IsSome then yield "exit" ==> exit.Value] |> createObj |> Interop.mkAttr "transitionDuration"
     static member inline auto = Interop.mkAttr "transitionDuration" "auto"
 
 

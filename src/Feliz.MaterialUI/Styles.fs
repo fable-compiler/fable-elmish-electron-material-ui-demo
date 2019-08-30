@@ -82,6 +82,9 @@ type Styles =
     let theme = jsOptions configure
     theme |> import "createMuiTheme" "@material-ui/core/styles"
 
+  /// Returns a default theme object.
+  static member createMuiTheme () : Theme =
+    import "createMuiTheme" "@material-ui/core/styles" ()
 
 [<Erase>]
 type style =

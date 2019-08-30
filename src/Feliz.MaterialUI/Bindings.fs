@@ -243,6 +243,38 @@ type MakeStylesOptions =
   /// follows `theme.direction`.
   abstract flip: bool option with get, set
 
+[<StringEnum; RequireQualifiedAccess>]
+type TypographyVariant =
+  | H1
+  | H2
+  | H3
+  | H4
+  | H5
+  | H6
+  | Subtitle1
+  | Subtitle2
+  | Overline
+  | SrOnly
+  | Body1
+  | Body2
+  | Caption
+  | Button
+
+type ResponsiveFontSizesOptions =
+  /// Default to `['sm', 'md', 'lg']`.
+  abstract breakpoints: BreakpointKey [] with get, set
+  /// Whether font sizes change slightly so line heights are preserved and align
+  /// to Material Design's 4px line height grid. This requires a unitless line
+  /// height in the theme's styles. Default to `false`. 
+  abstract disableAlign: bool with get, set
+  /// This value determines the strength of font size resizing. The higher the
+  /// value, the less difference there is between font sizes on small screens.
+  /// The lower the value, the bigger font sizes for small screens. The value
+  /// must be greater than 1. Default to 2.
+  abstract factor: float with get, set
+  /// The typography variants to handle. Default to all.
+  abstract variants: TypographyVariant [] with get, set
+
 type ButtonBaseActions =
   abstract focusVisible: unit -> bool
 

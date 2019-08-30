@@ -86,6 +86,15 @@ type Styles =
   static member createMuiTheme () : Theme =
     import "createMuiTheme" "@material-ui/core/styles" ()
 
+  /// Generate responsive typography settings based on the options received.
+  static member responsiveFontSizes (theme: Theme) : Theme =
+    theme |> import "responsiveFontSizes" "@material-ui/core/styles"
+
+  /// Generate responsive typography settings based on the options received.
+  static member responsiveFontSizes (theme: Theme, options: ResponsiveFontSizesOptions) : Theme =
+    import "responsiveFontSizes" "@material-ui/core/styles" (theme, options)
+
+
 [<Erase>]
 type style =
 

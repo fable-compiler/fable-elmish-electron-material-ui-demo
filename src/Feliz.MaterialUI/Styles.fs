@@ -5,7 +5,7 @@ open Fable.Core.JsInterop
 open Feliz
 
 
-module private Helpers =
+module private Imports =
 
   let makeStyles_get (getStyles: Theme -> obj) : ('props -> 'a) =
     import "makeStyles" "@material-ui/core/styles"
@@ -18,6 +18,21 @@ module private Helpers =
 
   let makeStyles_objWithOpts (styles: obj) (opts: MakeStylesOptions) : ('props -> 'a) =
     import "makeStyles" "@material-ui/core/styles"
+
+  let responsiveFontSizes (theme: Theme) : Theme =
+    import "responsiveFontSizes" "@material-ui/core/styles"
+
+  let responsiveFontSizes_opts (theme: Theme) (opts: ResponsiveFontSizesOptions) : Theme =
+    import "responsiveFontSizes" "@material-ui/core/styles"
+
+  let createMuiTheme (theme: Theme) : Theme =
+    import "createMuiTheme" "@material-ui/core/styles"
+
+  let createMuiTheme_unit () : Theme =
+    import "createMuiTheme" "@material-ui/core/styles"
+
+  let useTheme () : Theme =
+    import "useTheme" "@material-ui/core/styles"
 
 
 type Styles =
@@ -47,7 +62,7 @@ type Styles =
   static member makeStyles
       ( getStyles: Theme -> 'a
       ) : ('props -> 'a) =
-    Helpers.makeStyles_get (getStyles >> toPlainJsObj)
+    Imports.makeStyles_get (getStyles >> toPlainJsObj)
 
   /// This hook links a style sheet with a function component.
   ///
@@ -61,29 +76,29 @@ type Styles =
       ( getStyles: Theme -> 'a,
         options: MakeStylesOptions
       ) : ('props -> 'a) =
-    Helpers.makeStyles_getWithOpts (getStyles >> toPlainJsObj) options
+    Imports.makeStyles_getWithOpts (getStyles >> toPlainJsObj) options
 
   /// This hook returns the theme object so it can be used inside a function
   /// component.
   static member useTheme() : Theme =
-    import "useTheme" "@material-ui/core/styles" ()
+    Imports.useTheme ()
 
   /// Generate a theme base on the configured incomplete theme object.
   static member createMuiTheme (configure: Theme -> unit) : Theme =
     let theme = jsOptions configure
-    theme |> import "createMuiTheme" "@material-ui/core/styles"
+    Imports.createMuiTheme theme
 
   /// Returns a default theme object.
   static member createMuiTheme () : Theme =
-    import "createMuiTheme" "@material-ui/core/styles" ()
+    Imports.createMuiTheme_unit ()
 
   /// Generate responsive typography settings based on the options received.
   static member responsiveFontSizes (theme: Theme) : Theme =
-    theme |> import "responsiveFontSizes" "@material-ui/core/styles"
+    Imports.responsiveFontSizes theme
 
   /// Generate responsive typography settings based on the options received.
   static member responsiveFontSizes (theme: Theme, options: ResponsiveFontSizesOptions) : Theme =
-    import "responsiveFontSizes" "@material-ui/core/styles" (theme, options)
+    Imports.responsiveFontSizes_opts theme options
 
 
 [<AutoOpen>]
@@ -102,9 +117,7 @@ module Extensions =
     static member makeStyles
         ( styles: 'a
         ) : ('props -> 'a) =
-      styles
-      |> toPlainJsObj
-      |> Helpers.makeStyles_obj
+      Imports.makeStyles_obj (styles |> toPlainJsObj)
 
     /// This hook links a style sheet with a function component.
     ///
@@ -118,10 +131,8 @@ module Extensions =
         ( styles: 'a,
           options: MakeStylesOptions
         ) : ('props -> 'a) =
-      Helpers.makeStyles_objWithOpts (styles |> toPlainJsObj) options
+      Imports.makeStyles_objWithOpts (styles |> toPlainJsObj) options
 
-    
-      
 
 [<Erase>]
 type style =

@@ -1,6 +1,7 @@
 ﻿namespace Feliz.MaterialUI
 
 open Fable.Core
+open Fable.Core.JS
 open Fable.Core.JsInterop
 open Feliz
 open Feliz.Styles
@@ -220,16 +221,36 @@ type Theme =
   abstract zIndex: ZIndex with get, set
   abstract mixins: Mixins with get, set
   abstract transitions: Transitions with get, set
+  /// Sets the theme's `spacing`.
   [<Emit("$0.spacing = $1")>]
   member __.setSpacing(px: int) : unit = jsNative
+  /// Sets the theme's `spacing`.
   [<Emit("$0.spacing = $1")>]
   member __.setSpacing(f: int -> int) : unit = jsNative
+  /// Sets the theme's `spacing`.
   [<Emit("$0.spacing = $1")>]
   member __.setSpacing(f: int -> ICssUnit) : unit = jsNative
+  // Sets the theme's overrides, replacing any existing overrides. Use
+  // `overrides.<x>` to specify components and overrides.
   member inline this.setOverrides (overrides: IOverrideStyleSheet list) =
     this.overrides <- overrides |> unbox |> createObj
+  // Adds the specified overrides to the theme's existing overrides. Use
+  // `overrides.<x>` to specify components and overrides. This is not a deep
+  // merge; any component overrides specified here will completely replace any
+  // existing overrides for that component, regardless of which override rules
+  // or styles are used.
+  member inline this.addOverrides (overrides: IOverrideStyleSheet list) =
+    Object.assign(this.overrides, overrides |> unbox |> createObj) |> ignore
+  // Sets the theme's props, replacing any existing props. Use `themeProps.<x>`
+  // to specify components.
   member inline this.setProps (props: IThemeProps list) =
     this.props <- props |> unbox |> createObj
+  // Adds the specified props to the theme's existing props. Use
+  // `themeProps.<x>` to specify components. This is not a deep merge; any
+  // component props specified here will completely replace any existing props
+  // for that component.
+  member inline this.addProps (props: IThemeProps list) =
+    Object.assign(this.props, props |> unbox |> createObj) |> ignore
 
 type MakeStylesOptions =
   /// The default theme to use if a theme isn't supplied through a Theme

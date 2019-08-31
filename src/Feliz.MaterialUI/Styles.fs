@@ -84,8 +84,7 @@ type Styles =
     Imports.useTheme ()
 
   /// Generate a theme base on the configured incomplete theme object.
-  static member createMuiTheme (configure: Theme -> unit) : Theme =
-    let theme = jsOptions configure
+  static member createMuiTheme (theme: Theme) : Theme =
     Imports.createMuiTheme theme
 
   /// Returns a default theme object.

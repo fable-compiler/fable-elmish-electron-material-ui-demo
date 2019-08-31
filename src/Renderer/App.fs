@@ -2,6 +2,7 @@ module App
 
 open Elmish
 open Elmish.React
+open Fable.Core.JsInterop
 open Fable.React
 open Feliz
 open Feliz.MaterialUI
@@ -95,7 +96,7 @@ let private useStyles = Styles.makeStyles(fun theme ->
     root = Styles.create (fun model -> [
       yield style.display.flex
       yield style.userSelect.none
-      if model.Page = Home then yield style.color.red
+      if model.Page = Home then yield style.color Colors.green.``300``
     ])
     appBar = Styles.create [
       style.zIndex (theme.zIndex.drawer + 1)
@@ -120,13 +121,18 @@ let private useStyles = Styles.makeStyles(fun theme ->
 
 // Not used, but shows how to use style and prop overrides. The returned theme
 // can for example be used as the `theme` prop of `Mui.muiThemeProvider`.
-let theme = Styles.createMuiTheme(fun t ->
+let theme = Styles.createMuiTheme(jsOptions<Theme>(fun t ->
+  t.palette <- jsOptions<Palette>(fun p ->
+    p.``type`` <- PaletteType.Dark
+    p.primary <- !^Colors.blueGrey
+    p.secondary <- !^Colors.purple
+  )
 
   // Globally override component styles
   t.setOverrides [
     overrides.muiButtonBase [
       overrides.muiButtonBase.root [
-        style.color.red
+        style.fontWeight.bold
         style.inner "&$disabled" [
           style.backgroundColor.aquaMarine
         ]
@@ -143,11 +149,6 @@ let theme = Styles.createMuiTheme(fun t ->
 
   // Globally override component props
   t.setProps [
-    themeProps.muiListItemText [
-      listItemText.primaryTypographyProps [
-        typography.variant.caption
-      ]
-    ]
     themeProps.muiButtonBase [
       buttonBase.disableTouchRipple true
     ]
@@ -155,7 +156,7 @@ let theme = Styles.createMuiTheme(fun t ->
       dialog.fullScreen true
     ]
   ]
-)
+))
 
 
 

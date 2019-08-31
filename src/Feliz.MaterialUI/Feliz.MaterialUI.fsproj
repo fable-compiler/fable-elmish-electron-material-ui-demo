@@ -9,6 +9,7 @@
     <Compile Include="ThemeOverrides.fs" />
     <Compile Include="ThemeProps.fs" />
     <Compile Include="Bindings.fs" />
+    <Compile Include="Hooks.fs" />
     <Compile Include="Colors.fs" />
     <Compile Include="Classes.fs" />
     <Compile Include="Styles.fs" />

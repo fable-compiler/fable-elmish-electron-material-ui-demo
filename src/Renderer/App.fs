@@ -107,6 +107,10 @@ let private useStyles = Styles.makeStyles(fun theme ->
     ]
     drawerPaper = Styles.create [
       style.width (length.px drawerWidth)
+      // Example of breakpoint media queries
+      style.inner theme.breakpoints.downXs [
+        style.backgroundColor.red
+      ]
     ]
     content = Styles.create [
       style.flexGrow 1
@@ -149,8 +153,8 @@ let theme = Styles.createMuiTheme(jsOptions<Theme>(fun t ->
 
   // Globally override component props
   t.setProps [
-    themeProps.muiButtonBase [
-      buttonBase.disableTouchRipple true
+    themeProps.muiButton [
+      button.size.small
     ]
     themeProps.muiDialog [
       dialog.fullScreen true

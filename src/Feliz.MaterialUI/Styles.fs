@@ -5,7 +5,7 @@ open Fable.Core.JsInterop
 open Feliz
 
 
-module private Imports =
+module internal StyleImports =
 
   let makeStyles_get (getStyles: Theme -> obj) : ('props -> 'a) =
     import "makeStyles" "@material-ui/core/styles"
@@ -35,6 +35,7 @@ module private Imports =
     import "useTheme" "@material-ui/core/styles"
 
 
+[<Erase>]
 type Styles =
 
   /// Use with `makeStyles` etc. when returning an (anonymous) record of style
@@ -59,10 +60,10 @@ type Styles =
   ///
   /// Note that the object returned by the hook has the same properties as the
   /// object returned by getStyles, but every prop is a string.
-  static member makeStyles
+  static member inline makeStyles
       ( getStyles: Theme -> 'a
       ) : ('props -> 'a) =
-    Imports.makeStyles_get (getStyles >> toPlainJsObj)
+    StyleImports.makeStyles_get (getStyles >> toPlainJsObj)
 
   /// This hook links a style sheet with a function component.
   ///
@@ -72,32 +73,32 @@ type Styles =
   ///
   /// Note that the object returned by the hook has the same properties as the
   /// object returned by getStyles, but every prop is a string.
-  static member makeStyles
+  static member inline makeStyles
       ( getStyles: Theme -> 'a,
         options: MakeStylesOptions
       ) : ('props -> 'a) =
-    Imports.makeStyles_getWithOpts (getStyles >> toPlainJsObj) options
+    StyleImports.makeStyles_getWithOpts (getStyles >> toPlainJsObj) options
 
   /// This hook returns the theme object so it can be used inside a function
   /// component.
-  static member useTheme() : Theme =
-    Imports.useTheme ()
+  static member inline useTheme() : Theme =
+    StyleImports.useTheme ()
 
   /// Generate a theme base on the configured incomplete theme object.
-  static member createMuiTheme (theme: Theme) : Theme =
-    Imports.createMuiTheme theme
+  static member inline createMuiTheme (theme: Theme) : Theme =
+    StyleImports.createMuiTheme theme
 
   /// Returns a default theme object.
-  static member createMuiTheme () : Theme =
-    Imports.createMuiTheme_unit ()
+  static member inline createMuiTheme () : Theme =
+    StyleImports.createMuiTheme_unit ()
 
   /// Generate responsive typography settings based on the options received.
-  static member responsiveFontSizes (theme: Theme) : Theme =
-    Imports.responsiveFontSizes theme
+  static member inline responsiveFontSizes (theme: Theme) : Theme =
+    StyleImports.responsiveFontSizes theme
 
   /// Generate responsive typography settings based on the options received.
-  static member responsiveFontSizes (theme: Theme, options: ResponsiveFontSizesOptions) : Theme =
-    Imports.responsiveFontSizes_opts theme options
+  static member inline responsiveFontSizes (theme: Theme, options: ResponsiveFontSizesOptions) : Theme =
+    StyleImports.responsiveFontSizes_opts theme options
 
 
 [<AutoOpen>]
@@ -113,10 +114,10 @@ module Extensions =
     ///
     /// Note that the object returned by the hook has the same properties as the
     /// styles object, but every prop is a string.
-    static member makeStyles
+    static member inline makeStyles
         ( styles: 'a
         ) : ('props -> 'a) =
-      Imports.makeStyles_obj (styles |> toPlainJsObj)
+      StyleImports.makeStyles_obj (styles |> toPlainJsObj)
 
     /// This hook links a style sheet with a function component.
     ///
@@ -126,11 +127,11 @@ module Extensions =
     ///
     /// Note that the object returned by the hook has the same properties as the
     /// styles object, but every prop is a string.
-    static member makeStyles
+    static member inline makeStyles
         ( styles: 'a,
           options: MakeStylesOptions
         ) : ('props -> 'a) =
-      Imports.makeStyles_objWithOpts (styles |> toPlainJsObj) options
+      StyleImports.makeStyles_objWithOpts (styles |> toPlainJsObj) options
 
 
 [<Erase>]

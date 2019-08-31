@@ -92,25 +92,26 @@ let update msg m =
 let private useStyles = Styles.makeStyles(fun theme ->
   let drawerWidth = 240
   {|
-    root = styleList [
-      style.display.flex
-      style.userSelect.none
-    ]
-    appBar = styleList [
+    root = Styles.create (fun model -> [
+      yield style.display.flex
+      yield style.userSelect.none
+      if model.Page = Home then yield style.color.red
+    ])
+    appBar = Styles.create [
       style.zIndex (theme.zIndex.drawer + 1)
     ]
-    drawer = styleList [
+    drawer = Styles.create [
       style.width (length.px drawerWidth)
       style.flexShrink 0
     ]
-    drawerPaper = styleList [
+    drawerPaper = Styles.create [
       style.width (length.px drawerWidth)
     ]
-    content = styleList [
+    content = Styles.create [
       style.flexGrow 1
       style.padding (theme.spacing 3)
     ]
-    toolbar = styleList [
+    toolbar = Styles.create [
       yield! theme.mixins.toolbarStyles
     ]
   |}
@@ -195,7 +196,7 @@ let private pageView model dispatch =
 
 
 let RootView = FunctionComponent.Of((fun (model, dispatch) ->
-  let c = useStyles ()
+  let c = useStyles model
   Html.div [
     prop.className c.root
     prop.children [

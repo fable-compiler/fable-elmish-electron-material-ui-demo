@@ -322,12 +322,11 @@ let generatePage (url: String) =
                 sprintf "  static member inline %s(handler: 'a -> unit) = Interop.mkAttr \"%s\" (System.Func<_,_,_> (fun _ v -> handler v))" propNameSafe propName
               ]
 
-          | "slider", "step", "number" ->  // TODO: overload resolution fails if just None is passed. https://github.com/Zaid-Ajaj/Feliz/issues/39
+          | "slider", "step", "number" ->
               [
                 sprintf "  static member inline %s(value: int) = Interop.mkAttr \"%s\" value" propNameSafe propName
                 sprintf "  static member inline %s(value: float) = Interop.mkAttr \"%s\" value" propNameSafe propName
                 sprintf "  static member inline %s(value: int option) = Interop.mkAttr \"%s\" value" propNameSafe propName
-                sprintf "  static member inline %s(value: float option) = Interop.mkAttr \"%s\" value" propNameSafe propName
               ]
 
           | "select", "renderValue", "func" ->
@@ -551,6 +550,20 @@ let generatePage (url: String) =
       w.printfn "[<Erase>]"
     w.printfn "type %s =" componentNameCamelCase
     w.WriteLine(wGeneral.ToString())
+
+  // Ugly hack
+  if componentNameCamelCase = "slider" then
+    w.printfn "[<AutoOpen>]"
+    w.printfn "module sliderExtensions ="
+    w.printfn ""
+    w.printfn "  type slider with"
+    System.Text.RegularExpressions.Regex.Match(wGeneral.ToString(), "\/\/\/.+\r\n\s*static member inline step\(value: int option.+\r\n").Groups.[0].Value
+    |> sprintf "  %s"
+    |> fun s ->
+        s.Replace("value: int option", "value: float option")
+         .Replace("  ", "    ")
+    |> w.WriteLine
+
   if hasEnumProps then
     w.printfn "module %s =" componentNameCamelCase
     w.WriteLine(wEnum.ToString())

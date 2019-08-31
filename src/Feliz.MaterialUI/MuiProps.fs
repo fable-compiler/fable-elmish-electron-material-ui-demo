@@ -3810,8 +3810,6 @@ type slider =
   static member inline step(value: float) = Interop.mkAttr "step" value
   /// The granularity with which the slider can step through values. (A "discrete" slider.) When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
   static member inline step(value: int option) = Interop.mkAttr "step" value
-  /// The granularity with which the slider can step through values. (A "discrete" slider.) When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
-  static member inline step(value: float option) = Interop.mkAttr "step" value
   /// The component used to display the value label.
   static member inline ThumbComponent(value: ReactElementType) = Interop.mkAttr "ThumbComponent" value
   /// The value of the slider. For ranged sliders, provide an array with two values.
@@ -3842,6 +3840,13 @@ type slider =
   ///
   /// - {number} value The value label's value to format - {number} index The value label's index to format
   static member inline valueLabelFormat(format: float -> int -> string) = Interop.mkAttr "valueLabelFormat" format
+
+[<AutoOpen>]
+module sliderExtensions =
+
+  type slider with
+    /// The granularity with which the slider can step through values. (A "discrete" slider.) When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
+    static member inline step(value: float option) = Interop.mkAttr "step" value
 
 module slider =
 

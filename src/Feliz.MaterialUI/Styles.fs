@@ -5,7 +5,8 @@ open Fable.Core.JsInterop
 open Feliz
 
 
-module internal StyleImports =
+// TODO: how to hide?
+module StyleImports =
 
   let makeStyles_get (getStyles: Theme -> obj) : ('props -> 'a) =
     import "makeStyles" "@material-ui/core/styles"

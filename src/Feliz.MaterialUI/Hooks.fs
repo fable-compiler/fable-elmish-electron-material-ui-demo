@@ -4,7 +4,8 @@ open Fable.Core
 open Fable.Core.JsInterop
 
 
-module internal HookImports =
+// TODO: how to hide?
+module HookImports =
 
   let useMediaQuery (query: string) : bool =
     importDefault "@material-ui/core/useMediaQuery"

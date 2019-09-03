@@ -18,7 +18,7 @@
     <Compile Include="Entry.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Feliz.MaterialUI\Feliz.MaterialUI.fsproj" />
+    <ProjectReference Include="..\..\paket-files\github.com\cmeeren\Feliz.MaterialUI\src\Feliz.MaterialUI\Feliz.MaterialUI.fsproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

@@ -33,7 +33,7 @@ NUGET
       Fable.Core (>= 3.0)
       Fable.Elmish (>= 3.0)
       FSharp.Core (>= 4.6.2)
-    Fable.Elmish.Debugger (3.0.2)
+    Fable.Elmish.Debugger (3.0.3)
       Fable.Core (>= 3.0)
       Fable.Elmish (>= 3.0)
       FSharp.Core (>= 4.6.2)
@@ -76,11 +76,11 @@ NUGET
     Fable.Promise (2.0)
       Fable.Core (>= 3.0)
       FSharp.Core (>= 4.5.2)
-    Fable.React (5.2.7)
+    Fable.React (5.3)
       Fable.Browser.Dom (>= 1.0)
       Fable.Core (>= 3.0)
       FSharp.Core (>= 4.6.2)
-    Feliz (0.46)
+    Feliz (0.47)
       Fable.Core (>= 3.0)
       Fable.React (>= 5.2.7)
       FSharp.Core (>= 4.6.2)
@@ -88,7 +88,9 @@ NUGET
     Thoth.Json (3.3)
       Fable.Core (>= 3.0)
       FSharp.Core (>= 4.6.2)
-
+GIT
+  remote: https://github.com/cmeeren/Feliz.MaterialUI
+     (a72d8bfdb6f3495a989abc2840607243697e52ce)
 GROUP FakeBuild
 STORAGE: NONE
 RESTRICTION: == netstandard2.0

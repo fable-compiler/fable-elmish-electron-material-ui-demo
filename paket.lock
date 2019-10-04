@@ -84,6 +84,8 @@ NUGET
       Fable.Core (>= 3.0)
       Fable.React (>= 5.2.7)
       FSharp.Core (>= 4.6.2)
+    Feliz.MaterialUI (0.3)
+      Feliz (>= 0.47)
     FSharp.Core (4.7) - redirects: force
     Thoth.Json (3.3)
       Fable.Core (>= 3.0)

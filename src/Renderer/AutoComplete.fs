@@ -15,8 +15,8 @@ open Fable.MaterialUI.Props
 
 // NOTE: This is not yet converted to Feliz due to incompatibility with
 // Fable.Import.Downshift. Might have a go at creating Feliz-compatible bindings
-// for downshift-hooks when useAutocomplete is released:
-// https://github.com/silviuavram/downshift-hooks
+// for downshift when useAutocomplete is released:
+// https://github.com/downshift-js/downshift/issues/783
 
 
 type Country =
@@ -63,7 +63,7 @@ let private styles (theme: ITheme) : IStyles list =
     ])
     Styles.Custom ("menu", [
       MaxHeight "500px"
-      Overflow "auto"
+      CSSProp.Overflow (OverflowOptions.Auto)
     ])
     Styles.Custom ("noResults", [
       CSSProp.Padding (theme.spacing.unit * 2)

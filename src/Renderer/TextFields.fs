@@ -1,13 +1,9 @@
 ﻿module TextFields
 
 open System
-open Elmish.React
-open Fable.Core.JsInterop
 open Fable.React
-open Fable.React.Props
-open Fable.MaterialUI.Core
-open Fable.MaterialUI
-open FSharp.Core  // To avoid shadowing Result<_,_>
+open Feliz
+open Feliz.MaterialUI
 
 let required s =
   if String.IsNullOrEmpty s then Error "Please enter a value" else Ok s
@@ -71,56 +67,41 @@ let update msg m =
 // Domain/Elmish above, view below
 
 
-let private styles (theme: ITheme) : IStyles list =
-  [
-    Styles.Custom ("form", [
-      FlexWrap "wrap"
-    ])
-    Styles.Custom ("textField", [
-      MarginLeft theme.spacing.unit
-      MarginRight theme.spacing.unit
-      Width 200
-    ])
+let private useStyles = Styles.makeStyles(fun theme ->
+  {|
+    form = Styles.create [
+      style.flexWrap.wrap
+    ]
+    textField = Styles.create [
+      style.marginLeft (theme.spacing 1)
+      style.marginRight (theme.spacing 1)
+      style.width 200
+    ]
+  |}
+)
+
+let TextFieldPage = FunctionComponent.Of((fun (model, dispatch) ->
+  let c = useStyles ()
+  Html.form [
+    prop.onSubmit preventDefault
+    prop.className c.form
+    prop.children [
+      Mui.textField [
+        prop.className c.textField
+        textField.label "Simple input"
+        textField.value model.SimpleText
+        textField.onChange (SetSimpleText >> dispatch)
+        textField.helperText ["Current value: "; model.SimpleText]
+      ]
+      Mui.textField [
+        prop.className c.textField
+        textField.label "Validated input"
+        textField.required true
+        textField.value model.ValidatedTextRaw
+        textField.error model.ValidatedTextResult.IsError
+        textField.onChange (SetValidatedText >> dispatch)
+        textField.helperText (model.ValidatedTextResult.ErrorOr "Value OK")
+      ]
+    ]
   ]
-
-
-let private view' (classes: IClasses) model dispatch =
-  form [ OnSubmit (fun e -> e.preventDefault()); Class classes?form ] [
-    textField [
-      Class classes?textField
-      HTMLAttr.Label "Simple input"
-      HTMLAttr.Value model.SimpleText
-      DOMAttr.OnChange (fun ev -> ev.Value |> SetSimpleText |> dispatch)
-      TextFieldProp.HelperText (sprintf "Current value: %s" model.SimpleText |> str)
-    ] []
-    textField [
-      Class classes?textField
-      HTMLAttr.Label "Validated input"
-      HTMLAttr.Required true
-      HTMLAttr.Value model.ValidatedTextRaw
-      MaterialProp.Error model.ValidatedTextResult.IsError
-      DOMAttr.OnChange (fun ev -> ev.Value |> SetValidatedText |> dispatch)
-      TextFieldProp.HelperText (model.ValidatedTextResult.ErrorOr "Value OK" |> str)
-    ] []
-  ]
-
-
-// Workaround for using JSS with Elmish
-// https://github.com/mvsmal/fable-material-ui/issues/4#issuecomment-422781471
-type private IProps =
-  abstract member model: Model with get, set
-  abstract member dispatch: (Msg -> unit) with get, set
-  inherit IClassesProps
-
-type private Component(p) =
-  inherit PureStatelessComponent<IProps>(p)
-  let viewFun (p: IProps) = view' p.classes p.model p.dispatch
-  let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = ReactElementType.create viewWithStyles this.props []
-
-
-let view (model: Model) (dispatch: Msg -> unit) : ReactElement =
-  let props = jsOptions<IProps>(fun p ->
-    p.model <- model
-    p.dispatch <- dispatch)
-  ofType<Component,_,_> props []
+), "TextFieldPage", memoEqualsButFunctions)

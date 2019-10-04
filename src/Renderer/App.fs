@@ -1,17 +1,11 @@
 module App
 
-open System
 open Elmish
 open Elmish.React
-open Fable.Core
 open Fable.Core.JsInterop
 open Fable.React
-open Fable.React.Props
-open Fable.MaterialUI
-open Fable.MaterialUI.Core
-open Fable.MaterialUI.Props
-open Fable.MaterialUI.MaterialDesignIcons
-open Fable.MaterialUI.Icons
+open Feliz
+open Feliz.MaterialUI
 
 
 type Page =
@@ -96,107 +90,161 @@ let update msg m =
 // Domain/Elmish above, view below
 
 
-let private styles (theme: ITheme) : IStyles list =
-  let drawerWidth = "240px"
-  [
-    Styles.Root [
-      Display DisplayOptions.Flex
+let private useStyles = Styles.makeStyles(fun theme ->
+  let drawerWidth = 240
+  {|
+    root = Styles.create (fun model -> [
+      yield style.display.flex
+      yield style.userSelect.none
+      if model.Page = Home then yield style.color Colors.green.``300``
+    ])
+    appBar = Styles.create [
+      style.zIndex (theme.zIndex.drawer + 1)
     ]
-    Styles.Custom ("appBar", [
-      CSSProp.ZIndex (theme.zIndex.drawer + 1)
-    ])
-    Styles.Custom ("drawer", [
-      Width drawerWidth
-      FlexShrink 0
-    ])
-    Styles.Custom ("drawerPaper", [
-      Width drawerWidth
-    ])
-    Styles.Custom ("content", [
-      FlexGrow 1
-      CSSProp.Padding (theme.spacing.unit * 3)
-    ])
-    Styles.Custom' ("toolbar", theme.mixins.toolbar)
+    drawer = Styles.create [
+      style.width (length.px drawerWidth)
+      style.flexShrink 0
+    ]
+    drawerPaper = Styles.create [
+      style.width (length.px drawerWidth)
+      // Example of breakpoint media queries
+      style.inner theme.breakpoints.downXs [
+        style.backgroundColor.red
+      ]
+    ]
+    content = Styles.create [
+      style.flexGrow 1
+      style.padding (theme.spacing 3)
+    ]
+    toolbar = Styles.create [
+      yield! theme.mixins.toolbarStyles
+    ]
+  |}
+)
+
+
+// Not used, but shows how to use style and prop overrides. The returned theme
+// can for example be used as the `theme` prop of `Mui.muiThemeProvider`.
+let theme = Styles.createMuiTheme(jsOptions<Theme>(fun t ->
+  t.palette <- jsOptions<Palette>(fun p ->
+    p.``type`` <- PaletteType.Dark
+    p.primary <- !^Colors.blueGrey
+    p.secondary <- !^Colors.purple
+  )
+
+  // Globally override component styles
+  t.setOverrides [
+    overrides.muiButtonBase [
+      overrides.muiButtonBase.root [
+        style.fontWeight.bold
+        style.inner "&$disabled" [
+          style.backgroundColor.aquaMarine
+        ]
+      ]
+    ]
+    overrides.muiAvatar [
+      overrides.muiAvatar.img [
+        style.borderWidth 10
+        style.borderColor.black
+        style.borderStyle.solid
+      ]
+    ]
   ]
+
+  // Globally override component props
+  t.setProps [
+    themeProps.muiButton [
+      button.size.small
+    ]
+    themeProps.muiDialog [
+      dialog.fullScreen true
+    ]
+  ]
+))
+
 
 
 let private pageListItem model dispatch page =
-  listItem [
-    ListItemProp.Button true
-    ListItemProp.Divider (page = Home)
-    HTMLAttr.Selected (model.Page = page)
-    Key (pageTitle page)
-    DOMAttr.OnClick (fun _ -> Navigate page |> dispatch)
-  ] [
-    listItemText [ ] [ page |> pageTitle |> str ]
+  Mui.listItem [
+    listItem.button true
+    listItem.divider ((page = Home))
+    listItem.selected (model.Page = page)
+    prop.key (pageTitle page)
+    prop.onClick (fun _ -> Navigate page |> dispatch)
+    listItem.children [
+      Mui.listItemText (pageTitle page)
+    ]
   ]
 
 let private pageView model dispatch =
   match model.Page with
-  | Home -> typography [] [ str "This app contains simple demos showing how certain Material-UI components can be used with Elmish." ]
+  | Home -> Mui.typography "This app contains simple demos showing how certain Material-UI components can be used with Elmish."
   | AutoComplete -> lazyView2 AutoComplete.view model.AutoCompleteDownshift (AutoCompleteMsg >> dispatch)
-  | Badges -> lazyView2 Badges.view model.Badges (BadgesMsg >> dispatch)
-  | Dialogs -> lazyView2 Dialogs.view model.Dialogs (DialogsMsg >> dispatch)
-  | SaveLoad -> lazyView2 SaveLoad.view model.SaveLoad (SaveLoadMsg >> dispatch)
-  | Selects -> lazyView2 Selects.view model.Selects (SelectsMsg >> dispatch)
-  | Snackbars -> lazyView2 Snackbars.view model.Snackbars (SnackbarsMsg >> dispatch)
+  | Badges -> Badges.BadgesPage(model.Badges, BadgesMsg >> dispatch)
+  | Dialogs -> Dialogs.DialogsPage(model.Dialogs, DialogsMsg >> dispatch)
+  | SaveLoad -> SaveLoad.SaveLoadPage (model.SaveLoad, SaveLoadMsg >> dispatch)
+  | Selects -> Selects.SelectsPage (model.Selects, SelectsMsg >> dispatch)
+  | Snackbars -> Snackbars.SnackbarPage (model.Snackbars, SnackbarsMsg >> dispatch)
   | StaticAssets ->
-      div [] [
-        typography [ Paragraph true ] [ str "This demo shows how to use static assets such as images." ]
-        avatar [ Src (stat "avatar.jpg") ] []
+      Html.div [
+        prop.children [
+          Mui.typography [
+            typography.paragraph true
+            typography.children (str "This demo shows how to use static assets such as images.")
+          ]
+          Mui.avatar [
+            avatar.src (stat "avatar.jpg")
+          ]
+        ]
       ]
-  | TextFields -> lazyView2 TextFields.view model.TextFields (TextFieldsMsg >> dispatch)
+  | TextFields -> TextFields.TextFieldPage (model.TextFields, TextFieldsMsg >> dispatch)
 
 
-let private view' (classes: IClasses) model dispatch =
-  div [
-    Class classes?root
-  ] [
-    cssBaseline []
-    appBar [
-      Class classes?appBar
-      AppBarProp.Position AppBarPosition.Fixed
-    ] [
-      toolbar [] [
-        typography [
-          TypographyProp.Variant TypographyVariant.H6
-          MaterialProp.Color ComponentColor.Inherit
-        ] [ model.Page |> pageTitle |> str ]
+let RootView = FunctionComponent.Of((fun (model, dispatch) ->
+  let c = useStyles model
+  Html.div [
+    prop.className c.root
+    prop.children [
+      Mui.cssBaseline []
+      Mui.appBar [
+        prop.className c.appBar
+        appBar.position.fixed'
+        appBar.children [
+          Mui.toolbar [
+            toolbar.children [
+              Mui.typography [
+                typography.variant.h6
+                typography.color.inherit'
+                prop.text (pageTitle model.Page)
+              ]
+            ]
+          ]
+        ]
       ]
-    ]
-    drawer [
-      Class classes?drawer
-      DrawerProp.Variant DrawerVariant.Permanent
-      Classes [ ClassNames.Paper classes?drawerPaper ]
-    ] [
-      div [ Class classes?toolbar ] []
-      list [ Component (ReactElementType.ofHtmlElement "nav") ] [
-        Page.All |> List.map (pageListItem model dispatch) |> ofList
+      Mui.drawer [
+        prop.className c.drawer
+        drawer.variant.permanent
+        drawer.classes [
+          classes.drawer.paper c.drawerPaper
+        ]
+        drawer.children [
+          Html.div [ prop.className c.toolbar ]
+          Mui.list [
+            list.component' "nav"
+            list.children (Page.All |> List.map (pageListItem model dispatch) |> ofList)
+          ]
+        ]
       ]
-    ]
-    main [ Class classes?content ] [
-      div [ Class classes?toolbar ] []
-      pageView model dispatch
+      Html.main [
+        prop.className c.content
+        prop.children [
+          Html.div [ prop.className c.toolbar ]
+          pageView model dispatch
+        ]
+      ]
     ]
   ]
+), "RootView", memoEqualsButFunctions)
 
-
-// Workaround for using JSS with Elmish
-// https://github.com/mvsmal/fable-material-ui/issues/4#issuecomment-423477900
-type private IProps =
-  abstract member model: Model with get, set
-  abstract member dispatch: (Msg -> unit) with get, set
-  inherit IClassesProps
-
-type private Component(p) =
-  inherit PureStatelessComponent<IProps>(p)
-  let viewFun (p: IProps) = view' p.classes p.model p.dispatch
-  let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = ReactElementType.create viewWithStyles this.props []
-
-
-let view (model: Model) (dispatch: Msg -> unit) : ReactElement =
-  let props = jsOptions<IProps>(fun p ->
-    p.model <- model
-    p.dispatch <- dispatch)
-  ofType<Component,_,_> props []
+let view model dispatch =
+  RootView (model, dispatch)

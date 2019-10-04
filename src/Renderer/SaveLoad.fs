@@ -5,12 +5,10 @@ open Elmish
 open Fable.Core.JsInterop
 open Electron
 open Fable.React
-open Fable.React.Props
 open Node.Api
 open Node.Base
-open Fable.MaterialUI
-open Fable.MaterialUI.Core
-open FSharp.Core  // To prevent shadowing Result.Error
+open Feliz
+open Feliz.MaterialUI
 
 
 let writeUtf8Async text pathAndFilename =
@@ -159,47 +157,27 @@ let update msg m =
 
 // Domain/Elmish above, view below
 
-
-let private styles (theme: ITheme) : IStyles list =
-  []
-
-
-let private view' (classes: IClasses) model dispatch =
-  form [ OnSubmit (fun e -> e.preventDefault()); Class classes?form ] [
-    textField [
-      Multiline true
-      Rows 4
-      HTMLAttr.Label "Your story"
-      HTMLAttr.Value model.Text
-      DOMAttr.OnChange (fun ev -> ev.Value |> SetText |> dispatch)
-    ] []
-    button [
-      OnClick (fun _ -> dispatch RequestSave)
-      MaterialProp.Color ComponentColor.Primary
-    ] [ str "Save" ]
-    button [
-      OnClick (fun _ -> dispatch RequestLoad)
-      MaterialProp.Color ComponentColor.Primary
-    ] [ str "Load" ]
+let SaveLoadPage = FunctionComponent.Of((fun (model, dispatch) ->
+  Html.form [
+    prop.onSubmit preventDefault
+    prop.children [
+      Mui.textField [
+        textField.multiline true
+        textField.rows 4
+        textField.label "Your story"
+        textField.value model.Text
+        textField.onChange (SetText >> dispatch)
+      ]
+      Mui.button [
+        prop.onClick (fun _ -> dispatch RequestSave)
+        button.color.primary
+        button.children "Save"
+      ]
+      Mui.button [
+        prop.onClick (fun _ -> dispatch RequestLoad)
+        button.color.primary
+        button.children "Load"
+      ]
+    ]
   ]
-
-
-// Workaround for using JSS with Elmish
-// https://github.com/mvsmal/fable-material-ui/issues/4#issuecomment-422781471
-type private IProps =
-  abstract member model: Model with get, set
-  abstract member dispatch: (Msg -> unit) with get, set
-  inherit IClassesProps
-
-type private Component(p) =
-  inherit PureStatelessComponent<IProps>(p)
-  let viewFun (p: IProps) = view' p.classes p.model p.dispatch
-  let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = ReactElementType.create viewWithStyles this.props []
-
-
-let view (model: Model) (dispatch: Msg -> unit) : ReactElement =
-  let props = jsOptions<IProps>(fun p ->
-    p.model <- model
-    p.dispatch <- dispatch)
-  ofType<Component,_,_> props []
+), "SaveLoadPage", memoEqualsButFunctions)

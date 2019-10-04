@@ -13,6 +13,12 @@ open Fable.MaterialUI.Core
 open Fable.MaterialUI.Props
 
 
+// NOTE: This is not yet converted to Feliz due to incompatibility with
+// Fable.Import.Downshift. Might have a go at creating Feliz-compatible bindings
+// for downshift when useAutocomplete is released:
+// https://github.com/downshift-js/downshift/issues/783
+
+
 type Country =
   { Id: Guid
     Name: string
@@ -57,7 +63,7 @@ let private styles (theme: ITheme) : IStyles list =
     ])
     Styles.Custom ("menu", [
       MaxHeight "500px"
-      Overflow "auto"
+      CSSProp.Overflow (OverflowOptions.Auto)
     ])
     Styles.Custom ("noResults", [
       CSSProp.Padding (theme.spacing.unit * 2)
@@ -76,7 +82,7 @@ let private view' (classes: IClasses) model dispatch =
   div [] [
     typography [ Paragraph true ] [ str "Autocomplete control implemented using downshift, autosuggest-highlight, and popper." ]
     typography [ Paragraph true ] [ str "Downshift behavior configured to emulate free-text entry with autocomplete (does not revert to empty string or selected item)." ]
-    form [ OnSubmit (fun e -> e.preventDefault()) ] [
+    form [ OnSubmit preventDefault ] [
       formControl [ Class classes?formControl ] [
         downshift [
           OnInputValueChange (fun s _ -> SetText s |> dispatch)

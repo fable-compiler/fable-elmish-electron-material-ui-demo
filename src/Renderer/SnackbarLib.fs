@@ -2,18 +2,14 @@
 /// Simple, conforms to Material UI, e.g. no stacking of multiple snackbars.
 /// Also no color override, but that should be easy to implement if desired.
 
+// TODO: could this be simplified by acting as an agent, using e.g. MailboxProcessor?
+
 module Snack
 
 open Elmish
-open Fable.Core
-open Fable.Core.JsInterop
 open Fable.React
-open Fable.React.Props
-open Fable.MaterialUI
-open Fable.MaterialUI.Core
-open Fable.MaterialUI.Props
-open Fable.MaterialUI.MaterialDesignIcons
-open Fable.MaterialUI.Icons
+open Feliz
+open Feliz.MaterialUI
 
 
 type Snack<'msg> =
@@ -132,45 +128,23 @@ let update msg m =
       actionMsg |> Option.map Cmd.ofMsg |> Option.defaultValue Cmd.none
 
 
-let private styles (theme: ITheme) : IStyles list =
-  []
-
-
-let private view' (classes: IClasses) model dispatch =
-  snackbar [
-    yield AnchorOrigin ({vertical = SnackbarVerticalOrigin.Bottom; horizontal = SnackbarHorizontalOrigin.Left})
-    yield Open (match model.State with Active _ -> true | _ -> false)
-    match model.State with Active x | Waiting x -> yield Message (str x.Message) | _ -> ()
+let Snackbar<'msg> = FunctionComponent.Of((fun (model: Model<'msg>, dispatch) ->
+  Mui.snackbar [
+    yield snackbar.anchorOrigin.bottomLeft
+    yield snackbar.open' (match model.State with Active _ -> true | _ -> false)
+    match model.State with Active x | Waiting x -> yield snackbar.message x.Message | _ -> ()
     match model.State with
     | Active { ActionTxt = Some action; ActionMsg = p }
     | Waiting { ActionTxt = Some action; ActionMsg = p } ->
-        yield SnackbarProp.Action (
-          button [
-            Key action
-            OnClick (fun _ -> p |> Click |> dispatch)
-            MaterialProp.Color ComponentColor.Secondary
-          ] [ str action ]
-        )
+        yield
+          snackbar.action (
+            Mui.button [
+              prop.key action
+              prop.text action
+              prop.onClick (fun _ -> p |> Click |> dispatch)
+              button.color.secondary
+            ]
+          )
     | _ -> ()
-  ] []
-
-
-// Workaround for using JSS with Elmish
-// https://github.com/mvsmal/fable-material-ui/issues/4#issuecomment-422781471
-type private IProps<'msg> =
-  abstract member model: Model<'msg> with get, set
-  abstract member dispatch: (Msg<'msg> -> unit) with get, set
-  inherit IClassesProps
-
-type private Component<'msg>(p) =
-  inherit PureStatelessComponent<IProps<'msg>>(p)
-  let viewFun (p: IProps<'msg>) = view' p.classes p.model p.dispatch
-  let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render () = ReactElementType.create viewWithStyles this.props []
-
-
-let view (model: Model<'msg>) (dispatch: Msg<'msg> -> unit) : ReactElement =
-  let props = jsOptions<IProps<'msg>>(fun p ->
-    p.model <- model
-    p.dispatch <- dispatch)
-  ofType<Component<'msg>,_,_> props []
+  ]
+), "Snackbar", memoEqualsButFunctions)

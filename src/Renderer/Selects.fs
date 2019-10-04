@@ -1,17 +1,9 @@
 ﻿module Selects
 
 open System
-open Fable.Core.JsInterop
 open Fable.React
-open Fable.React.Props
-open Fable.MaterialUI.Core
-open Fable.MaterialUI
-
-
-let private tryParseGuid str =
-  match Guid.TryParse str with
-  | false, _ -> None
-  | true, guid -> Some guid
+open Feliz
+open Feliz.MaterialUI
 
 
 type DomainEntity =
@@ -28,8 +20,8 @@ type Msg =
 
 let init () =
   { Entities =
-      [ {Id = Guid.NewGuid(); Name = "Entity 1"; Description = "Description for entity 1"}
-        {Id = Guid.NewGuid(); Name = "Entity 2"; Description = "Description for entity 2"} ]
+      [ {Id = Guid.NewGuid (); Name = "Entity 1"; Description = "Description for entity 1"}
+        {Id = Guid.NewGuid (); Name = "Entity 2"; Description = "Description for entity 2"} ]
     SelectedId = None }
 
 let update msg m =
@@ -39,66 +31,56 @@ let update msg m =
 
 // Domain/Elmish above, view below
 
-
-let private styles (theme: ITheme) : IStyles list =
-  [
-    Styles.FormControl [
-      MinWidth "120px"
+let private useStyles = Styles.makeStyles(fun theme ->
+  {|
+    formControl = Styles.create [
+      style.minWidth (length.px 120)
     ]
-  ]
-
+  |}
+)
 
 let private selectItem e =
-  menuItem [
-    HTMLAttr.Value e.Id
-    Key (string e.Id)
-  ] [
-    div [] [
-      typography [] [ str e.Name ]
-      typography [ TypographyProp.Variant TypographyVariant.Caption ] [ str e.Description ]
-    ]
-  ]
-
-let private view' (classes: IClasses) model dispatch =
-  form [ OnSubmit (fun e -> e.preventDefault()) ] [
-    formControl [
-      Class classes?formControl
-      HTMLAttr.Required true
-      MaterialProp.Error model.SelectedId.IsNone
-    ] [
-      inputLabel [ ] [ str "Entity" ]
-      select [
-        HTMLAttr.Value (model.SelectedId |> Option.map string |> Option.defaultValue "")
-        DOMAttr.OnChange (fun ev -> ev.Value |> tryParseGuid |> SelectEntity |> dispatch)
-      ] [
-        model.Entities
-        |> List.sortBy (fun e -> e.Name)
-        |> List.map selectItem
-        |> ofList
-      ]
-      formHelperText [] [
-        str (if model.SelectedId.IsNone then "Please select a value" else "Value OK")
+  Mui.menuItem [
+    prop.key e.Id
+    prop.value (unbox<string> e.Id)
+    menuItem.children [
+      Html.div [
+        prop.children [
+          Mui.typography e.Name
+          Mui.typography [
+            typography.variant.caption
+            prop.text e.Description
+          ]
+        ]
       ]
     ]
   ]
 
-
-// Workaround for using JSS with Elmish
-// https://github.com/mvsmal/fable-material-ui/issues/4#issuecomment-422781471
-type private IProps =
-  abstract member model: Model with get, set
-  abstract member dispatch: (Msg -> unit) with get, set
-  inherit IClassesProps
-
-type private Component(p) =
-  inherit PureStatelessComponent<IProps>(p)
-  let viewFun (p: IProps) = view' p.classes p.model p.dispatch
-  let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = ReactElementType.create viewWithStyles this.props []
-
-
-let view (model: Model) (dispatch: Msg -> unit) : ReactElement =
-  let props = jsOptions<IProps>(fun p ->
-    p.model <- model
-    p.dispatch <- dispatch)
-  ofType<Component,_,_> props []
+let SelectsPage = FunctionComponent.Of((fun (model, dispatch: Elmish.Dispatch<Msg>) ->
+  let c = useStyles ()
+  Html.form [
+    prop.onSubmit preventDefault
+    prop.children [
+      Mui.formControl [
+        prop.className c.formControl
+        formControl.required true
+        formControl.error model.SelectedId.IsNone
+        formControl.children [
+          Mui.inputLabel "Entity"
+          Mui.select [
+            select.value (emptyStringIfNone model.SelectedId)
+            select.onChange (SelectEntity >> dispatch)
+            select.children [
+              model.Entities
+              |> List.sortBy (fun e -> e.Name)
+              |> List.map selectItem
+              |> ofList
+            ]
+          ]
+          Mui.formHelperText
+            (if model.SelectedId.IsNone then "Please select a value" else "Value OK")
+        ]
+      ]
+    ]
+  ]
+), "SelectsPage", memoEqualsButFunctions)

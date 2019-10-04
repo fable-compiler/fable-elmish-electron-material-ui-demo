@@ -20,33 +20,34 @@
     }
   },
   "dependencies": {
-    "@material-ui/core": "^3.9.3",
-    "@material-ui/icons": "^3.0",
+    "@material-ui/core": "^4.5.0",
+    "@material-ui/icons": "^4.4.3",
+    "@material-ui/lab": "^4.0.0-alpha.28",
     "autosuggest-highlight": "^3.1",
-    "downshift": "^3.2.10",
-    "match-sorter": "^4.0.0",
-    "mdi-material-ui": "^5.11.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "downshift": "^3.3.4",
+    "match-sorter": "^4.0.2",
+    "mdi-material-ui": "^6.7.0",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
     "source-map-support": "^0.5.12",
     "toastr": "^2.1",
     "typeface-roboto": "^0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
+    "@babel/core": "^7.6.2",
     "bufferutil": "^4.0.1",
     "devtron": "^1.4",
-    "electron": "6.0.1",
+    "electron": "6.0.11",
     "electron-builder": "^21.1.5",
     "electron-devtools-installer": "^2.2",
     "electron-webpack": "^2.6",
     "electron-window-state": "^5.0",
-    "fable-compiler": "~2.3.6",
+    "fable-compiler": "~2.4.5",
     "fable-loader": "~2.1.6",
     "node-sass": "^4.12.0",
     "remotedev": "^0.2",
-    "sass-loader": "^7.1",
+    "sass-loader": "^8.0.0",
     "utf-8-validate": "^5.0.2",
-    "webpack": "^4.30.0"
+    "webpack": "^4.41.0"
   }
 }

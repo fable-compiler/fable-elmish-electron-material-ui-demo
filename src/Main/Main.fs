@@ -39,8 +39,6 @@ module DevTools =
     main.BrowserWindow.removeDevToolsExtension("React Developer Tools")
     main.BrowserWindow.removeDevToolsExtension("Redux DevTools")
     win.webContents.executeJavaScript("require('devtron').uninstall()")
-
-  let connectRemoteDevViaExtension: unit -> unit = import "connectViaExtension" "remotedev"
 #endif
 
 
@@ -71,7 +69,7 @@ let createMainWindow () =
   #if DEBUG
   // Set up dev tools
   DevTools.installAllDevTools win |> ignore
-  DevTools.connectRemoteDevViaExtension ()
+  //DevTools.uninstallAllDevTools win |> ignore
   // Open dev tools on startup
   win.webContents.onceDevtoolsOpened(fun _ -> win.focusOnWebView()) |> ignore  // TODO: Doesn't seem to do anything
   win.webContents.openDevTools()

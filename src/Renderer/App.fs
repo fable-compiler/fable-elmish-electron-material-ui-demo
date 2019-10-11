@@ -94,9 +94,9 @@ let private useStyles = Styles.makeStyles(fun theme ->
   let drawerWidth = 240
   {|
     root = Styles.create (fun model -> [
-      yield style.display.flex
-      yield style.userSelect.none
-      if model.Page = Home then yield style.color Colors.green.``300``
+      style.display.flex
+      style.userSelect.none
+      if model.Page = Home then style.color Colors.green.``300``
     ])
     appBar = Styles.create [
       style.zIndex (theme.zIndex.drawer + 1)

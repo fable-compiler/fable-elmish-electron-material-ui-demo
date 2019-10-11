@@ -51,13 +51,13 @@ let update msg m =
 let SnackbarPage = FunctionComponent.Of((fun (model, dispatch) ->
   Html.div [
     prop.children [
-      yield Snack.Snackbar(model.Snack, SnackMsg >> dispatch)
-      yield Mui.button [
+      Snack.Snackbar(model.Snack, SnackMsg >> dispatch)
+      Mui.button [
         prop.onClick (fun _ -> dispatch ShowSnackbar)
         button.children "Show snackbar"
       ]
       if model.CustomActionOngoing then
-        yield Mui.circularProgress []
+        Mui.circularProgress []
     ]
   ]
 ), "SnackbarPage", memoEqualsButFunctions)

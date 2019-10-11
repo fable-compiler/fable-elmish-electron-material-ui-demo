@@ -130,21 +130,20 @@ let update msg m =
 
 let Snackbar<'msg> = FunctionComponent.Of((fun (model: Model<'msg>, dispatch) ->
   Mui.snackbar [
-    yield snackbar.anchorOrigin.bottomLeft
-    yield snackbar.open' (match model.State with Active _ -> true | _ -> false)
-    match model.State with Active x | Waiting x -> yield snackbar.message x.Message | _ -> ()
+    snackbar.anchorOrigin.bottomLeft
+    snackbar.open' (match model.State with Active _ -> true | _ -> false)
+    match model.State with Active x | Waiting x -> snackbar.message x.Message | _ -> ()
     match model.State with
     | Active { ActionTxt = Some action; ActionMsg = p }
     | Waiting { ActionTxt = Some action; ActionMsg = p } ->
-        yield
-          snackbar.action (
-            Mui.button [
-              prop.key action
-              prop.onClick (fun _ -> p |> Click |> dispatch)
-              button.color.secondary
-              button.children action
-            ]
-          )
+        snackbar.action (
+          Mui.button [
+            prop.key action
+            prop.onClick (fun _ -> p |> Click |> dispatch)
+            button.color.secondary
+            button.children action
+          ]
+        )
     | _ -> ()
   ]
 ), "Snackbar", memoEqualsButFunctions)

@@ -135,12 +135,12 @@ let private view' (classes: IClasses) model dispatch =
                             listItemText [
                               Classes [
                                 if ds.selectedItem |> Option.map (fun e -> e.Id) = Some e.Id then
-                                  yield ClassNames.Primary classes?selectedItem
+                                  ClassNames.Primary classes?selectedItem
                               ]
                               ListItemTextProp.Primary (
                                 e.Name
                                 |> AutosuggestHighlight.getParts ds.inputValue
-                                |> List.map (fun (s, hl) -> span [ if hl then yield Class classes?highlight ] [ str s ] )
+                                |> List.map (fun (s, hl) -> span [ if hl then Class classes?highlight ] [ str s ] )
                                 |> fragment []
                               )
                               ListItemTextProp.Secondary (str e.Description)

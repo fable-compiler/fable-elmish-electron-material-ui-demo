@@ -88,12 +88,10 @@ let private SelectDialog = FunctionComponent.Of((fun(model, dispatch) ->
         list.children [
           model.AvailableSelectValues |> List.map (fun value ->
             Mui.listItem [
-              listItem.button true
-              prop.onClick (fun _ -> SetSelectResponse value |> dispatch)
               prop.key value
-              listItem.children [
-                Mui.listItemText value
-              ]
+              prop.onClick (fun _ -> SetSelectResponse value |> dispatch)
+              listItem.button true
+              listItem.children [ Mui.listItemText value ]
             ]
           ) |> ofList
         ]

@@ -49,7 +49,7 @@ let private selectItem e =
           Mui.typography e.Name
           Mui.typography [
             typography.variant.caption
-            prop.text e.Description
+            typography.children e.Description
           ]
         ]
       ]

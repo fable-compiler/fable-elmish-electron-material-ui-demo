@@ -166,11 +166,11 @@ let theme = Styles.createMuiTheme(jsOptions<Theme>(fun t ->
 
 let private pageListItem model dispatch page =
   Mui.listItem [
+    prop.key (pageTitle page)
+    prop.onClick (fun _ -> Navigate page |> dispatch)
     listItem.button true
     listItem.divider ((page = Home))
     listItem.selected (model.Page = page)
-    prop.key (pageTitle page)
-    prop.onClick (fun _ -> Navigate page |> dispatch)
     listItem.children [
       Mui.listItemText (pageTitle page)
     ]
@@ -215,7 +215,7 @@ let RootView = FunctionComponent.Of((fun (model, dispatch) ->
               Mui.typography [
                 typography.variant.h6
                 typography.color.inherit'
-                prop.text (pageTitle model.Page)
+                typography.children (pageTitle model.Page)
               ]
             ]
           ]

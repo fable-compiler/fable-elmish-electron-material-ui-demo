@@ -54,7 +54,7 @@ let BadgesPage = FunctionComponent.Of((fun (model, dispatch) ->
 
       Mui.iconButton [
         prop.className c.margin
-        prop.children [
+        iconButton.children [
           Mui.badge [
             badge.color.secondary
             badge.badgeContent model.Count

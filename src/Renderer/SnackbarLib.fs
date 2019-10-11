@@ -140,9 +140,9 @@ let Snackbar<'msg> = FunctionComponent.Of((fun (model: Model<'msg>, dispatch) ->
           snackbar.action (
             Mui.button [
               prop.key action
-              prop.text action
               prop.onClick (fun _ -> p |> Click |> dispatch)
               button.color.secondary
+              button.children action
             ]
           )
     | _ -> ()

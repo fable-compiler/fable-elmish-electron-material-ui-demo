@@ -55,22 +55,18 @@ let private AlertDialog = FunctionComponent.Of((fun(model, dispatch) ->
     dialog.children [
       Mui.dialogTitle "Do you agree?"
       Mui.dialogContent [
-        dialogContent.children [
-          Mui.dialogContentText "Please indicate whether you agree."
-        ]
+        Mui.dialogContentText "Please indicate whether you agree."
       ]
       Mui.dialogActions [
-        dialogActions.children [
-          Mui.button [
-            prop.onClick (fun _ -> SetAlertResponse false |> dispatch)
-            button.color.primary
-            button.children "Disagree"
-          ]
-          Mui.button [
-            prop.onClick (fun _ -> SetAlertResponse true |> dispatch)
-            button.color.primary
-            button.children "Agree"
-          ]
+        Mui.button [
+          prop.onClick (fun _ -> SetAlertResponse false |> dispatch)
+          button.color.primary
+          button.children "Disagree"
+        ]
+        Mui.button [
+          prop.onClick (fun _ -> SetAlertResponse true |> dispatch)
+          button.color.primary
+          button.children "Agree"
         ]
       ]
     ]
@@ -85,16 +81,14 @@ let private SelectDialog = FunctionComponent.Of((fun(model, dispatch) ->
     dialog.children [
       Mui.dialogTitle "Choose an option"
       Mui.list [
-        list.children [
-          model.AvailableSelectValues |> List.map (fun value ->
-            Mui.listItem [
-              prop.key value
-              prop.onClick (fun _ -> SetSelectResponse value |> dispatch)
-              listItem.button true
-              listItem.children [ Mui.listItemText value ]
-            ]
-          ) |> ofList
-        ]
+        model.AvailableSelectValues |> List.map (fun value ->
+          Mui.listItem [
+            prop.key value
+            prop.onClick (fun _ -> SetSelectResponse value |> dispatch)
+            listItem.button true
+            listItem.children [ Mui.listItemText value ]
+          ]
+        ) |> ofList
       ]
     ]
   ]
@@ -108,29 +102,25 @@ let private FormDialog = FunctionComponent.Of((fun(model, dispatch) ->
     dialog.children [
       Mui.dialogTitle "Write your response"
       Mui.dialogContent [
-        dialogContent.children [
-          Mui.dialogContentText "Please enter your response in the form below."
-          Mui.textField [
-            textField.autoFocus true
-            textField.margin.dense
-            textField.label "Your response"
-            textField.fullWidth true
-            textField.onChange (FormTextEntered >> dispatch)
-          ]
+        Mui.dialogContentText "Please enter your response in the form below."
+        Mui.textField [
+          textField.autoFocus true
+          textField.margin.dense
+          textField.label "Your response"
+          textField.fullWidth true
+          textField.onChange (FormTextEntered >> dispatch)
         ]
       ]
       Mui.dialogActions [
-        dialogActions.children [
-          Mui.button [
-            prop.onClick (fun _ -> dispatch AbortDialog)
-            button.color.primary
-            button.children "Cancel"
-          ]
-          Mui.button [
-            prop.onClick (fun _ -> dispatch ConfirmFormDialog)
-            button.color.primary
-            button.children "Submit"
-          ]
+        Mui.button [
+          prop.onClick (fun _ -> dispatch AbortDialog)
+          button.color.primary
+          button.children "Cancel"
+        ]
+        Mui.button [
+          prop.onClick (fun _ -> dispatch ConfirmFormDialog)
+          button.color.primary
+          button.children "Submit"
         ]
       ]
     ]
@@ -140,42 +130,40 @@ let private FormDialog = FunctionComponent.Of((fun(model, dispatch) ->
 
 let DialogsPage = FunctionComponent.Of((fun (model, dispatch) ->
   Html.div [
-    prop.children [
-      // Alert dialog
-      Mui.button [
-        prop.onClick (fun _ -> OpenDialog Alert |> dispatch)
-        button.color.primary
-        button.children "Open alert dialog"
-      ]
-      Mui.typography [
-        typography.paragraph true
-        typography.children ["Alert response is "; string model.AlertResponse]
-      ]
-      AlertDialog(model, dispatch)
-
-      // Select dialog
-      Mui.button [
-        prop.onClick (fun _ -> OpenDialog Select |> dispatch)
-        button.color.primary
-        button.children "Open select dialog"
-      ]
-      Mui.typography [
-        typography.paragraph true
-        typography.children ["Select response is "; string model.SelectResponse]
-      ]
-      SelectDialog(model, dispatch)
-
-      // Form dialog
-      Mui.button [
-        prop.onClick (fun _ -> OpenDialog Form |> dispatch)
-        button.color.primary
-        button.children "Open form dialog"
-      ]
-      Mui.typography [
-        typography.paragraph true
-        typography.children ["Form response is "; string model.FormResponse]
-      ]
-      FormDialog(model, dispatch)
+    // Alert dialog
+    Mui.button [
+      prop.onClick (fun _ -> OpenDialog Alert |> dispatch)
+      button.color.primary
+      button.children "Open alert dialog"
     ]
+    Mui.typography [
+      typography.paragraph true
+      typography.children ["Alert response is "; string model.AlertResponse]
+    ]
+    AlertDialog(model, dispatch)
+
+    // Select dialog
+    Mui.button [
+      prop.onClick (fun _ -> OpenDialog Select |> dispatch)
+      button.color.primary
+      button.children "Open select dialog"
+    ]
+    Mui.typography [
+      typography.paragraph true
+      typography.children ["Select response is "; string model.SelectResponse]
+    ]
+    SelectDialog(model, dispatch)
+
+    // Form dialog
+    Mui.button [
+      prop.onClick (fun _ -> OpenDialog Form |> dispatch)
+      button.color.primary
+      button.children "Open form dialog"
+    ]
+    Mui.typography [
+      typography.paragraph true
+      typography.children ["Form response is "; string model.FormResponse]
+    ]
+    FormDialog(model, dispatch)
   ]
 ), "DialogsPage", memoEqualsButFunctions)

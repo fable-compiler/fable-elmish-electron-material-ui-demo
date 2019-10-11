@@ -44,35 +44,32 @@ let private useStyles = Styles.makeStyles(fun theme ->
 let BadgesPage = FunctionComponent.Of((fun (model, dispatch) ->
   let c = useStyles ()
   Html.div [
-    prop.children [
+    Mui.typography [
+      prop.className c.description
+      typography.paragraph true
+      typography.children "The badge becomes invisible when count = 0."
+    ]
 
-      Mui.typography [
-        prop.className c.description
-        typography.paragraph true
-        typography.children "The badge becomes invisible when count = 0."
-      ]
-
-      Mui.iconButton [
-        prop.className c.margin
-        iconButton.children [
-          Mui.badge [
-            badge.color.secondary
-            badge.badgeContent model.Count
-            badge.children [ notificationsIcon [] ]
-          ]
+    Mui.iconButton [
+      prop.className c.margin
+      iconButton.children [
+        Mui.badge [
+          badge.color.secondary
+          badge.badgeContent model.Count
+          badge.children [ notificationsIcon [] ]
         ]
       ]
+    ]
 
-      Mui.iconButton [
-        prop.onClick (fun _ -> dispatch Decrement)
-        iconButton.disabled (model.Count <= 0)
-        iconButton.children [ minusIcon [] ]
-      ]
+    Mui.iconButton [
+      prop.onClick (fun _ -> dispatch Decrement)
+      iconButton.disabled (model.Count <= 0)
+      iconButton.children [ minusIcon [] ]
+    ]
 
-      Mui.iconButton [
-        prop.onClick (fun _ -> dispatch Increment)
-        iconButton.children [ plusIcon [] ]
-      ]
+    Mui.iconButton [
+      prop.onClick (fun _ -> dispatch Increment)
+      iconButton.children [ plusIcon [] ]
     ]
   ]
 ), "BadgesPage", memoEqualsButFunctions)

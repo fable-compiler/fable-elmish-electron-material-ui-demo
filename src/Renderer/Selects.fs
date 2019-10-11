@@ -45,12 +45,10 @@ let private selectItem e =
     prop.value (unbox<string> e.Id)
     menuItem.children [
       Html.div [
-        prop.children [
-          Mui.typography e.Name
-          Mui.typography [
-            typography.variant.caption
-            typography.children e.Description
-          ]
+        Mui.typography e.Name
+        Mui.typography [
+          typography.variant.caption
+          typography.children e.Description
         ]
       ]
     ]

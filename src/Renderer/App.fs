@@ -187,14 +187,12 @@ let private pageView model dispatch =
   | Snackbars -> Snackbars.SnackbarPage (model.Snackbars, SnackbarsMsg >> dispatch)
   | StaticAssets ->
       Html.div [
-        prop.children [
-          Mui.typography [
-            typography.paragraph true
-            typography.children (str "This demo shows how to use static assets such as images.")
-          ]
-          Mui.avatar [
-            avatar.src (stat "avatar.jpg")
-          ]
+        Mui.typography [
+          typography.paragraph true
+          typography.children (str "This demo shows how to use static assets such as images.")
+        ]
+        Mui.avatar [
+          avatar.src (stat "avatar.jpg")
         ]
       ]
   | TextFields -> TextFields.TextFieldPage (model.TextFields, TextFieldsMsg >> dispatch)
@@ -211,12 +209,10 @@ let RootView = FunctionComponent.Of((fun (model, dispatch) ->
         appBar.position.fixed'
         appBar.children [
           Mui.toolbar [
-            toolbar.children [
-              Mui.typography [
-                typography.variant.h6
-                typography.color.inherit'
-                typography.children (pageTitle model.Page)
-              ]
+            Mui.typography [
+              typography.variant.h6
+              typography.color.inherit'
+              typography.children (pageTitle model.Page)
             ]
           ]
         ]

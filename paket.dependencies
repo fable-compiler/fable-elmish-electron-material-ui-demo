@@ -1,5 +1,3 @@
-version 5.231.2
-
 source https://api.nuget.org/v3/index.json
 framework: netstandard2.0
 storage: none

@@ -41,9 +41,9 @@ Stuff demoed:
 
 ## How to develop
 
-First, run `dotnet tool restore` to restore the necessary CLI tools.
+This project uses .NET Core 3 local tools. Therefore, run `dotnet tool restore` to restore the necessary CLI tools before doing anything else.
 
-To develop locally:
+Then, to run the app locally in "live mode":
 
 `dotnet fake build -t Dev`
 
@@ -63,6 +63,10 @@ Place static files in the root `/static` folder as required by electron-webpack.
 
 `dotnet fake build -t Dist`
 
+
+### NuGet package management
+
+Use `dotnet paket` (after running `dotnet tool restore`).
 
 ## Improvements welcome!
 

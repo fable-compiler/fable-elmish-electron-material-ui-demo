@@ -24,8 +24,6 @@ Stuff demoed:
 * Static assets (images etc.)
 * Text fields / input validation
 
-There are a lot of files in this repo that do not pertain to the actual app source code. These are mostly well commented in order to explain why they are needed. If you see something but don't understand why it's there, feel free to open an issue.
-
 ### Hot module reloading in action
 
 ![Animation showing hot module reloading](readme-hmr.gif)
@@ -37,35 +35,35 @@ There are a lot of files in this repo that do not pertain to the actual app sour
 
 ## Requirements
 
-* .NET Core
+* .NET Core SDK 3.0
 * Yarn (probably easy to change to npm if you prefer that)
 
 
 ## How to develop
 
-`./fake.cmd build -t Dev` (default target)
+First, run `dotnet tool restore` to restore the necessary CLI tools.
+
+To develop locally:
+
+`dotnet fake build -t Dev`
+
+(`Dev` is the default target, so you can also just run `dotnet fake build`.)
 
 After the app starts, edit the renderer project in `/src/Renderer` and see the changes appear in real-time thanks to hot module reloading.
 
 Place static files in the root `/static` folder as required by electron-webpack. See the code for the “Static assets” page (and the helpers in `Utils.fs`) to see how to use them.
 
 
-## Release build to unpacked directory
+### Release build to unpacked directory
 
-`./fake.cmd build -t DistDir`
-
-
-## Release build to packed installer
-
-`./fake.cmd build -t Dist`
+`dotnet fake build -t DistDir`
 
 
-## Disclaimer 🤯
+### Release build to packed installer
 
-I am very new to Fable, Electron and the modern JS/Node stack. This example/boilerplate is the result of my banging my head against a wall for several months trying to understand the byzantine packaging and build systems of modern JS for the first time, getting them to play nicely with Electron and Fable 2, and generally learning Fable/Elmish/React/Material-UI.
+`dotnet fake build -t Dist`
 
-Other Fable/Electron examples I have come across have either been outdated or missed some essential parts of the stack used in this repo. It feels like I have been given a mostly functional 20 year old petrol car, blueprints for a general-purpose electric engine, and asked to create a modern electric car.
 
-In short: If you see anything here that looks wrong, suboptimal or just weird, you may very well be right. Don't be shy about opening an issue or PR.
+## Improvements welcome!
 
-Finally: While I hope this repo is useful, I can make no promises to keep it updated. PRs are welcome.
+If you see anything here that looks wrong, suboptimal or just weird, you may very well be right. Don't be shy about opening an issue or PR.

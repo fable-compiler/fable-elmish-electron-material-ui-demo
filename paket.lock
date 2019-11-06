@@ -99,8 +99,6 @@ NUGET
   remote: https://api.nuget.org/v3/index.json
     BlackFox.VsWhere (1.0)
       FSharp.Core (>= 4.2.3)
-    dotnet-fable (2.0.11) - clitool: true
-    dotnet-fake (5.18.3) - clitool: true
     Fake.Core.CommandLineParsing (5.18.3)
       FParsec (>= 1.0.3)
       FSharp.Core (>= 4.7)

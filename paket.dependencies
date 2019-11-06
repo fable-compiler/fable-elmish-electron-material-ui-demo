@@ -27,8 +27,7 @@ group FakeBuild
   framework: netstandard2.0
   storage: none
 
-  clitool dotnet-fake
-  clitool dotnet-fable
   nuget Fake.Core.Target
   nuget Fake.DotNet.Cli
   nuget Fake.JavaScript.Yarn
+  nuget FSharp.Core redirects: force

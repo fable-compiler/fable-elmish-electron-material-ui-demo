@@ -1,4 +1,4 @@
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 build:
   verbosity: detailed
@@ -8,7 +8,8 @@ cache:
   - '%USERPROFILE%\.nuget\packages -> paket.lock'
 
 install:
-  - ps: Install-Product node 8 x64
+  - ps: Install-Product node 12 x64
+  - dotnet tool restore
 
 build_script:
-  - cmd: fake.cmd build -t Dist
+  - cmd: dotnet fake build -t Dist

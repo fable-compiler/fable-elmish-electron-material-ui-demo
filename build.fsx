@@ -16,53 +16,53 @@ open Fake.IO.FileSystemOperators
 open Fake.JavaScript
 
 Target.create "Clean" (fun _ ->
-    !! "src/**/bin"
-    ++ "src/**/obj"
-    ++ "dist"
-    ++ ".fable"
-    |> Shell.cleanDirs
+  !! "src/**/bin"
+  ++ "src/**/obj"
+  ++ "dist"
+  ++ ".fable"
+  |> Shell.cleanDirs
 )
 
 Target.create "DotnetRestore" (fun _ ->
-    DotNet.restore
-        (DotNet.Options.withWorkingDirectory __SOURCE_DIRECTORY__)
-        "fable-elmish-electron-demo.sln"
+  DotNet.restore
+    (DotNet.Options.withWorkingDirectory __SOURCE_DIRECTORY__)
+    "fable-elmish-electron-demo.sln"
 )
 
-Target.create "YarnInstall" (fun _ ->
-    Yarn.install id
+Target.create "NpmInstall" (fun _ ->
+  Npm.install id
 )
 
 Target.create "Build" (fun _ ->
-    Yarn.exec "compile" id
+  Npm.run "compile" id
 )
 
 Target.create "Dev" (fun _ ->
-    Yarn.exec "dev" id
+  Npm.run "dev" id
 )
 
 Target.create "Dist" (fun _ ->
-    Yarn.exec "dist" id
+  Npm.run "dist" id
 )
 
 Target.create "DistDir" (fun _ ->
-    Yarn.exec "dist:dir" id
+  Npm.run "dist:dir" id
 )
 
 // Build order
 "Clean"
-    ==> "DotnetRestore"
-    ==> "YarnInstall"
-    ==> "Build"
+  ==> "DotnetRestore"
+  ==> "NpmInstall"
+  ==> "Build"
 
-"YarnInstall"
-    ==> "Dev"
+"NpmInstall"
+  ==> "Dev"
 
-"YarnInstall"
-    ==> "Dist"
+"NpmInstall"
+  ==> "Dist"
 
-"YarnInstall"
-    ==> "DistDir"
+"NpmInstall"
+  ==> "DistDir"
 
 // start build
 Target.runOrDefault "Dev"

@@ -4,7 +4,7 @@ build:
   verbosity: detailed
 
 cache:
-  - '%LOCALAPPDATA%\\Yarn -> yarn.lock'
+  - '%APPDATA%\npm-cache -> package-lock.json'
   - '%USERPROFILE%\.nuget\packages -> paket.lock'
 
 install:

@@ -27,5 +27,5 @@ group FakeBuild
 
   nuget Fake.Core.Target
   nuget Fake.DotNet.Cli
-  nuget Fake.JavaScript.Yarn
+  nuget Fake.JavaScript.Npm
   nuget FSharp.Core redirects: force

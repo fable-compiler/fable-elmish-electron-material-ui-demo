@@ -36,7 +36,7 @@ Stuff demoed:
 ## Requirements
 
 * .NET Core SDK 3.0
-* Yarn (probably easy to change to npm if you prefer that)
+* Node (for `npm`)
 
 
 ## How to develop

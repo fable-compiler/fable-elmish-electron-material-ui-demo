@@ -10,18 +10,23 @@ open Electron
 
 let private setWindowsAppTheme(light: bool) =
   let flag = if light then 1 else 0
-  JS.console.log(sprintf "Setting Windows app theme to %s" (if light then "Light" else "Dark"))
   try
     childProcess.execSync(
       sprintf "REG ADD HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize /v AppsUseLightTheme /t REG_DWORD /d %i /f" flag,
       {| windowsHide = true |}
     )
     |> ignore
-  with _ -> failwith "No permission to modify AppsUseLightTheme value. Electron will hang."
+  with _ -> failwith "No permission to modify AppsUseLightTheme value. Electron will hang. Change Windows app theme to Light manually before starting Electron."
 
 
 let init () =
 
   if ``process``.platform = Win32 && main.nativeTheme.shouldUseDarkColors then
-    main.app.onWillFinishLaunching(fun _ -> setWindowsAppTheme true) |> ignore
-    main.app.onReady(fun _ _ -> setWindowsAppTheme false) |> ignore
+    main.app
+      .onWillFinishLaunching(fun _ ->
+        JS.console.log("Setting Windows app theme to Light to avoid DevTools startup issue")
+        setWindowsAppTheme true)
+      .onReady(fun _ _ ->
+        JS.console.log("Reverting Windows app theme to Dark")
+        setWindowsAppTheme false)
+    |> ignore

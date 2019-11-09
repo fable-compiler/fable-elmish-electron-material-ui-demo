@@ -9,6 +9,7 @@ open Node.Api
 // A global reference to the window object is required in order to prevent garbage collection
 let mutable mainWindow: BrowserWindow option = None
 
+DarkModeWorkaround.init ()
 
 #if DEBUG
 module DevTools =
@@ -96,7 +97,6 @@ let createMainWindow () =
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 main.app.onReady(fun _ _ -> createMainWindow ()) |> ignore
-
 
 // Quit when all windows are closed.
 main.app.onWindowAllClosed(fun _ ->

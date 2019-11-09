@@ -40,8 +40,9 @@ let createMainWindow () =
   // Set up dev tools
   DevTools.installAllDevTools win |> ignore
   //DevTools.uninstallAllDevTools win |> ignore
-  // Open dev tools on startup
-  win.webContents.onceDevtoolsOpened(fun _ -> win.focusOnWebView()) |> ignore  // TODO: Doesn't seem to do anything
+  win.webContents.onceDevtoolsFocused(fun _ ->
+    JS.setTimeout win.webContents.focus 1 |> ignore
+  ) |> ignore
   win.webContents.openDevTools()
   #endif
 

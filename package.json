@@ -34,15 +34,15 @@
     "typeface-roboto": "^0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.0",
+    "@babel/core": "^7.7.2",
     "bufferutil": "^4.0",
     "devtron": "^1.4",
-    "electron": "^7.1.0",
+    "electron": "^7.1.1",
     "electron-builder": "^22.1.0",
     "electron-devtools-installer": "^2.2",
     "electron-webpack": "^2.6",
     "electron-window-state": "^5.0",
-    "fable-compiler": "^2.4.9",
+    "fable-compiler": "^2.4.10",
     "fable-loader": "^2.1",
     "node-sass": "^4.13.0",
     "remotedev": "^0.2",

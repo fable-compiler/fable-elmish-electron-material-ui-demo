@@ -2,18 +2,17 @@
 module Utils
 
 open Fable.Core
-open Fable.Core.JS
 open Browser.Types
 
-[<Emit("__static + \"/\" + $0")>]
-let private stat' (s: string) : string = jsNative
+[<Global>]
+let private __static : string = jsNative
 
 /// Prefixes the string with the static asset root path.
-let stat (s: string) =
+let getStatic (pathInStaticDir: string) =
   #if DEBUG
-  s
+  pathInStaticDir
   #else
-  stat' s
+  __static + "/" + pathInStaticDir
   #endif
 
 let preventDefault (e: Event) =

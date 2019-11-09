@@ -25,7 +25,6 @@ let createMainWindow () =
       o.height <- mainWinState.height
       o.autoHideMenuBar <- true
       o.webPreferences <- jsOptions<WebPreferences>(fun w ->
-        w.contextIsolation <- false
         w.nodeIntegration <- true
       )
       o.show <- false
@@ -48,13 +47,12 @@ let createMainWindow () =
 
   // Load correct URL
   #if DEBUG
-  win.loadURL(sprintf "http://localhost:%s" ``process``.env?ELECTRON_WEBPACK_WDS_PORT) |> ignore
+  sprintf "http://localhost:%s" ``process``.env?ELECTRON_WEBPACK_WDS_PORT
   #else
-  path.join(__dirname, "index.html")
-  |> sprintf "file:///%s"
+  sprintf "file:///%s" <| path.join(__dirname, "index.html")
+  #endif
   |> win.loadURL
   |> ignore
-  #endif
 
   // Dereference the window object when closed. If your app supports
   // multiple windows, you can store them in an array and delete the

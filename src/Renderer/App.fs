@@ -192,7 +192,7 @@ let private pageView model dispatch =
           typography.children (str "This demo shows how to use static assets such as images.")
         ]
         Mui.avatar [
-          avatar.src (stat "avatar.jpg")
+          avatar.src (getStatic "avatar.jpg")
         ]
       ]
   | TextFields -> TextFields.TextFieldPage (model.TextFields, TextFieldsMsg >> dispatch)

@@ -11,37 +11,6 @@ let mutable mainWindow: BrowserWindow option = None
 
 DarkModeWorkaround.init ()
 
-#if DEBUG
-module DevTools =
-
-  let private installDevTools (extensionRef: obj) (forceDownload: bool) : JS.Promise<string> =
-    importDefault "electron-devtools-installer"
-
-  let private REACT_DEVELOPER_TOOLS : obj =
-    import "REACT_DEVELOPER_TOOLS" "electron-devtools-installer"
-
-  let private REDUX_DEVTOOLS : obj =
-    import "REDUX_DEVTOOLS" "electron-devtools-installer"
-
-  let private installDevTool extensionRef =
-    promise {
-      try
-        let! name = installDevTools extensionRef false
-        JS.console.log("Added extension", name)
-      with err -> JS.console.log("An error occurred adding extension:", err)
-    } |> ignore
-
-  let installAllDevTools (win: BrowserWindow) =
-    installDevTool REACT_DEVELOPER_TOOLS
-    installDevTool REDUX_DEVTOOLS
-    win.webContents.executeJavaScript("require('devtron').install()")
-
-  let uninstallAllDevTools (win: BrowserWindow) =
-    main.BrowserWindow.removeDevToolsExtension("React Developer Tools")
-    main.BrowserWindow.removeDevToolsExtension("Redux DevTools")
-    win.webContents.executeJavaScript("require('devtron').uninstall()")
-#endif
-
 
 let createMainWindow () =
   let mainWinState =
@@ -98,6 +67,7 @@ let createMainWindow () =
 // initialization and is ready to create browser windows.
 main.app.onReady(fun _ _ -> createMainWindow ()) |> ignore
 
+
 // Quit when all windows are closed.
 main.app.onWindowAllClosed(fun _ ->
   // On OS X it's common for applications and their menu bar
@@ -105,6 +75,7 @@ main.app.onWindowAllClosed(fun _ ->
   if ``process``.platform <> Node.Base.Platform.Darwin then
     main.app.quit()
 ) |> ignore
+
 
 main.app.onActivate(fun _ _ ->
   // On OS X it's common to re-create a window in the app when the

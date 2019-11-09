@@ -7,6 +7,7 @@
     <None Include="paket.references" />
     <Compile Include="Bindings.fs" />
     <Compile Include="DarkModeWorkaround.fs" />
+    <Compile Include="DevTools.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

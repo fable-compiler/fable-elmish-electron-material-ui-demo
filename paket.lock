@@ -84,7 +84,7 @@ NUGET
       Fable.Core (>= 3.1.1)
       Fable.React (>= 5.3.2)
       FSharp.Core (>= 4.7)
-    Feliz.MaterialUI (0.8.1)
+    Feliz.MaterialUI (0.8.2)
       Feliz (>= 0.67 < 0.68)
       FSharp.Core (>= 4.7)
     FSharp.Core (4.7) - redirects: force

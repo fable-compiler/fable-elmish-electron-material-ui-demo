@@ -1,11 +1,14 @@
 module App
 
+open Electron
 open Elmish
 open Elmish.React
 open Fable.Core.JsInterop
 open Fable.React
 open Feliz
 open Feliz.MaterialUI
+open Fable.MaterialUI.Icons
+open Fable.MaterialUI.MaterialDesignIcons
 
 
 type Page =
@@ -33,8 +36,14 @@ let pageTitle = function
   | Snackbars -> "Snackbars"
   | TextFields -> "Text fields"
 
+type ThemeMode =
+  | Light
+  | Dark
+
 type Msg =
   | Navigate of Page
+  | SetSystemThemeMode of ThemeMode
+  | ToggleCustomThemeMode
   | AutoCompleteMsg of AutoComplete.Msg
   | BadgesMsg of Badges.Msg
   | DialogsMsg of Dialogs.Msg
@@ -45,6 +54,8 @@ type Msg =
 
 type Model =
   { Page: Page
+    SystemThemeMode: ThemeMode
+    CustomThemeMode: ThemeMode option
     AutoCompleteDownshift: AutoComplete.Model
     Badges: Badges.Model
     Dialogs: Dialogs.Model
@@ -53,22 +64,20 @@ type Model =
     Snackbars: Snackbars.Model
     TextFields: TextFields.Model }
 
-let init () =
-  let m =
-    { Page = Home
-      AutoCompleteDownshift = AutoComplete.init ()
-      Badges = Badges.init ()
-      Dialogs = Dialogs.init ()
-      SaveLoad = SaveLoad.init ()
-      Selects = Selects.init ()
-      Snackbars = Snackbars.init ()
-      TextFields = TextFields.init () }
-  m, Cmd.none
-
 let update msg m =
   match msg with
   | Navigate p ->
       { m with Page = p }, Cmd.none
+  | SetSystemThemeMode mode ->
+      { m with SystemThemeMode = mode }, Cmd.none
+  | ToggleCustomThemeMode ->
+      { m with
+          CustomThemeMode =
+            match m.CustomThemeMode with
+            | None -> Some Dark
+            | Some Dark -> Some Light
+            | Some Light -> None
+      }, Cmd.none
   | AutoCompleteMsg msg' ->
       { m with AutoCompleteDownshift = AutoComplete.update msg' m.AutoCompleteDownshift }, Cmd.none
   | BadgesMsg msg' ->
@@ -90,78 +99,70 @@ let update msg m =
 // Domain/Elmish above, view below
 
 
-let private useStyles = Styles.makeStyles(fun theme ->
-  let drawerWidth = 240
-  {|
-    root = Styles.create (fun model -> [
-      style.display.flex
-      style.userSelect.none
-      if model.Page = Home then style.color Colors.green.``300``
-    ])
-    appBar = Styles.create [
-      style.zIndex (theme.zIndex.drawer + 1)
-    ]
-    drawer = Styles.create [
-      style.width (length.px drawerWidth)
-      style.flexShrink 0
-    ]
-    drawerPaper = Styles.create [
-      style.width (length.px drawerWidth)
-      // Example of breakpoint media queries
-      style.inner theme.breakpoints.downXs [
-        style.backgroundColor.red
+module Theme =
+
+
+  // Not used, but shows how to use style and prop overrides. The returned theme
+  // can for example be used as the `theme` prop of `Mui.muiThemeProvider`.
+  let example = Styles.createMuiTheme(jsOptions<Theme>(fun t ->
+    t.palette <- jsOptions<Palette>(fun p ->
+      p.``type`` <- PaletteType.Dark
+      p.primary <- !^Colors.blueGrey
+      p.secondary <- !^Colors.purple
+    )
+
+    // Globally override component styles
+    t.setOverrides [
+      overrides.muiButtonBase [
+        overrides.muiButtonBase.root [
+          style.fontWeight.bold
+          style.inner "&$disabled" [
+            style.backgroundColor.aquaMarine
+          ]
+        ]
       ]
-    ]
-    content = Styles.create [
-      style.flexGrow 1
-      style.padding (theme.spacing 3)
-    ]
-    toolbar = Styles.create [
-      yield! theme.mixins.toolbarStyles
-    ]
-  |}
-)
-
-
-// Not used, but shows how to use style and prop overrides. The returned theme
-// can for example be used as the `theme` prop of `Mui.muiThemeProvider`.
-let theme = Styles.createMuiTheme(jsOptions<Theme>(fun t ->
-  t.palette <- jsOptions<Palette>(fun p ->
-    p.``type`` <- PaletteType.Dark
-    p.primary <- !^Colors.blueGrey
-    p.secondary <- !^Colors.purple
-  )
-
-  // Globally override component styles
-  t.setOverrides [
-    overrides.muiButtonBase [
-      overrides.muiButtonBase.root [
-        style.fontWeight.bold
-        style.inner "&$disabled" [
-          style.backgroundColor.aquaMarine
+      overrides.muiAvatar [
+        overrides.muiAvatar.img [
+          style.borderWidth 10
+          style.borderColor.black
+          style.borderStyle.solid
         ]
       ]
     ]
-    overrides.muiAvatar [
-      overrides.muiAvatar.img [
-        style.borderWidth 10
-        style.borderColor.black
-        style.borderStyle.solid
+
+    // Globally override component props
+    t.setProps [
+      themeProps.muiButton [
+        button.size.small
+      ]
+      themeProps.muiDialog [
+        dialog.fullScreen true
       ]
     ]
-  ]
+  ))
 
-  // Globally override component props
-  t.setProps [
-    themeProps.muiButton [
-      button.size.small
-    ]
-    themeProps.muiDialog [
-      dialog.fullScreen true
-    ]
-  ]
-))
 
+
+  let light = Styles.createMuiTheme(jsOptions<Theme>(fun t ->
+    t.palette <- jsOptions<Palette>(fun p ->
+      p.``type`` <- PaletteType.Light
+      p.primary <- !^Colors.indigo
+      p.secondary <- !^Colors.pink
+    )
+  ))
+
+  let dark = Styles.createMuiTheme(jsOptions<Theme>(fun t ->
+    t.palette <- jsOptions<Palette>(fun p ->
+      p.``type`` <- PaletteType.Dark
+      p.primary <- !^Colors.lightBlue
+      p.secondary <- !^Colors.pink
+    )
+    t.setProps [
+      themeProps.muiAppBar [
+        appBar.color.default'
+      ]
+    ]
+  ))
 
 
 let private pageListItem model dispatch page =
@@ -198,49 +199,150 @@ let private pageView model dispatch =
   | TextFields -> TextFields.TextFieldPage (model.TextFields, TextFieldsMsg >> dispatch)
 
 
+let private useToolbarTyles = Styles.makeStyles(fun theme ->
+  {|
+    appBarTitle = Styles.create [
+      style.flexGrow 1
+    ]
+  |}
+)
+
+let Toolbar = FunctionComponent.Of((fun (page, customThemeMode, dispatch) ->
+  let c = useToolbarTyles ()
+  Mui.toolbar [
+    Mui.typography [
+      typography.variant.h6
+      typography.color.inherit'
+      typography.children (pageTitle page)
+      prop.className c.appBarTitle
+    ]
+    Mui.tooltip [
+      tooltip.title(
+        match customThemeMode with
+        | None -> "Using system light/dark theme"
+        | Some Light -> "Using light theme"
+        | Some Dark -> "Using dark theme"
+      )
+      tooltip.children(
+        Mui.iconButton [
+          prop.onClick (fun _ -> dispatch ToggleCustomThemeMode)
+          iconButton.color.inherit'
+          iconButton.children [
+            match customThemeMode with
+            | None -> brightnessAutoIcon []
+            | Some Light -> brightness7Icon []
+            | Some Dark -> brightness4Icon []
+          ]
+        ]
+      )
+    ]
+  ]
+), "Toolbar", memoEqualsButFunctions)
+
+
+let private useRootViewStyles = Styles.makeStyles(fun theme ->
+  let drawerWidth = 240
+  {|
+    root = Styles.create (fun model -> [
+      style.display.flex
+      style.userSelect.none
+      if model.Page = Home then style.color Colors.green.``300``
+    ])
+    appBar = Styles.create [
+      style.zIndex (theme.zIndex.drawer + 1)
+    ]
+    appBarTitle = Styles.create [
+      style.flexGrow 1
+    ]
+    drawer = Styles.create [
+      style.width (length.px drawerWidth)
+      style.flexShrink 0
+    ]
+    drawerPaper = Styles.create [
+      style.width (length.px drawerWidth)
+      // Example of breakpoint media queries
+      style.inner theme.breakpoints.downXs [
+        style.backgroundColor.red
+      ]
+    ]
+    content = Styles.create [
+      style.flexGrow 1
+      style.padding (theme.spacing 3)
+    ]
+    toolbar = Styles.create [
+      yield! theme.mixins.toolbarStyles
+    ]
+  |}
+)
+
 let RootView = FunctionComponent.Of((fun (model, dispatch) ->
-  let c = useStyles model
-  Html.div [
-    prop.className c.root
-    prop.children [
-      Mui.cssBaseline []
-      Mui.appBar [
-        prop.className c.appBar
-        appBar.position.fixed'
-        appBar.children [
-          Mui.toolbar [
-            Mui.typography [
-              typography.variant.h6
-              typography.color.inherit'
-              typography.children (pageTitle model.Page)
+  let c = useRootViewStyles model
+  Mui.themeProvider [
+    themeProvider.theme (
+      match model.CustomThemeMode |> Option.defaultValue model.SystemThemeMode with
+      | Dark -> Theme.dark
+      | Light -> Theme.light
+    )
+    themeProvider.children [
+      Html.div [
+        prop.className c.root
+        prop.children [
+          Mui.cssBaseline []
+          Mui.appBar [
+            prop.className c.appBar
+            appBar.position.fixed'
+            appBar.children [
+              Toolbar(model.Page, model.CustomThemeMode, dispatch)
             ]
           ]
-        ]
-      ]
-      Mui.drawer [
-        prop.className c.drawer
-        drawer.variant.permanent
-        drawer.classes [
-          classes.drawer.paper c.drawerPaper
-        ]
-        drawer.children [
-          Html.div [ prop.className c.toolbar ]
-          Mui.list [
-            list.component' "nav"
-            list.children (Page.All |> List.map (pageListItem model dispatch) |> ofList)
+          Mui.drawer [
+            prop.className c.drawer
+            drawer.variant.permanent
+            drawer.classes [
+              classes.drawer.paper c.drawerPaper
+            ]
+            drawer.children [
+              Html.div [ prop.className c.toolbar ]
+              Mui.list [
+                list.component' "nav"
+                list.children (Page.All |> List.map (pageListItem model dispatch) |> ofList)
+              ]
+            ]
           ]
-        ]
-      ]
-      Html.main [
-        prop.className c.content
-        prop.children [
-          Html.div [ prop.className c.toolbar ]
-          pageView model dispatch
+          Html.main [
+            prop.className c.content
+            prop.children [
+              Html.div [ prop.className c.toolbar ]
+              pageView model dispatch
+            ]
+          ]
         ]
       ]
     ]
   ]
 ), "RootView", memoEqualsButFunctions)
+
+let updateSystemTheme dispatch =
+  let dispatchCurrentMode () =
+    if renderer.remote.nativeTheme.shouldUseDarkColors
+    then dispatch (SetSystemThemeMode Dark)
+    else dispatch (SetSystemThemeMode Light)
+  renderer.remote.nativeTheme.onUpdated(fun _ -> dispatchCurrentMode ()) |> ignore
+  dispatchCurrentMode ()
+
+let init () =
+  let m =
+    { Page = Home
+      SystemThemeMode = Light
+      CustomThemeMode = None
+      AutoCompleteDownshift = AutoComplete.init ()
+      Badges = Badges.init ()
+      Dialogs = Dialogs.init ()
+      SaveLoad = SaveLoad.init ()
+      Selects = Selects.init ()
+      Snackbars = Snackbars.init ()
+      TextFields = TextFields.init () }
+  m, Cmd.ofSub updateSystemTheme
 
 let view model dispatch =
   RootView (model, dispatch)

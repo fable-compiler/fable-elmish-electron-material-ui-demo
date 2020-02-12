@@ -67,12 +67,12 @@ let update msg m =
 // Domain/Elmish above, view below
 
 
-let private useStyles = Styles.makeStyles(fun theme ->
+let private useStyles = Styles.makeStyles(fun styles theme ->
   {|
-    form = Styles.create [
+    form = styles.create [
       style.flexWrap.wrap
     ]
-    textField = Styles.create [
+    textField = styles.create [
       style.marginLeft (theme.spacing 1)
       style.marginRight (theme.spacing 1)
       style.width 200
@@ -87,14 +87,14 @@ let TextFieldPage = FunctionComponent.Of((fun (model, dispatch) ->
     prop.className c.form
     prop.children [
       Mui.textField [
-        prop.className c.textField
+        textField.classes.root c.textField
         textField.label "Simple input"
         textField.value model.SimpleText
         textField.onChange (SetSimpleText >> dispatch)
         textField.helperText ["Current value: "; model.SimpleText]
       ]
       Mui.textField [
-        prop.className c.textField
+        textField.classes.root c.textField
         textField.label "Validated input"
         textField.required true
         textField.value model.ValidatedTextRaw

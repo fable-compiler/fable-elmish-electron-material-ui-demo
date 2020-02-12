@@ -1,22 +1,11 @@
-﻿module AutoComplete
+﻿module Autocomplete
 
 open System
-open Browser.Types
-open Fable.Core.JsInterop
 open Fable.Import
 open Fable.Import.MatchSorter
-open Fable.Import.Downshift
 open Fable.React
-open Fable.React.Props
-open Fable.MaterialUI
-open Fable.MaterialUI.Core
-open Fable.MaterialUI.Props
-
-
-// NOTE: This is not yet converted to Feliz due to incompatibility with
-// Fable.Import.Downshift. Might have a go at creating Feliz-compatible bindings
-// for downshift when useAutocomplete is released:
-// https://github.com/downshift-js/downshift/issues/783
+open Feliz
+open Feliz.MaterialUI
 
 
 type Country =
@@ -25,17 +14,20 @@ type Country =
     Description: string }
 
 
-let matchSortCountries =
+let matchSortCountries : string -> Country [] -> Country list =
   MSOpts.empty
   |> MSOpts.addKeySpec (KeySpec.create (fun c -> c.Name))
   |> MSOpts.withThreshold Ranking.Contains
   |> matchSortWith
 
-
 type Model =
-  { Countries: Country list
+  { Countries: Country []
     MyText: string
-    LastSelected: Country option }
+    LastSelected: Guid option }
+
+let lastSelectedCountry model =
+  model.LastSelected
+  |> Option.bind (fun cid -> model.Countries |> Array.tryFind (fun c -> c.Id = cid))
 
 type Msg =
   | SetText of string
@@ -43,8 +35,8 @@ type Msg =
 
 let init () =
   { Countries =
-      ["Afghanistan"; "Aland Islands"; "Albania"; "Algeria"; "American Samoa"; "Andorra"; "Angola"; "Anguilla"; "Antarctica"; "Antigua and Barbuda"; "Argentina"; "Armenia"; "Aruba"; "Australia"; "Austria"; "Azerbaijan"]
-      |> List.map (fun s ->
+      [|"Afghanistan"; "Aland Islands"; "Albania"; "Algeria"; "American Samoa"; "Andorra"; "Angola"; "Anguilla"; "Antarctica"; "Antigua and Barbuda"; "Argentina"; "Armenia"; "Aruba"; "Australia"; "Austria"; "Azerbaijan"|]
+      |> Array.map (fun s ->
         { Id = Guid.NewGuid(); Name = s; Description = sprintf "Description of %s" s }
       )
     MyText = ""
@@ -53,131 +45,102 @@ let init () =
 let update msg m =
   match msg with
   | SetText s -> { m with MyText = s }
-  | Select s -> { m with LastSelected = m.Countries |> List.tryFind (fun x -> x.Id = s) }
+  | Select s ->
+      { m with
+          LastSelected =
+            m.Countries |> Array.tryPick (fun x -> if x.Id = s then Some x.Id else None)
+      }
 
 
-let private styles (theme: ITheme) : IStyles list =
-  [
-    Styles.Custom ("formControl", [
-      MarginBottom (theme.spacing.unit * 2)
-    ])
-    Styles.Custom ("menu", [
-      MaxHeight "500px"
-      CSSProp.Overflow (OverflowOptions.Auto)
-    ])
-    Styles.Custom ("noResults", [
-      CSSProp.Padding (theme.spacing.unit * 2)
-    ])
-    Styles.Custom ("selectedItem", [
-      CSSProp.FontWeight "bold"
-    ])
-    Styles.Custom ("highlight", [
-      CSSProp.FontWeight "bold"
-    ])
-  ]
+let private useStyles = Styles.makeStyles(fun styles theme ->
+  {|
+    formControl = styles.create [
+      style.marginBottom (theme.spacing 2)
+    ]
+    textField = styles.create [
+      style.width (length.px 400)
+    ]
+    //menu = styles.create [
+    //  style.maxHeight (length.px 500)
+    //  style.overflow.auto
+    //]
+    //noResults = styles.create [
+    //  style.padding (theme.spacing 2)
+    //]
+    //selectedItem = styles.create [
+    //  style.fontWeight.bold
+    //]
+    highlight = styles.create [
+      style.fontWeight.bold
+    ]
+  |}
+)
 
-let mutable private textFieldRef = null
 
-let private view' (classes: IClasses) model dispatch =
-  div [] [
-    typography [ Paragraph true ] [ str "Autocomplete control implemented using downshift, autosuggest-highlight, and popper." ]
-    typography [ Paragraph true ] [ str "Downshift behavior configured to emulate free-text entry with autocomplete (does not revert to empty string or selected item)." ]
-    form [ OnSubmit preventDefault ] [
-      formControl [ Class classes?formControl ] [
-        downshift [
-          OnInputValueChange (fun s _ -> SetText s |> dispatch)
-          InputValue model.MyText
-          ItemToString (function Some e -> e.Name | None -> "")
-          // OnChange, SelectedItem, and StateReducer used like below will enable
-          // dispatching actions when an item is selected, but otherwise keep normal
-          // input behavior (the default Downshift behavior is to revert the
-          // input value to empty or the selected item on blur.)
-          DownshiftProps.OnChange (fun item _ -> Select item.Id |> dispatch)
-          SelectedItem None
-          StateReducer (fun s c ->
-            match c.``type`` with
-            // This list of change types might not be exhaustive
-            | StateChangeTypes.BlurInput
-            | StateChangeTypes.MouseUp
-            | StateChangeTypes.KeyDownEscape ->
-                c.inputValue <- s.inputValue
-            | _ -> ()
-            upcast c
-          )
-        ] (fun ds ->
-          let filteredCountries = model.Countries |> matchSortCountries ds.inputValue
-          div [] [
-            textField (ds.getInputProps [
-              Label (str "Country name")
-              HelperText (str "Start with 'a'")
-              OnFocus(fun ev -> textFieldRef <- ev.target)
-            ]) []
-            div (ds.getMenuProps []) [
-              popper [
-                Class classes?menu
-                MaterialProp.Open ds.isOpen
-                Placement PlacementType.TopStart
-                AnchorEl !^textFieldRef
-              ] !^[
-                paper [ ] [
-                  list [] (
-                    if not ds.isOpen then []
-                    elif filteredCountries.IsEmpty then
-                      [ listItem [] [ typography [] [ str "No results" ] ] ]
-                    else
-                      filteredCountries |> List.mapi (fun i e ->
-                        listItem
-                          (ds.getItemProps e [
-                            Index i
-                            ListItemProp.Button true
-                            HTMLAttr.Selected (ds.highlightedIndex = Some i)
-                          ]) [
-                            listItemText [
-                              Classes [
-                                if ds.selectedItem |> Option.map (fun e -> e.Id) = Some e.Id then
-                                  ClassNames.Primary classes?selectedItem
-                              ]
-                              ListItemTextProp.Primary (
-                                e.Name
-                                |> AutosuggestHighlight.getParts ds.inputValue
-                                |> List.map (fun (s, hl) -> span [ if hl then Class classes?highlight ] [ str s ] )
-                                |> fragment []
-                              )
-                              ListItemTextProp.Secondary (str e.Description)
-                            ] [ ]
-                          ]
-                      )
-                  )
+let filterOptions options input =
+  matchSortCountries input options |> List.toArray
+
+
+let AutocompletePage = FunctionComponent.Of((fun (model, dispatch) ->
+  let c = useStyles ()
+  Html.div [
+    Mui.typography [
+      typography.paragraph true
+      typography.children "Autocomplete control implemented using Material-UI's Autocomplete with autosuggest-highlight and match-sorter."
+    ]
+    Mui.typography [
+      typography.paragraph true
+      typography.children "The behavior is configured with free-solo mode to emulate free-text entry with autocomplete (does not revert to empty string or selected item)."
+    ]
+    Html.form [
+      prop.onSubmit preventDefault
+      prop.children [
+        Mui.formControl [
+          formControl.classes.root c.formControl
+          formControl.children [
+            Mui.autocomplete [
+              autocomplete.options model.Countries
+              autocomplete.getOptionLabel (function Some e -> e.Name | None -> "")
+              autocomplete.freeSolo true
+              autocomplete.onInputChange (SetText >> dispatch)
+              autocomplete.inputValue model.MyText
+              autocomplete.disableClearable true
+              autocomplete.filterOptions filterOptions
+              autocomplete.renderInput (fun props ->
+                Mui.textField [
+                  yield! props.felizProps
+                  textField.classes.root c.textField
                 ]
-              ]
+              )
+              autocomplete.onChange (fun item -> Select item.Id |> dispatch)
+              autocomplete.value (lastSelectedCountry model)
+              autocomplete.renderOption(fun option state ->
+                let parts = AutosuggestHighlight.getParts state.inputValue option.Name
+                Mui.listItem [
+                  Mui.listItemText [
+                    listItemText.primary (
+                      parts |> List.mapi (fun i (s, highlighted) ->
+                        Html.span [
+                          prop.key i
+                          if highlighted then prop.className c.highlight
+                          prop.text s
+                        ]
+                      )
+                    )
+                    listItemText.secondary option.Description
+                  ]
+                ]
+              )
             ]
           ]
-        )
-      ]
-      typography [] [
-        str "Latest selected country: "
-        model.LastSelected |> Option.map (fun c -> c.Name) |> Option.defaultValue "none" |> str
+        ]
+        Mui.typography [
+          typography.children [
+            Html.text "Latest selected country: "
+            Html.text (lastSelectedCountry model |> Option.map (fun c -> c.Name) |> Option.defaultValue "none")
+          ]
+        ]
       ]
     ]
   ]
-
-
-// Workaround for using JSS with Elmish
-// https://github.com/mvsmal/fable-material-ui/issues/4#issuecomment-422781471
-type private IProps =
-  abstract member model: Model with get, set
-  abstract member dispatch: (Msg -> unit) with get, set
-  inherit IClassesProps
-
-type private Component(p) =
-  inherit PureStatelessComponent<IProps>(p)
-  let viewFun (p: IProps) = view' p.classes p.model p.dispatch
-  let viewWithStyles = withStyles (StyleType.Func styles) [] viewFun
-  override this.render() = ReactElementType.create viewWithStyles this.props []
-
-
-let view (model: Model) (dispatch: Msg -> unit) : ReactElement =
-  let props = jsOptions<IProps>(fun p ->
-    p.model <- model
-    p.dispatch <- dispatch)
-  ofType<Component,_,_> props []
+), "AutocompletePage", memoEqualsButFunctions)

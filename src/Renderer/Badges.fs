@@ -30,12 +30,12 @@ let update msg m =
 // Domain/Elmish above, view below
 
 
-let private useStyles = Styles.makeStyles(fun theme ->
+let private useStyles = Styles.makeStyles(fun styles theme ->
   {|
-    description = Styles.create [
+    description = styles.create [
       style.marginBottom (theme.spacing 3)
     ]
-    margin = Styles.create [
+    margin = styles.create [
       style.marginRight (theme.spacing 2)
     ]
   |}
@@ -45,13 +45,13 @@ let BadgesPage = FunctionComponent.Of((fun (model, dispatch) ->
   let c = useStyles ()
   Html.div [
     Mui.typography [
-      prop.className c.description
+      typography.classes.root c.description
       typography.paragraph true
       typography.children "The badge becomes invisible when count = 0."
     ]
 
     Mui.iconButton [
-      prop.className c.margin
+      iconButton.classes.root c.margin
       iconButton.children [
         Mui.badge [
           badge.color.secondary

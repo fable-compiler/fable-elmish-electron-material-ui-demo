@@ -13,7 +13,7 @@ open Fable.MaterialUI.MaterialDesignIcons
 
 type Page =
   | Home
-  | AutoComplete
+  | Autocomplete
   | Badges
   | Dialogs
   | SaveLoad
@@ -22,12 +22,12 @@ type Page =
   | StaticAssets
   | TextFields
   static member All =
-    [ Home; AutoComplete; Badges; Dialogs; SaveLoad; Selects;
+    [ Home; Autocomplete; Badges; Dialogs; SaveLoad; Selects;
       Snackbars; StaticAssets; TextFields ]
 
 let pageTitle = function
   | Home -> "Home"
-  | AutoComplete -> "Autocomplete"
+  | Autocomplete -> "Autocomplete"
   | Badges -> "Badges"
   | Dialogs -> "Dialogs"
   | SaveLoad -> "Save/load"
@@ -44,7 +44,7 @@ type Msg =
   | Navigate of Page
   | SetSystemThemeMode of ThemeMode
   | ToggleCustomThemeMode
-  | AutoCompleteMsg of AutoComplete.Msg
+  | AutoCompleteMsg of Autocomplete.Msg
   | BadgesMsg of Badges.Msg
   | DialogsMsg of Dialogs.Msg
   | SaveLoadMsg of SaveLoad.Msg
@@ -56,7 +56,7 @@ type Model =
   { Page: Page
     SystemThemeMode: ThemeMode
     CustomThemeMode: ThemeMode option
-    AutoCompleteDownshift: AutoComplete.Model
+    Autocomplete: Autocomplete.Model
     Badges: Badges.Model
     Dialogs: Dialogs.Model
     SaveLoad: SaveLoad.Model
@@ -79,7 +79,7 @@ let update msg m =
             | Some Light -> None
       }, Cmd.none
   | AutoCompleteMsg msg' ->
-      { m with AutoCompleteDownshift = AutoComplete.update msg' m.AutoCompleteDownshift }, Cmd.none
+      { m with Autocomplete = Autocomplete.update msg' m.Autocomplete }, Cmd.none
   | BadgesMsg msg' ->
       { m with Badges = Badges.update msg' m.Badges }, Cmd.none
   | DialogsMsg msg' ->
@@ -104,65 +104,50 @@ module Theme =
 
   // Not used, but shows how to use style and prop overrides. The returned theme
   // can for example be used as the `theme` prop of `Mui.muiThemeProvider`.
-  let example = Styles.createMuiTheme(jsOptions<Theme>(fun t ->
-    t.palette <- jsOptions<Palette>(fun p ->
-      p.``type`` <- PaletteType.Dark
-      p.primary <- !^Colors.blueGrey
-      p.secondary <- !^Colors.purple
-    )
+  let example = Styles.createMuiTheme([
+    theme.palette.type'.dark
+    theme.palette.primary Colors.blueGrey
+    theme.palette.secondary Colors.purple
 
     // Globally override component styles
-    t.setOverrides [
-      overrides.muiButtonBase [
-        overrides.muiButtonBase.root [
-          style.fontWeight.bold
-          style.inner "&$disabled" [
-            style.backgroundColor.aquaMarine
-          ]
-        ]
+    theme.overrides.muiButtonBase.root [
+      style.fontWeight.bold
+      style.inner "&$disabled" [
+        style.backgroundColor.aquaMarine
       ]
-      overrides.muiAvatar [
-        overrides.muiAvatar.img [
-          style.borderWidth 10
-          style.borderColor.black
-          style.borderStyle.solid
-        ]
-      ]
+    ]
+    theme.overrides.muiAvatar.img [
+      style.borderWidth 10
+      style.borderColor.black
+      style.borderStyle.solid
     ]
 
     // Globally override component props
-    t.setProps [
-      themeProps.muiButton [
-        button.size.small
-      ]
-      themeProps.muiDialog [
-        dialog.fullScreen true
-      ]
+    theme.props.muiButton [
+      button.size.small
     ]
-  ))
-
-
-
-  let light = Styles.createMuiTheme(jsOptions<Theme>(fun t ->
-    t.palette <- jsOptions<Palette>(fun p ->
-      p.``type`` <- PaletteType.Light
-      p.primary <- !^Colors.indigo
-      p.secondary <- !^Colors.pink
-    )
-  ))
-
-  let dark = Styles.createMuiTheme(jsOptions<Theme>(fun t ->
-    t.palette <- jsOptions<Palette>(fun p ->
-      p.``type`` <- PaletteType.Dark
-      p.primary <- !^Colors.lightBlue
-      p.secondary <- !^Colors.pink
-    )
-    t.setProps [
-      themeProps.muiAppBar [
-        appBar.color.default'
-      ]
+    theme.props.muiDialog [
+      dialog.fullScreen true
     ]
-  ))
+
+  ])
+
+
+
+  let light = Styles.createMuiTheme([
+    theme.palette.type'.light
+    theme.palette.primary Colors.indigo
+    theme.palette.secondary Colors.pink
+  ])
+
+  let dark = Styles.createMuiTheme([
+    theme.palette.type'.dark
+    theme.palette.primary Colors.lightBlue
+    theme.palette.secondary Colors.pink
+    theme.props.muiAppBar [
+      appBar.color.default'
+    ]
+  ])
 
 
 let private pageListItem model dispatch page =
@@ -180,7 +165,7 @@ let private pageListItem model dispatch page =
 let private pageView model dispatch =
   match model.Page with
   | Home -> Mui.typography "This app contains simple demos showing how certain Material-UI components can be used with Elmish."
-  | AutoComplete -> lazyView2 AutoComplete.view model.AutoCompleteDownshift (AutoCompleteMsg >> dispatch)
+  | Autocomplete -> Autocomplete.AutocompletePage(model.Autocomplete, AutoCompleteMsg >> dispatch)
   | Badges -> Badges.BadgesPage(model.Badges, BadgesMsg >> dispatch)
   | Dialogs -> Dialogs.DialogsPage(model.Dialogs, DialogsMsg >> dispatch)
   | SaveLoad -> SaveLoad.SaveLoadPage (model.SaveLoad, SaveLoadMsg >> dispatch)
@@ -199,9 +184,9 @@ let private pageView model dispatch =
   | TextFields -> TextFields.TextFieldPage (model.TextFields, TextFieldsMsg >> dispatch)
 
 
-let private useToolbarTyles = Styles.makeStyles(fun theme ->
+let private useToolbarTyles = Styles.makeStyles(fun styles theme ->
   {|
-    appBarTitle = Styles.create [
+    appBarTitle = styles.create [
       style.flexGrow 1
     ]
   |}
@@ -214,7 +199,7 @@ let Toolbar = FunctionComponent.Of((fun (page, customThemeMode, dispatch) ->
       typography.variant.h6
       typography.color.inherit'
       typography.children (pageTitle page)
-      prop.className c.appBarTitle
+      typography.classes.root c.appBarTitle
     ]
     Mui.tooltip [
       tooltip.title(
@@ -240,37 +225,37 @@ let Toolbar = FunctionComponent.Of((fun (page, customThemeMode, dispatch) ->
 ), "Toolbar", memoEqualsButFunctions)
 
 
-let private useRootViewStyles = Styles.makeStyles(fun theme ->
+let private useRootViewStyles = Styles.makeStyles(fun styles theme ->
   let drawerWidth = 240
   {|
-    root = Styles.create (fun model -> [
+    root = styles.create (fun model -> [
       style.display.flex
       style.userSelect.none
       if model.Page = Home then style.color Colors.green.``300``
     ])
-    appBar = Styles.create [
+    appBar = styles.create [
       style.zIndex (theme.zIndex.drawer + 1)
     ]
-    appBarTitle = Styles.create [
+    appBarTitle = styles.create [
       style.flexGrow 1
     ]
-    drawer = Styles.create [
+    drawer = styles.create [
       style.width (length.px drawerWidth)
       style.flexShrink 0
     ]
-    drawerPaper = Styles.create [
+    drawerPaper = styles.create [
       style.width (length.px drawerWidth)
       // Example of breakpoint media queries
       style.inner theme.breakpoints.downXs [
         style.backgroundColor.red
       ]
     ]
-    content = Styles.create [
+    content = styles.create [
       style.flexGrow 1
       style.padding (theme.spacing 3)
     ]
-    toolbar = Styles.create [
-      yield! theme.mixins.toolbarStyles
+    toolbar = styles.create [
+      yield! theme.mixins.toolbar
     ]
   |}
 )
@@ -289,18 +274,16 @@ let RootView = FunctionComponent.Of((fun (model, dispatch) ->
         prop.children [
           Mui.cssBaseline []
           Mui.appBar [
-            prop.className c.appBar
+            appBar.classes.root c.appBar
             appBar.position.fixed'
             appBar.children [
               Toolbar(model.Page, model.CustomThemeMode, dispatch)
             ]
           ]
           Mui.drawer [
-            prop.className c.drawer
             drawer.variant.permanent
-            drawer.classes [
-              classes.drawer.paper c.drawerPaper
-            ]
+            drawer.classes.root c.drawer
+            drawer.classes.paper c.drawerPaper
             drawer.children [
               Html.div [ prop.className c.toolbar ]
               Mui.list [
@@ -335,7 +318,7 @@ let init () =
     { Page = Home
       SystemThemeMode = Light
       CustomThemeMode = None
-      AutoCompleteDownshift = AutoComplete.init ()
+      Autocomplete = Autocomplete.init ()
       Badges = Badges.init ()
       Dialogs = Dialogs.init ()
       SaveLoad = SaveLoad.init ()

@@ -31,9 +31,9 @@ let update msg m =
 
 // Domain/Elmish above, view below
 
-let private useStyles = Styles.makeStyles(fun theme ->
+let private useStyles = Styles.makeStyles(fun styles theme ->
   {|
-    formControl = Styles.create [
+    formControl = styles.create [
       style.minWidth (length.px 120)
     ]
   |}
@@ -60,7 +60,7 @@ let SelectsPage = FunctionComponent.Of((fun (model, dispatch: Elmish.Dispatch<Ms
     prop.onSubmit preventDefault
     prop.children [
       Mui.formControl [
-        prop.className c.formControl
+        formControl.classes.root c.formControl
         formControl.required true
         formControl.error model.SelectedId.IsNone
         formControl.children [

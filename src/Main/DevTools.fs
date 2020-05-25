@@ -27,6 +27,6 @@ let installAllDevTools (win: BrowserWindow) =
   win.webContents.executeJavaScript("require('devtron').install()")
 
 let uninstallAllDevTools (win: BrowserWindow) =
-  main.BrowserWindow.removeDevToolsExtension("React Developer Tools")
-  main.BrowserWindow.removeDevToolsExtension("Redux DevTools")
+  win.webContents.session.removeExtension("React Developer Tools")
+  win.webContents.session.removeExtension("Redux DevTools")
   win.webContents.executeJavaScript("require('devtron').uninstall()")

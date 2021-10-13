@@ -36,7 +36,7 @@
     "@babel/core": "^7.8.4",
     "bufferutil": "^4.0",
     "devtron": "^1.4",
-    "electron": "^9.4.0",
+    "electron": "^11.5.0",
     "electron-builder": "^22.3.2",
     "electron-devtools-installer": "^2.2",
     "electron-webpack": "^2.6",

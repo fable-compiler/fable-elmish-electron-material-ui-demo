@@ -39,7 +39,7 @@
     "electron": "^18.3.7",
     "electron-builder": "^22.3.2",
     "electron-devtools-installer": "^2.2",
-    "electron-webpack": "^2.6",
+    "electron-webpack": "^2.8",
     "electron-window-state": "^5.0",
     "fable-compiler": "^2.4.13",
     "fable-loader": "^2.1",

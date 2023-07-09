@@ -43,7 +43,7 @@
     "electron-window-state": "^5.0",
     "fable-compiler": "^2.4.13",
     "fable-loader": "^2.1",
-    "node-sass": "^7.0.0",
+    "node-sass": "^9.0.0",
     "remotedev": "^0.2",
     "sass-loader": "^8.0.2",
     "utf-8-validate": "^5.0",

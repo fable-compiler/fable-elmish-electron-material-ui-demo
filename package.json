@@ -37,7 +37,7 @@
     "bufferutil": "^4.0",
     "devtron": "^1.4",
     "electron": "^22.3.25",
-    "electron-builder": "^23.6.0",
+    "electron-builder": "^24.13.3",
     "electron-devtools-installer": "^2.2",
     "electron-webpack": "^2.8",
     "electron-window-state": "^5.0",

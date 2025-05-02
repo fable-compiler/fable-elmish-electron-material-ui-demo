@@ -46,7 +46,7 @@
     "html-webpack-plugin": "^4.3.0",
     "node-sass": "^9.0.0",
     "remotedev": "^0.2",
-    "sass-loader": "^8.0.2",
+    "sass-loader": "^10",
     "utf-8-validate": "^5.0",
     "webpack": "^4",
     "webpack-cli": "^3",

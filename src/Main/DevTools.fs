@@ -5,13 +5,13 @@ open Fable.Core.JsInterop
 open Electron
 
 let private installDevTools (extensionRef: obj) (forceDownload: bool) : JS.Promise<string> =
-  importDefault "electron-devtools-installer"
+  importDefault "electron-extension-installer"
 
 let private REACT_DEVELOPER_TOOLS : obj =
-  import "REACT_DEVELOPER_TOOLS" "electron-devtools-installer"
+  import "REACT_DEVELOPER_TOOLS" "electron-extension-installer"
 
 let private REDUX_DEVTOOLS : obj =
-  import "REDUX_DEVTOOLS" "electron-devtools-installer"
+  import "REDUX_DEVTOOLS" "electron-extension-installer"
 
 let private installDevTool extensionRef =
   promise {

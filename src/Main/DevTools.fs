@@ -24,7 +24,6 @@ let private installDevTool extensionRef =
 let installAllDevTools (win: BrowserWindow) =
   installDevTool REACT_DEVELOPER_TOOLS
   installDevTool REDUX_DEVTOOLS
-  win.webContents.executeJavaScript("require('devtron').install()")
 
 let uninstallAllDevTools (win: BrowserWindow) =
   main.BrowserWindow.removeDevToolsExtension("React Developer Tools")

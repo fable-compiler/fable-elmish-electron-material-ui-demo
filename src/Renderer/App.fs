@@ -306,12 +306,13 @@ let RootView = FunctionComponent.Of((fun (model, dispatch) ->
 ), "RootView", memoEqualsButFunctions)
 
 let updateSystemTheme dispatch =
-  let dispatchCurrentMode () =
-    if renderer.remote.nativeTheme.shouldUseDarkColors
-    then dispatch (SetSystemThemeMode Dark)
-    else dispatch (SetSystemThemeMode Light)
-  renderer.remote.nativeTheme.onUpdated(fun _ -> dispatchCurrentMode ()) |> ignore
-  dispatchCurrentMode ()
+   dispatch (SetSystemThemeMode Light)
+  // let dispatchCurrentMode () =
+  //   if renderer.remote.nativeTheme.shouldUseDarkColors
+  //   then dispatch (SetSystemThemeMode Dark)
+  //   else dispatch (SetSystemThemeMode Light)
+  // renderer.remote.nativeTheme.onUpdated(fun _ -> dispatchCurrentMode ()) |> ignore
+  // dispatchCurrentMode ()
 
 let init () =
   let m =

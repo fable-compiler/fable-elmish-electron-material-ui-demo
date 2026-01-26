@@ -25,7 +25,11 @@ Target.create "Clean" (fun _ ->
 
 Target.create "DotnetRestore" (fun _ ->
   DotNet.restore
-    (DotNet.Options.withWorkingDirectory __SOURCE_DIRECTORY__)
+    (DotNet.Options.withWorkingDirectory __SOURCE_DIRECTORY__
+      >> fun args -> {
+          args with
+            MSBuildParams = { args.MSBuildParams with DisableInternalBinLog = true }
+      })
     "fable-elmish-electron-demo.sln"
 )
 

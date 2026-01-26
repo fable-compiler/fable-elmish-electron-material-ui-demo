@@ -26,6 +26,7 @@ let createMainWindow () =
       o.autoHideMenuBar <- true
       o.webPreferences <- jsOptions<WebPreferences>(fun w ->
         w.nodeIntegration <- true
+        w.contextIsolation <- false
       )
       o.show <- false
     ))
